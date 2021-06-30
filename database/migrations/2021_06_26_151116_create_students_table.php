@@ -14,15 +14,16 @@ class CreateStudentsTable extends Migration
     public function up()
     {
         Schema::create('students', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->char('code', 10)->unique();
             $table->string("name", 50);
-            $table->date("date_birth");
-            $table->tinyInteger("gender");
-            $table->string("address", 50);
-            $table->string('email', 100);
-            $table->string('password', 50);
-            $table->char("phone", 10);
-            $table->unsignedBigInteger("id_grade");
+            $table->date("dob");
+            $table->boolean("gender");
+            $table->string("address", 100);
+            $table->string('email', 100)->unique();
+            $table->string('password');
+            $table->char("phone", 10)->unique();
+            $table->unsignedInteger("id_grade");
             $table->timestamps();
             $table->foreign("id_grade")->references("id")->on("grades");
         });

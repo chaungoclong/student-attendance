@@ -14,16 +14,16 @@ class CreateAssignsTable extends Migration
     public function up()
     {
         Schema::create('assigns', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger("id_grade");
-            $table->unsignedBigInteger("id_subject");
-            $table->unsignedBigInteger("id_user");
+            $table->increments('id');
+            $table->unsignedInteger("id_grade");
+            $table->unsignedInteger("id_subject");
+            $table->unsignedInteger("id_teacher");
             $table->float("time_done")->default(0);
             $table->timestamps();
-            $table->unique(["id_grade", "id_subject", "id_user"]);
+            $table->unique(["id_grade", "id_subject", "id_teacher"]);
             $table->foreign("id_grade")->references("id")->on("grades");
             $table->foreign("id_subject")->references("id")->on("subjects");
-            $table->foreign("id_user")->references("id")->on("users");
+            $table->foreign("id_teacher")->references("id")->on("teachers");
         });
     }
 

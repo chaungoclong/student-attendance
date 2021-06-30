@@ -14,8 +14,8 @@ class CreateAttendancesTable extends Migration
     public function up()
     {
         Schema::create('attendances', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger("id_assign");
+            $table->increments('id');
+            $table->unsignedInteger("id_assign");
             $table->timestamps();
             $table->foreign("id_assign")->references("id")->on("assigns");
         });

@@ -14,12 +14,12 @@ class CreateSchedulesTable extends Migration
     public function up()
     {
         Schema::create('schedules', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger("id_assign");
-            $table->unsignedBigInteger("id_class_room");
-            $table->unsignedBigInteger("id_lesson");
+            $table->increments('id');
+            $table->unsignedInteger("id_assign");
+            $table->unsignedInteger("id_class_room");
+            $table->unsignedInteger("id_lesson");
             $table->tinyInteger("day");
-            $table->dateTime("day_finish");
+            $table->dateTime("day_finish")->nullable();
             $table->timestamps();
             $table->foreign("id_assign")->references("id")->on("assigns");
             $table->foreign("id_class_room")->references("id")->on("class_rooms");

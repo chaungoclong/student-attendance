@@ -14,11 +14,10 @@ class CreateAttendanceDetailsTable extends Migration
     public function up()
     {
         Schema::create('attendance_details', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger("id_attendance");
-            $table->unsignedBigInteger("id_student");
+            $table->increments('id');
+            $table->unsignedInteger("id_attendance");
+            $table->unsignedInteger("id_student");
             $table->boolean("status");
-            $table->timestamps();
             $table->unique(["id_attendance", "id_student"]);
             $table->foreign("id_attendance")->references("id")->on("attendances");
         });
