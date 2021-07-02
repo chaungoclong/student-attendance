@@ -2,6 +2,8 @@
 
 @section('title', __('dashboard'))
 
+@section('name_page', 'Dashboard')
+
 @section('content')
 <div class="row">
 	<div class="col-md-12">
