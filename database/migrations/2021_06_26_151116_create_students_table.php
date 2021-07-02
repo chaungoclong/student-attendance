@@ -24,6 +24,8 @@ class CreateStudentsTable extends Migration
             $table->string('password');
             $table->char("phone", 10)->unique();
             $table->unsignedInteger("id_grade");
+            $table->rememberToken();
+            $table->boolean('status')->default(true);
             $table->timestamps();
             $table->foreign("id_grade")->references("id")->on("grades");
         });
