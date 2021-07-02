@@ -29,7 +29,7 @@ class AdminFactory extends Factory
             'phone'      => $this->faker->unique()->numerify('##########'),
             'address'    => $this->faker->streetAddress(),
             'email'      => $this->faker->unique()->safeEmail(),
-            'password'   => Hash::make($this->faker->password(8, 50)),
+            'password'   => Hash::make('11111111'),
             'created_at' => $this->faker->dateTime($max = 'now'),
             'updated_at' => $this->faker->dateTime($max = 'now')
         ];
