@@ -12,23 +12,13 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="../dashboard.html">
-                        <i class="material-icons">dashboard</i> Dashboard
+                    <a href="{{ route('login.admin') }}">
+                        <i class="material-icons">dashboard</i> admin login
                     </a>
                 </li>
                 <li class="">
-                    <a href="register.html">
-                        <i class="material-icons">person_add</i> Register
-                    </a>
-                </li>
-                <li class=" active ">
-                    <a href="login.html">
-                        <i class="material-icons">fingerprint</i> Login
-                    </a>
-                </li>
-                <li class="">
-                    <a href="lock.html">
-                        <i class="material-icons">lock_open</i> Lock
+                    <a href="{{ route('login.teacher') }}">
+                        <i class="material-icons">person_add</i> teacher login
                     </a>
                 </li>
             </ul>

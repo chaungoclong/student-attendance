@@ -12,4 +12,9 @@ class HomeController extends Controller
         $user = Auth::user();
         return view('dashboard', ['user' => $user]);
     }
+
+    public function welcome()
+    {
+        return view('welcome');
+    }
 }

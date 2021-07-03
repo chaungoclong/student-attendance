@@ -25,9 +25,6 @@ Route::middleware(['auth:admin,teacher'])->group(function() {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
-Route::get('/kk', function() {
-    return view('welcome');
-})->name('login');
 
 // route dang nhap
 Route::prefix('login')->name('login.')->group(function() {
@@ -45,3 +42,7 @@ Route::prefix('login')->name('login.')->group(function() {
 });
 
 
+// route cho guest
+Route::middleware(['guest:admin,teacher'])->group(function() {
+    Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
+});
