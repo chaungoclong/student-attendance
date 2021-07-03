@@ -3,9 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Teacher extends Model
+class Teacher extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
+    
+    protected $guard = 'teacher';
+
+    protected $fillable = ['email', 'password'];
+
+    protected $hidden = ['password', 'remember_token'];
 }

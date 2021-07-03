@@ -22,26 +22,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body>
-    <div class="wrapper">
-        {{-- nav --}}
-        @include('blocks.navbars.sidebar')
+<body class="off-canvas-sidebar">
+    {{-- nav --}}
+    @include('blocks.navbars.navs.nav_auth')
 
-        <div class="main-panel">
-            @include('blocks.navbars.navs.nav')
-
+    <div class="wrapper wrapper-full-page">
+        <div class="full-page login-page" filter-color="black" data-image="{{ asset('assets/img/login.jpeg') }}">
+            <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
             <div class="content">
-                <div class="container-fluid">
-                    {{-- content --}}
-                    @yield('content')
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+                            @yield('form')
+                        </div>
+                    </div>
                 </div>
             </div>
-
             {{-- footer --}}
-            @include('blocks.footers.footer')
+            @include('blocks.footers.footer_auth')
         </div>
     </div>
 </body>
+
 <!--   Core JS Files   -->
 <script src="{{ asset('assets/js/jquery-3.2.1.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/bootstrap.min.js') }}" type="text/javascript"></script>
@@ -92,6 +94,13 @@
         demo.initDashboardPageCharts();
 
         demo.initVectorMap();
+
+        demo.checkFullPageBackgroundImage();
+
+        setTimeout(function() {
+            // after 1000 ms we add the class animated to the login/register card
+            $('.card').removeClass('card-hidden');
+        }, 700);
     });
 </script>
 

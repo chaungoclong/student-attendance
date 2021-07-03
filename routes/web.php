@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,7 +14,34 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+ 
+// chi danh cho user(admin, teacher)
+Route::middleware(['auth:admin,teacher'])->group(function() {
+    // dashboard
+    Route::get('/dashboard', [HomeController::class, 'index'])
+        ->name('dashboard');
 
-Route::get('/', function () {
-    return view('admins.dashboard');
-})->name('home');
+    // logout
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+Route::get('/kk', function() {
+    return view('welcome');
+})->name('login');
+
+// route dang nhap
+Route::prefix('login')->name('login.')->group(function() {
+    Route::get('admin', [LoginController::class, 'showAdminLoginForm'])
+    ->name('admin_form');
+
+    Route::get('teacher', [LoginController::class, 'showTeacherLoginForm'])
+    ->name('teacher_form');
+
+    Route::post('admin', [LoginController::class, 'adminLogin'])
+    ->name('admin');
+
+    Route::post('teacher', [LoginController::class, 'teacherLogin'])
+    ->name('teacher');
+});
+
+

@@ -4,14 +4,6 @@
         Tip 2: you can also add an image using data-image tag
         Tip 3: you can change the color of the sidebar with data-background-color="white | black"
     -->
-    <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-            CT
-        </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-            Creative Tim
-        </a>
-    </div>
     <div class="sidebar-wrapper">
         <div class="user">
             <div class="photo">
@@ -20,7 +12,7 @@
             <div class="info">
                 <a data-toggle="collapse" href="#collapseExample" class="collapsed">
                     <span>
-                        Tania Andrew
+                       {{ $user->name }}
                         <b class="caret"></b>
                     </span>
                 </a>
@@ -40,9 +32,11 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
-                                <span class="sidebar-mini"> S </span>
-                                <span class="sidebar-normal"> Settings </span>
+                            <a href="{{ route('logout') }}">
+                                <span class="sidebar-mini">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </span>
+                                <span class="sidebar-normal"> Logout </span>
                             </a>
                         </li>
                     </ul>
@@ -51,7 +45,7 @@
         </div>
         <ul class="nav">
             <li class="active">
-                <a href="{{ route('home') }}">
+                <a href="">
                     <i class="material-icons">dashboard</i>
                     <p> Dashboard </p>
                 </a>
