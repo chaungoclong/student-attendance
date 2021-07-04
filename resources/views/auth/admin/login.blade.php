@@ -15,6 +15,7 @@
 			</p>
 			<br>
 
+			{{-- hien thi thong bao loi neu xac thuc khong thanh cong --}}
 			@if (Session::has('msg'))
 			<div class="card-header text-center">
 				<h5 class="alert alert-danger">{{ Session::get('msg') }}</h5>
@@ -28,7 +29,8 @@
 					</span>
 					<div class="form-group label-floating">
 						<label class="control-label">Email address</label>
-						<input type="email" class="form-control" name="email">
+						<input type="email" class="form-control" name="email"
+						value="{{ old('email') }}">
 						@error('email')
 						<div class="alert alert-danger">{{ $message }}</div>
 						@enderror
@@ -41,7 +43,7 @@
 					</span>
 					<div class="form-group label-floating">
 						<label class="control-label">Password</label>
-						<input type="password" class="form-control" name="password">
+						<input type="password" class="form-control" name="password" value="{{ old('password') }}">
 						@error('password')
 						<div class="alert alert-danger">{{ $message }}</div>
 						@enderror
