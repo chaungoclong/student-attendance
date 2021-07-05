@@ -18,9 +18,24 @@ class GradeController extends Controller
     public function index()
     {
         //
-        $grades = Grade::paginate(8);
+        $dataGrades = Array();
+        $yearSchools = YearSchool::all();
+        $grades = Grade::all();
 
-        return view('grades.index')->with('grades', $grades);
+        foreach ($yearSchools as $index => $yearSchool) {
+            $dataGrades[$index]['name'] = $yearSchool->name;
+            $dataGrades[$index]['id'] = $yearSchool->id;
+            foreach ($grades as $grade) {
+                if ($yearSchool->id == $grade->id_year_school) {
+                     $dataGrades[$index][$yearSchool->id][] = $grade;
+                }
+            }
+        }
+        // echo "</pre>";
+        // print_r($dataGrades[2]);
+        // echo "</pre>";
+        // die();
+        return view('grades.index')->with('dataGrades', $dataGrades);
     }
 
     /**
