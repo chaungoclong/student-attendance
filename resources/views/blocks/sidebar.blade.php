@@ -57,6 +57,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('yearschool.index') }}">
+                    <i class="material-icons">school</i>
+                    <p> add year school </p>
+                </a>
+            </li>
+            <li>
                 <a data-toggle="collapse" href="#pagesExamples">
                     <i class="material-icons">image</i>
                     <p> Pages
