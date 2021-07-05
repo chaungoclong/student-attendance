@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\HomeController as HomeAdmin;
+use App\Http\Controllers\Teacher\HomeController as HomeTeacher;
+use App\Http\Controllers\HomeController as Home;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,14 +17,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
  
-// chi danh cho user(admin, teacher)
+// chi danh cho user(admin,teacher)
 Route::middleware(['auth:admin,teacher'])->group(function() {
-    // dashboard
-    Route::get('/dashboard', [HomeController::class, 'index'])
-        ->name('dashboard');
-
     // logout
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+// chi danh cho admin
+Route::middleware(['auth:admin'])->group(function() {
+    Route::prefix('admin')->name('admin.')->group(function() {
+        Route::get('', [HomeAdmin::class, 'index'])
+            ->name('dashboard');
+    });
+});
+
+// chi danh cho teacher
+Route::middleware(['auth:teacher'])->group(function() {
+    Route::prefix('teacher')->name('teacher.')->group(function() {
+        Route::get('', [HomeTeacher::class, 'index'])
+            ->name('dashboard');
+    });
 });
 
 
@@ -44,5 +58,5 @@ Route::prefix('login')->name('login.')->group(function() {
 
 // route cho guest
 Route::middleware(['guest:admin,teacher'])->group(function() {
-    Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
+    Route::get('/', [Home::class, 'index'])->name('home');
 });

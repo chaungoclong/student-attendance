@@ -9,12 +9,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        return view('dashboard', ['user' => $user]);
-    }
-
-    public function welcome()
-    {
-        return view('welcome');
+        return view('index');
     }
 }

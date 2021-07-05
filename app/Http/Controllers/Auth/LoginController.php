@@ -47,7 +47,7 @@ class LoginController extends Controller
         $remember = $request->has('remember');
         
         if (Auth::guard('admin')->attempt($validated, $remember)) {
-            return redirect()->route('dashboard');
+            return redirect()->route('admin.dashboard');
         }
 
         return redirect()
@@ -66,7 +66,7 @@ class LoginController extends Controller
         $remember = $request->has('remember');
         
         if (Auth::guard('teacher')->attempt($validated, $remember)) {
-            return redirect()->route('dashboard');
+            return redirect()->route('teacher.dashboard');
         }
 
         return redirect()
@@ -96,7 +96,7 @@ class LoginController extends Controller
             }
         }
 
-        return redirect()->route('welcome');
+        return redirect()->route('home');
     }
 
     // redirect den trang dang nhap tuong ung sau khi dang xuat
