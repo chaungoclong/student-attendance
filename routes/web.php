@@ -55,8 +55,5 @@ Route::prefix('login')->name('login.')->group(function() {
     ->name('teacher');
 });
 
-
-// route cho guest
-Route::middleware(['guest:admin,teacher'])->group(function() {
-    Route::get('/', [Home::class, 'index'])->name('home');
-});
+// home page (auth, guest)
+Route::get('/', [Home::class, 'index'])->name('home');
