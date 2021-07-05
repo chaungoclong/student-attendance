@@ -12,7 +12,7 @@
             <div class="info">
                 <a data-toggle="collapse" href="#collapseExample" class="collapsed">
                     <span>
-                       {{ $user->name }}
+                       {{-- {{ $user->name }} --}}
                         <b class="caret"></b>
                     </span>
                 </a>
@@ -105,7 +105,7 @@
 
             {{-- grade --}}
             <li>
-                <a>
+                <a href="{{ route('grade.index') }}">
                     <i class="material-icons">image</i>
                     <p> 
                         Quản lý Lớp học

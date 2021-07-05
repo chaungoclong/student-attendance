@@ -5,6 +5,7 @@ use App\Http\Controllers\Teacher\HomeController as HomeTeacher;
 use App\Http\Controllers\HomeController as Home;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GradeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ Route::middleware(['auth:admin'])->group(function() {
         Route::get('', [HomeAdmin::class, 'index'])
             ->name('dashboard');
     });
+    Route::resource('grade', GradeController::class);
 });
 
 // chi danh cho teacher
