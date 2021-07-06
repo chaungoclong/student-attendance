@@ -10,3 +10,10 @@
     </div>
 </div>
 @stop
+@push('script')
+<script type="text/javascript">
+    $().ready(function() {
+        demo.checkFullPageBackgroundImage();
+    });
+</script>
+@endpush
