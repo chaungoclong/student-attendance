@@ -388,7 +388,7 @@
 	</div>
 @stop
 
-@section('script')
+@push('script')
 	<script type="text/javascript">
     $(document).ready(function() {
 
@@ -398,4 +398,4 @@
         demo.initVectorMap();
     });
 	</script>
-@stop
+@endpush

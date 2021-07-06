@@ -87,6 +87,6 @@
 <script src="{{ asset('assets/js/demo.js') }}"></script>
 
 {{-- my script --}}
-@yield('script')
+@stack('script')
 
 </html>
