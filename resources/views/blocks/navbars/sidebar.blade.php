@@ -115,6 +115,16 @@
                 </a>
             </li>
 
+            {{-- subject --}}
+            <li>
+                <a href="{{ route('subject.index') }}">
+                    <i class="material-icons">image</i>
+                    <p> 
+                        Quản lý môn học
+                    </p>
+                </a>
+            </li>
+
             {{-- student --}}
             <li>
                 <a>

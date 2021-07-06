@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController as Home;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\SubjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,7 @@ Route::middleware(['auth:admin'])->group(function() {
             ->name('dashboard');
     });
     Route::resource('grade', GradeController::class);
+    Route::resource('subject', SubjectController::class);
 });
 
 // chi danh cho teacher
