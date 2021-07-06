@@ -12,7 +12,9 @@
             <div class="info">
                 <a data-toggle="collapse" href="#collapseExample" class="collapsed">
                     <span>
-                       {{ $user->name }}
+                        @if (Auth::check())
+                            {{ Auth::user()->name }}
+                        @endif
                         <b class="caret"></b>
                     </span>
                 </a>
