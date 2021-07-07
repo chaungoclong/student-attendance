@@ -19,22 +19,26 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
     <div class="wrapper">
-        @include('blocks.sidebar')
+        {{-- nav --}}
+        @include('blocks.navbars.sidebar')
 
         <div class="main-panel">
-            @include('blocks.navbar')
+            @include('blocks.navbars.navs.nav')
 
             <div class="content">
                 <div class="container-fluid">
+                    {{-- content --}}
                     @yield('content')
                 </div>
             </div>
 
-            @include('blocks.footer')
+            {{-- footer --}}
+            @include('blocks.footers.footer')
         </div>
     </div>
 </body>
@@ -81,27 +85,8 @@
 <script src="{{ asset('assets/js/material-dashboard.js?v=1.2.1') }}"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="{{ asset('assets/js/demo.js') }}"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
 
-        // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
-
-        demo.initVectorMap();
-
-        $('#datatables').DataTable({
-            "pagingType": "full_numbers",
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ],
-            responsive: true,
-            language: {
-                search: "_INPUT_",
-                searchPlaceholder: "Search records",
-            }
-        });
-    });
-</script>
+{{-- my script --}}
+@stack('script')
 
 </html>
