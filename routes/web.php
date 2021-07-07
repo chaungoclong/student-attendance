@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\YearSchoolController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\ClassroomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,7 @@ Route::middleware(['auth:admin'])->group(function() {
     Route::resource('yearschool', YearSchoolController::class);
     Route::resource('grade', GradeController::class);
     Route::resource('subject', SubjectController::class);
+    Route::resource('classroom', ClassroomController::class);
 });
 
 // chi danh cho teacher

@@ -135,6 +135,16 @@
                 </a>
             </li>
 
+            {{-- class room --}}
+            <li>
+                <a href="{{ route('classroom.index') }}">
+                    <i class="material-icons">house</i>
+                    <p> 
+                        Quản lý phòng học
+                    </p>
+                </a>
+            </li>
+
             {{-- statistical --}}
             <li>
                 <a>
