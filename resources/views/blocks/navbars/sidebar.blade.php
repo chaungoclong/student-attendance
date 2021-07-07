@@ -95,9 +95,9 @@
                 </a>
             </li>
 
-            {{-- assign --}}
+            {{-- year schools --}}
             <li>
-                <a>
+                <a href="{{ route('yearschool.index') }}">
                     <i class="material-icons">image</i>
                     <p> 
                         Quản lý Khóa học
