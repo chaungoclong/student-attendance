@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>New Subject</h1>
-<form action="{{ route('subject.store') }}" method="POST">
+<form action="{{ route('admin.subject.store') }}" method="POST">
 	@csrf
 	<label>Name: </label>
 	<input type="text" name="subject" class="input">

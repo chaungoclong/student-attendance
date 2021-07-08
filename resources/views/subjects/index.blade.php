@@ -10,7 +10,7 @@
 	@endif
 @endif
 <h1>List All Subjects</h1>
-<a href="{{ route('subject.create') }}" class="btn btn-default">Add New Subject</a>
+<a href="{{ route('admin.subject.create') }}" class="btn btn-default">Add New Subject</a>
 <table class="table">
 	<tr>
 		<th>Id</th>
@@ -28,10 +28,10 @@
 		<td>{{ $subject->created_at }}</td>
 		<td>{{ $subject->updated_at }}</td>
 		<td>
-			<a href="{{ route('subject.edit', $subject->id) }}" class="btn btn-info">Edit</a>
+			<a href="{{ route('admin.subject.edit', $subject->id) }}" class="btn btn-info">Edit</a>
 		</td>
 		<td>
-			<form action="{{ route('subject.destroy', $subject->id) }}" method="POST">
+			<form action="{{ route('admin.subject.destroy', $subject->id) }}" method="POST">
 				@csrf
 				@method('delete')
 				<input type="submit" value="Delete" class="btn btn-danger">
