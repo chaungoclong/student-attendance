@@ -1,15 +1,15 @@
 <?php
 
 use App\Http\Controllers\Admin\HomeController as HomeAdmin;
-use App\Http\Controllers\Teacher\HomeController as HomeTeacher;
-use App\Http\Controllers\HomeController as Home;
+use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Auth\LoginController;
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\YearSchoolController;
-use App\Http\Controllers\GradeController;
-use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\GradeController;
+use App\Http\Controllers\HomeController as Home;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\Teacher\HomeController as HomeTeacher;
+use App\Http\Controllers\YearSchoolController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,8 +35,12 @@ Route::get('/', function () {
 // chi danh cho admin
 Route::middleware(['auth:admin'])->group(function() {
     Route::prefix('admin')->name('admin.')->group(function() {
+        // dashboard
         Route::get('', [HomeAdmin::class, 'index'])
             ->name('dashboard');
+
+        // manager teacher
+        Route::resource('teacher-manager', TeacherController::class);
     });
     Route::resource('yearschool', YearSchoolController::class);
     Route::resource('grade', GradeController::class);
@@ -70,3 +74,5 @@ Route::prefix('login')->name('login.')->group(function() {
 
 // home page (auth, guest)
 Route::get('/', [Home::class, 'index'])->name('home');
+
+Route::view('/test', 'admins.teachers.show');

@@ -46,8 +46,12 @@
             </div>
         </div>
         <ul class="nav">
-            <li class="active">
-                <a href="">
+            <li class="{{ 
+                request()->is('admin')
+                || request()->is('teacher') 
+                ? 'active' : '' 
+            }}">
+                <a href="{{ route('admin.dashboard') }}">
                     <i class="material-icons">dashboard</i>
                     <p> Dashboard </p>
                 </a>
@@ -66,8 +70,12 @@
             </li>
 
             {{-- teacher --}}
-            <li>
-                <a>
+            <li class="{{ 
+                request()->is('admin/teacher-manager')
+                || request()->is('admin/teacher-manager/*') 
+                ? 'active' : '' 
+            }}">
+                <a href="{{ route('admin.teacher-manager.index') }}">
                     <i class="material-icons">image</i>
                     <p> 
                         Quản lý Giáo viên
