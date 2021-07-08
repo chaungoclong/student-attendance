@@ -10,7 +10,7 @@
 	@endif
 @endif
 <h1>List All Grades</h1>
-<a href="{{ route('grade.create') }}" class="btn">Add New Grade</a>
+<a href="{{ route('admin.grade.create') }}" class="btn">Add New Grade</a>
 @foreach ($dataGrades as $dataGrade)
 	<h2>{{ $dataGrade['name'] }}</h2>
 	@if(isset($dataGrade[$dataGrade['id']]))
@@ -29,10 +29,10 @@
 				<td>{{ $grade->created_at }}</td>
 				<td>{{ $grade->updated_at }}</td>
 				<td>
-					<a href="{{ route('grade.edit', $grade->id) }}" class="btn btn-info">Edit</a>
+					<a href="{{ route('admin.grade.edit', $grade->id) }}" class="btn btn-info">Edit</a>
 				</td>
 				<td>
-					<form action="{{ route('grade.destroy', $grade->id) }}" method="POST">
+					<form action="{{ route('admin.grade.destroy', $grade->id) }}" method="POST">
 						@csrf
 						@method('delete')
 						<input type="submit" value="Delete" class="btn btn-danger">

@@ -107,7 +107,7 @@
 
             {{-- grade --}}
             <li>
-                <a href="{{ route('grade.index') }}">
+                <a href="{{ route('admin.grade.index') }}">
                     <i class="material-icons">image</i>
                     <p> 
                         Quản lý Lớp học

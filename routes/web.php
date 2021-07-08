@@ -29,8 +29,8 @@ Route::middleware(['auth:admin'])->group(function() {
     Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('', [HomeAdmin::class, 'index'])
             ->name('dashboard');
+        Route::resource('grade', GradeController::class);
     });
-    Route::resource('grade', GradeController::class);
 });
 
 // chi danh cho teacher
