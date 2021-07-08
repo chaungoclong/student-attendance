@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>New Grade</h1>
-<form action="{{ route('grade.update', $grade->id) }}" method="POST">
+<form action="{{ route('admin.grade.update', $grade->id) }}" method="POST">
 	@csrf
 	@method('PUT')
 	<label>Year School: </label>

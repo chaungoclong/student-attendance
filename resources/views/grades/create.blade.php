@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>New Grade</h1>
-<form action="{{ route('grade.store') }}" method="POST">
+<form action="{{ route('admin.grade.store') }}" method="POST">
 	@csrf
 	<label>Year School: </label>
 	<select name="idyearschool" style="height: 40px;">
