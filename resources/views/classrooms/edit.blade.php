@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>Edit Class Room</h1>
-<form action="{{ route('classroom.update', $classroom->id) }}" method="POST">
+<form action="{{ route('admin.classroom.update', $classroom->id) }}" method="POST">
 	@csrf
 	@method('PUT')
 	<label style="font-size: 20px">Add New Class Room: </label>

@@ -137,7 +137,7 @@
 
             {{-- class room --}}
             <li>
-                <a href="{{ route('classroom.index') }}">
+                <a href="{{ route('admin.classroom.index') }}">
                     <i class="material-icons">house</i>
                     <p> 
                         Quản lý phòng học

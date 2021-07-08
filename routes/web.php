@@ -40,6 +40,7 @@ Route::middleware(['auth:admin'])->group(function() {
         Route::resource('yearschool', YearSchoolController::class);
         Route::resource('grade', GradeController::class);
         Route::resource('subject', SubjectController::class);
+        Route::resource('classroom', ClassroomController::class);
     });
 });
 
