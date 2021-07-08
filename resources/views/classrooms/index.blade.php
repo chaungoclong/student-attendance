@@ -10,7 +10,7 @@
 	@endif
 @endif
 <h1>List Class Rooms</h1>
-<form action="{{ route('classroom.store') }}" method="POST">
+<form action="{{ route('admin.classroom.store') }}" method="POST">
 	@csrf
 	<label style="font-size: 20px">Add New Class Room: </label>
 	<input type="text" name="classroom" class="input">
@@ -31,10 +31,10 @@
 		<td>{{ $classroom->created_at }}</td>
 		<td>{{ $classroom->updated_at }}</td>
 		<td>
-			<a href="{{ route('classroom.edit', $classroom->id) }}" class="btn btn-info">Edit</a>
+			<a href="{{ route('admin.classroom.edit', $classroom->id) }}" class="btn btn-info">Edit</a>
 		</td>
 		<td>
-			<form action="{{ route('classroom.destroy', $classroom->id) }}" method="POST">
+			<form action="{{ route('admin.classroom.destroy', $classroom->id) }}" method="POST">
 				@csrf
 				@method('delete')
 				<input type="submit" value="Delete" class="btn btn-danger">

@@ -37,11 +37,11 @@ Route::middleware(['auth:admin'])->group(function() {
     Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('', [HomeAdmin::class, 'index'])
             ->name('dashboard');
+        Route::resource('classroom', ClassroomController::class);
     });
     Route::resource('yearschool', YearSchoolController::class);
     Route::resource('grade', GradeController::class);
     Route::resource('subject', SubjectController::class);
-    Route::resource('classroom', ClassroomController::class);
 });
 
 // chi danh cho teacher
