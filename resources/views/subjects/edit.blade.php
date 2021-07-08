@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>New Subject</h1>
-<form action="{{ route('subject.update', $subject->id) }}" method="POST">
+<form action="{{ route('admin.subject.update', $subject->id) }}" method="POST">
 	@csrf
 	@method('PUT')
 	<label>Name: </label>
