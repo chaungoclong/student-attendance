@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>Edit Year School</h1>
-<form action="{{ route('yearschool.update', $yearschool->id) }}" method="POST">
+<form action="{{ route('admin.yearschool.update', $yearschool->id) }}" method="POST">
 	@csrf
 	@method('PUT')
 	<span style="font-size: 20px;">Name: </span>
