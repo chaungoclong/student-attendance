@@ -97,7 +97,7 @@
 
             {{-- year schools --}}
             <li>
-                <a href="{{ route('yearschool.index') }}">
+                <a href="{{ route('admin.yearschool.index') }}">
                     <i class="material-icons">image</i>
                     <p> 
                         Quản lý Khóa học

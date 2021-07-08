@@ -10,7 +10,7 @@
 	@endif
 @endif
 <h1>List All Year Schools</h1>
-<form action="{{ route('yearschool.store') }}" method="POST">
+<form action="{{ route('admin.yearschool.store') }}" method="POST">
 	@csrf
 	<span style="font-weight: bold; font-size: 20px;">Add New: </span>
 	<input type="text" name="yearschool" style="height: 40px;">
@@ -36,10 +36,10 @@
 		<td>{{ $yearSchool->created_at }}</td>
 		<td>{{ $yearSchool->updated_at }}</td>
 		<td>
-			<a href="{{ route('yearschool.edit', $yearSchool->id) }}" class="btn btn-info">Edit</a>
+			<a href="{{ route('admin.yearschool.edit', $yearSchool->id) }}" class="btn btn-info">Edit</a>
 		</td>
 		<td>
-			<form action="{{ route('yearschool.destroy', $yearSchool->id) }}" method="POST">
+			<form action="{{ route('admin.yearschool.destroy', $yearSchool->id) }}" method="POST">
 				@csrf
 				@method('delete')
 				<input type="submit" value="Detele" class="btn btn-danger">
