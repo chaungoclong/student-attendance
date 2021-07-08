@@ -16,11 +16,20 @@ class TeacherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $teachers = Teacher::paginate(10);
+        // get key to search
+        $search = $request->get('search') ?? '';
 
-        return view('admins.teachers.index')->with('teachers', $teachers);
+        // get list of teachers match with key
+        $teachers = Teacher::where('name', 'LIKE', "%$search%")
+                            ->orWhere('email', 'LIKE', "%$search%")
+                            ->orWhere('address', 'LIKE', "%$search%")
+                            ->orWhere('phone', 'LIKE', "%$search%")
+                            ->paginate(10);
+
+        return view('admins.teachers.index')
+                ->with(['teachers' => $teachers, 'search' => $search]);
     }
 
     /**
