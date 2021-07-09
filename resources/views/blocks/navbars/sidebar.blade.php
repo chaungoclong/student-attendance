@@ -22,15 +22,9 @@
                 <div class="collapse" id="collapseExample">
                     <ul class="nav">
                         <li>
-                            <a href="#">
+                            <a href="{{ route('profile.show') }}">
                                 <span class="sidebar-mini"> MP </span>
                                 <span class="sidebar-normal"> My Profile </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="sidebar-mini"> EP </span>
-                                <span class="sidebar-normal"> Edit Profile </span>
                             </a>
                         </li>
                         <li>

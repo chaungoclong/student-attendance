@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\HomeController as HomeAdmin;
 use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\HomeController as Home;
@@ -26,6 +28,21 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:admin,teacher'])->group(function() {
     // logout
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    //profile
+   Route::name('profile.')->group(function() {
+        // show profile
+        Route::get('/profile', [ProfileController::class, 'show'])
+            ->name('show');
+
+        // update profile
+        Route::put('/profile', [ProfileController::class, 'update'])
+            ->name('update');
+   });
+
+   // change password
+   Route::put('/password', [ChangePasswordController::class, 'changePassword'])
+        ->name('password');
 });
 
 Route::get('/', function () {
@@ -76,4 +93,4 @@ Route::prefix('login')->name('login.')->group(function() {
 // home page (auth, guest)
 Route::get('/', [Home::class, 'index'])->name('home');
 
-Route::view('/test', 'admins.teachers.show');
+Route::view('/test', 'auth.profiles.admin_profile');
