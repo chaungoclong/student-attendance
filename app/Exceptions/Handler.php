@@ -44,9 +44,21 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, 
         AuthenticationException $exception)
     {
+        // request ajax
         if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
+            $redirectTo = route('home');
+
+            if ($request->is('admin') || $request->is('admin/*')) {
+                $redirectTo = route('login.admin');
+            }
+            if ($request->is('teacher') || $request->is('teacher/*')) {
+                $redirectTo = route('login.teacher');
+            }
+            
+            return response()->json(['redirectTo' => $redirectTo], 401);
         }
+
+        // regular browser request
         if ($request->is('admin') || $request->is('admin/*')) {
             return redirect()->guest(route('login.admin'));
         }

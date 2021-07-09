@@ -18,18 +18,41 @@ class TeacherController extends Controller
      */
     public function index(Request $request)
     {
-        // get key to search
-        $search = $request->get('search') ?? '';
+        $rowPerPage = 10;
 
-        // get list of teachers match with key
-        $teachers = Teacher::where('name', 'LIKE', "%$search%")
-                            ->orWhere('email', 'LIKE', "%$search%")
-                            ->orWhere('address', 'LIKE', "%$search%")
-                            ->orWhere('phone', 'LIKE', "%$search%")
-                            ->paginate(10);
+        if ($request->ajax()) {
+            // query builder
+            $query = Teacher::select('*');
+            $rowPerPage = $request->row ?? $rowPerPage;
+
+            // gender filter
+            if ($request->has('gender') && $request->gender < 2) {
+                $query->where('gender', $request->gender);
+            }
+
+            // search: name, email, address, phone
+            if ($request->has('search')) {
+                $query->where(function($subQuery) use($request) {
+                    $search = $request->search;
+
+                    $subQuery->where('name', 'LIKE', "%$search%")
+                             ->orWhere('email', 'LIKE', "%$search%")
+                             ->orWhere('address', 'LIKE', "%$search%")
+                             ->orWhere('phone', 'LIKE', "%$search%");
+                });
+            }
+
+            // get list of teachers match with key
+            $teachers = $query->paginate($rowPerPage);
+
+            return view('admins.teachers.load_index')
+                    ->with(['teachers' => $teachers]);
+        }
+
+        $teachers = Teacher::paginate($rowPerPage);
 
         return view('admins.teachers.index')
-                ->with(['teachers' => $teachers, 'search' => $search]);
+                    ->with(['teachers' => $teachers]);
     }
 
     /**
