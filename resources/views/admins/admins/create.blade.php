@@ -1,20 +1,18 @@
 @extends('layouts.app')
 
-@section('title', __('Teacher'))
+@section('title', __('admin'))
 
-@section('name_page', 'List Teacher')
+@section('name_page', 'Create admin')
 
 @section('content')
 <div class="row">
 	<div class="col-md-12">
 		<div class="card">
 			<form method="post" action="
-			{{ route('admin.teacher-manager.update', $teacher->id) }}" class="form-horizontal">
+			{{ route('admin.admin-manager.store') }}" class="form-horizontal">
 				@csrf
-				@method('put')
-				<input type="hidden" name="id" value="{{ $teacher->id }}">
 				<div class="card-header card-header-text" data-background-color="rose">
-					<h4 class="card-title">Profile Teacher</h4>
+					<h4 class="card-title">Add admin</h4>
 				</div>
 
 				<div class="card-content">
@@ -23,7 +21,7 @@
 						<div class="col-sm-10">
 							<div class="form-group label-floating is-empty">
 								<label class="control-label"></label>
-								<input type="text" class="form-control" name="name" value="{{ old('name') ?? $teacher->name }}">
+								<input type="text" class="form-control" name="name" value="{{ old('name') }}">
 								@error('name')
 									<div class="alert alert-danger">
 										{{ $message }}
@@ -37,7 +35,7 @@
 						<div class="col-sm-10">
 							<div class="form-group label-floating is-empty">
 								<label class="control-label"></label>
-								<input type="email" class="form-control" name="email" value="{{ old('email') ?? $teacher->email }}">
+								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
 								@error('email')
 									<div class="alert alert-danger">
 										{{ $message }}
@@ -51,7 +49,7 @@
 						<div class="col-sm-10">
 							<div class="form-group label-floating is-empty">
 								<label class="control-label"></label>
-								<input type="number" class="form-control" name="phone" value="{{ old('phone') ?? $teacher->phone }}">
+								<input type="number" class="form-control" name="phone" value="{{ old('phone') }}">
 								@error('phone')
 									<div class="alert alert-danger">
 										{{ $message }}
@@ -65,7 +63,7 @@
 						<div class="col-sm-10">
 							<div class="form-group label-floating is-empty">
 								<label class="control-label"></label>
-								<input type="text" class="form-control" name="address" value="{{ old('address') ?? $teacher->address }}">
+								<input type="text" class="form-control" name="address" value="{{ old('address') }}">
 								@error('address')
 									<div class="alert alert-danger">
 										{{ $message }}
@@ -79,8 +77,22 @@
 						<div class="col-sm-10">
 							<div class="form-group label-floating is-empty">
 								<label class="control-label"></label>
-								<input type="text" class="form-control datepicker" name="dob" value="{{ old('dob') ?? $teacher->dob }}" />
+								<input type="text" class="form-control datepicker" name="dob" value="{{ old('dob') }}" />
 								@error('dob')
+									<div class="alert alert-danger">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 label-on-right">Password</label>
+						<div class="col-sm-10">
+							<div class="form-group label-floating is-empty">
+								<label class="control-label"></label>
+								<input type="password" class="form-control" name="password" value="{{ old('password') }}">
+								@error('password')
 									<div class="alert alert-danger">
 										{{ $message }}
 									</div>
@@ -94,15 +106,13 @@
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="1"
-									{{ $teacher->gender == 'Nam' 
-										? 'checked' : ''}}> Male
+									{{ old('gender') == 1 ?'checked' : '' }}> Male
 								</label>
 							</div>
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="0"
-									{{ $teacher->gender == 'Nữ' 
-										? 'checked' : ''}}> Female
+									{{ old('gender') == 0 ?'checked' : '' }}> Female
 								</label>
 							</div>
 							@error('gender')

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\HomeController as HomeAdmin;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Auth\ChangePasswordController;
@@ -63,6 +64,9 @@ Route::middleware(['auth:admin'])->group(function() {
 
         // manager teacher
         Route::resource('teacher-manager', TeacherController::class);
+
+        // manager admin
+        Route::resource('admin-manager', AdminController::class);
     });
 });
 
