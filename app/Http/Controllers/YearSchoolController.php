@@ -52,7 +52,7 @@ class YearSchoolController extends Controller
             $this->message['status'] = 0;
         }
 
-        return redirect()->route('yearschool.index')->with('message', $this->message);
+        return redirect()->route('admin.yearschool.index')->with('message', $this->message);
     }
 
     /**
@@ -101,7 +101,7 @@ class YearSchoolController extends Controller
             $this->message['status'] = 0;
         }
 
-        return redirect()->route('yearschool.index')->with('message', $this->message);
+        return redirect()->route('admin.yearschool.index')->with('message', $this->message);
     }
 
     /**
@@ -122,6 +122,6 @@ class YearSchoolController extends Controller
             $this->message['status'] = 0;
         }
 
-        return redirect()->route('yearschool.index')->with('message', $this->message);
+        return redirect()->route('admin.yearschool.index')->with('message', $this->message);
     }
 }
