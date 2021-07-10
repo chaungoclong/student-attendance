@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Hash;
 
 class CreateStudentsTable extends Migration
 {
@@ -21,7 +22,7 @@ class CreateStudentsTable extends Migration
             $table->boolean("gender");
             $table->string("address", 100);
             $table->string('email', 100)->unique();
-            $table->string('password');
+            $table->string('password')->default(Hash::make('11111111'));
             $table->char("phone", 10)->unique();
             $table->unsignedInteger("id_grade");
             $table->rememberToken();
