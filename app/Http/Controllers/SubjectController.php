@@ -56,7 +56,7 @@ class SubjectController extends Controller
             $this->message['status'] = false;
         }
 
-        return redirect()->route('subject.index')->with('message', $this->message);
+        return redirect()->route('admin.subject.index')->with('message', $this->message);
     }
 
     /**
@@ -103,7 +103,7 @@ class SubjectController extends Controller
             $this->message['status'] = false;
         }
 
-        return redirect()->route('subject.index')->with('message', $this->message);
+        return redirect()->route('admin.subject.index')->with('message', $this->message);
     }
 
     /**
@@ -124,6 +124,6 @@ class SubjectController extends Controller
             $this->message['status'] = false;
         }
 
-        return redirect()->route('subject.index')->with('message', $this->message);
+        return redirect()->route('admin.subject.index')->with('message', $this->message);
     }
 }
