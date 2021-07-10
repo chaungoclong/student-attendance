@@ -89,6 +89,16 @@
                 </a>
             </li>
 
+            {{-- lession --}}
+            <li>
+                <a href="{{ route('admin.lesson.index') }}">
+                    <i class="material-icons">image</i>
+                    <p> 
+                        Quản lý ca học
+                    </p>
+                </a>
+            </li>
+
             {{-- schedule --}}
             <li>
                 <a>

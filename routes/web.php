@@ -13,6 +13,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\Teacher\HomeController as HomeTeacher;
 use App\Http\Controllers\YearSchoolController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LessonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,8 @@ Route::middleware(['auth:admin'])->group(function() {
 
         // manager admin
         Route::resource('admin-manager', AdminController::class);
+
+        Route::resource('lesson', LessonController::class);
     });
 });
 
