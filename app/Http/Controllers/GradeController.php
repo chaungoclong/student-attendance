@@ -31,10 +31,7 @@ class GradeController extends Controller
                 }
             }
         }
-        // echo "</pre>";
-        // print_r($dataGrades[2]);
-        // echo "</pre>";
-        // die();
+
         return view('grades.index')->with('dataGrades', $dataGrades);
     }
 
@@ -72,7 +69,7 @@ class GradeController extends Controller
             $this->message['status'] = 0;
         }
 
-        return redirect()->route('grade.index')->with('message', $this->message);
+        return redirect()->route('admin.grade.index')->with('message', $this->message);
     }
 
     /**
@@ -126,7 +123,7 @@ class GradeController extends Controller
             $this->message['status'] = 0;
         }
 
-        return redirect()->route('grade.index')->with('message', $this->message);
+        return redirect()->route('admin.grade.index')->with('message', $this->message);
     }
 
     /**
@@ -147,6 +144,6 @@ class GradeController extends Controller
             $this->message['status'] = 0;
         }
 
-        return redirect()->route('grade.index')->with('message', $this->message);
+        return redirect()->route('admin.grade.index')->with('message', $this->message);
     }
 }
