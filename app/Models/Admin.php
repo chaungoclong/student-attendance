@@ -12,7 +12,21 @@ class Admin extends Authenticatable
 
     protected $guard = 'admin';
 
-    protected $fillable = ['email', 'password'];
+    protected $fillable = [
+        'name',
+        'dob',
+        'gender',
+        'phone',
+        'address',
+        'email',
+        'password'
+    ];
 
     protected $hidden = ['password', 'remember_token'];
+
+    // cast geder to string
+    public function getGenderAttribute($value)
+    {
+        return $value ? "Nam" : "Nữ";
+    }
 }

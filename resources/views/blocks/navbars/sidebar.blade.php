@@ -1,4 +1,4 @@
-<div class="sidebar" data-active-color="rose" data-background-color="black" data-image="{{ asset('assets/img/sidebar-1.jpg') }}">
+<div class="sidebar" data-active-color="rose" data-background-color="white" data-image="{{ asset('assets/img/sidebar-1.jpg') }}">
             <!--
         Tip 1: You can change the color of active element of the sidebar using: data-active-color="purple | blue | green | orange | red | rose"
         Tip 2: you can also add an image using data-image tag
@@ -22,15 +22,9 @@
                 <div class="collapse" id="collapseExample">
                     <ul class="nav">
                         <li>
-                            <a href="#">
+                            <a href="{{ route('profile.show') }}">
                                 <span class="sidebar-mini"> MP </span>
                                 <span class="sidebar-normal"> My Profile </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="sidebar-mini"> EP </span>
-                                <span class="sidebar-normal"> Edit Profile </span>
                             </a>
                         </li>
                         <li>
@@ -46,8 +40,12 @@
             </div>
         </div>
         <ul class="nav">
-            <li class="active">
-                <a href="">
+            <li class="{{ 
+                request()->is('admin')
+                || request()->is('teacher') 
+                ? 'active' : '' 
+            }}">
+                <a href="{{ route('admin.dashboard') }}">
                     <i class="material-icons">dashboard</i>
                     <p> Dashboard </p>
                 </a>
@@ -56,8 +54,10 @@
             {{-- function of admin --}}
             @auth('admin')
             {{-- admin --}}
-            <li>
-                <a>
+            <li class="{{  request()->is('admin/admin-manager')
+                || request()->is('admin/admin-manager/*') 
+                ? 'active' : ''  }}">
+                <a href="{{ route('admin.admin-manager.index') }}">
                     <i class="material-icons">image</i>
                     <p> 
                         Quản lý Giáo vụ
@@ -66,8 +66,12 @@
             </li>
 
             {{-- teacher --}}
-            <li>
-                <a>
+            <li class="{{ 
+                request()->is('admin/teacher-manager')
+                || request()->is('admin/teacher-manager/*') 
+                ? 'active' : '' 
+            }}">
+                <a href="{{ route('admin.teacher-manager.index') }}">
                     <i class="material-icons">image</i>
                     <p> 
                         Quản lý Giáo viên
