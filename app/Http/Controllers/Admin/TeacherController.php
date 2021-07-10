@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
+    public function __construct()
+    {
+        // ngan khong luu flash session vao cache
+        $this->middleware('preventCache');
+    }
     /**
      * Display a listing of the resource.
      *
