@@ -53,7 +53,7 @@ class ClassroomController extends Controller
             $this->message['status'] = false;
         }
 
-        return redirect()->route('classroom.index')->with('message', $this->message);
+        return redirect()->route('admin.classroom.index')->with('message', $this->message);
     }
 
     /**
@@ -99,7 +99,7 @@ class ClassroomController extends Controller
             $this->message['status'] = false;
         }
 
-        return redirect()->route('classroom.index')->with('message', $this->message);
+        return redirect()->route('admin.classroom.index')->with('message', $this->message);
     }
 
     /**
@@ -120,6 +120,6 @@ class ClassroomController extends Controller
             $this->message['status'] = false;
         }
 
-        return redirect()->route('classroom.index')->with('message', $this->message);
+        return redirect()->route('admin.classroom.index')->with('message', $this->message);
     }
 }
