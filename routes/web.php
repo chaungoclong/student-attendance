@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\HomeController as HomeAdmin;
+use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\LoginController;
@@ -9,11 +10,11 @@ use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\HomeController as Home;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\Teacher\HomeController as HomeTeacher;
 use App\Http\Controllers\YearSchoolController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LessonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +71,8 @@ Route::middleware(['auth:admin'])->group(function() {
         Route::resource('admin-manager', AdminController::class);
 
         Route::resource('lesson', LessonController::class);
+
+        Route::resource('student-manager', StudentController::class);
     });
 });
 

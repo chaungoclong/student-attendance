@@ -3,19 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TeacherStoreFormRequest;
-use App\Http\Requests\TeacherUpdateFormRequest;
-use App\Models\Teacher;
+use App\Models\Grade;
+use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
-class TeacherController extends Controller
+class StudentController extends Controller
 {
-    public function __construct()
-    {
-        // ngan khong luu flash session vao cache
-        $this->middleware('preventCache');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -24,15 +17,21 @@ class TeacherController extends Controller
     public function index(Request $request)
     {
         $rowPerPage = 10;
+        $grades = Grade::all();
 
         if ($request->ajax()) {
             // query builder
-            $query = Teacher::select('*');
+            $query = Student::select('*');
             $rowPerPage = $request->row ?? $rowPerPage;
 
             // gender filter
             if ($request->has('gender') && $request->gender !== null) {
                 $query->where('gender', $request->gender);
+            }
+
+            // gender filter
+            if ($request->has('grade') && $request->grade !== null) {
+                $query->where('id_grade', $request->grade);
             }
 
             // search: name, email, address, phone
@@ -43,21 +42,22 @@ class TeacherController extends Controller
                     $subQuery->where('name', 'LIKE', "%$search%")
                              ->orWhere('email', 'LIKE', "%$search%")
                              ->orWhere('address', 'LIKE', "%$search%")
-                             ->orWhere('phone', 'LIKE', "%$search%");
+                             ->orWhere('phone', 'LIKE', "%$search%")
+                             ->orWhere('code', 'LIKE', "%$search%");
                 });
             }
 
-            // get list of teachers match with key
-            $teachers = $query->paginate($rowPerPage);
+            // get list of students match with key
+            $students = $query->paginate($rowPerPage);
 
-            return view('admins.teachers.load_index')
-                    ->with(['teachers' => $teachers]);
+            return view('admins.students.load_index')
+                    ->with(['students' => $students]);
         }
 
-        $teachers = Teacher::paginate($rowPerPage);
+        $students = Student::paginate($rowPerPage);
 
-        return view('admins.teachers.index')
-                    ->with(['teachers' => $teachers]);
+        return view('admins.students.index')
+                    ->with(['students' => $students, 'grades' => $grades]);
     }
 
     /**
@@ -95,7 +95,7 @@ class TeacherController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Teacher  $teacher
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
     public function show(Teacher $teacher_manager)
@@ -106,10 +106,10 @@ class TeacherController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Teacher  $teacher
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function edit(Teacher $teacher)
+    public function edit(Student $student)
     {
         //
     }
@@ -118,7 +118,7 @@ class TeacherController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Teacher  $teacher
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
     public function update(TeacherUpdateFormRequest $request, Teacher $teacher_manager)
@@ -139,10 +139,10 @@ class TeacherController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Teacher  $teacher
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Teacher $teacher)
+    public function destroy(Student $student)
     {
         //
     }

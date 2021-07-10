@@ -140,8 +140,10 @@
             </li>
 
             {{-- student --}}
-            <li>
-                <a>
+            <li class="{{  request()->is('admin/student-manager')
+                || request()->is('admin/student-manager/*') 
+                ? 'active' : ''  }}">
+                <a href="{{ route('admin.student-manager.index') }}">
                     <i class="material-icons">image</i>
                     <p> 
                         Quản lý Sinh viên

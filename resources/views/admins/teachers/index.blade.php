@@ -10,13 +10,12 @@
 		<i class="material-icons">assignment</i>
 	</div>
 	<div class="card-content">
-		<div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
-			<h4>Teacher table</h4> 
+		<div class="card-title" style="display: flex; justify-content: space-between; align-items: center;"> 
 
 			{{-- number of row to show --}}
 			<div class="col-lg-2 col-md-2 col-sm-2">
 				<select class="selectpicker" data-style="select-with-transition" title="Choose gender" id="row">
-					<option value disabled>number of row</option>
+					<option value disabled>Choose row</option>
 					<option value="10" selected>10</option>
 					<option value="25">25</option>
 					<option value="50">50</option>
@@ -28,7 +27,7 @@
 			<div class="col-lg-3 col-md-3 col-sm-3">
 				<select class="selectpicker" data-style="select-with-transition" title="Choose gender" data-size="7" id="filterGender">
 					<option value disabled> Choose gender</option>
-					<option value="2" selected>All</option>
+					<option value="">All</option>
 					<option value="1">Male </option>
 					<option value="0">Female</option>
 				</select>

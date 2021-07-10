@@ -30,7 +30,7 @@ class AdminController extends Controller
             $rowPerPage = $request->row ?? $rowPerPage;
 
             // gender filter
-            if ($request->has('gender') && $request->gender < 2) {
+            if ($request->has('gender') && $request->gender !== null) {
                 $query->where('gender', $request->gender);
             }
 
