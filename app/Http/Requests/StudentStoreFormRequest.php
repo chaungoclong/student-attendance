@@ -25,13 +25,12 @@ class StudentStoreFormRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3',
-            'code' => 'required|unique:students',
+            'code' => 'required|min:8|max:8|unique:students',
             'dob' => 'required',
             'phone' => 'required|regex:/^[0-9]{10}$/|unique:students',
             'gender' => 'required',
             'address' => 'required',
             'email' => 'required|email|unique:students',
-            'password' => 'required|min:8|max:32',
             'id_grade' => 'required'
         ];
     }

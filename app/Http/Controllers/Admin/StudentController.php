@@ -3,12 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StudentStoreFormRequest;
+use App\Http\Requests\StudentUpdateFormRequest;
 use App\Models\Grade;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
+    public function __construct()
+    {
+        // khong luu session flash vao cache
+        $this->middleware('preventCache');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +37,7 @@ class StudentController extends Controller
                 $query->where('gender', $request->gender);
             }
 
-            // gender filter
+            // grade filter
             if ($request->has('grade') && $request->grade !== null) {
                 $query->where('id_grade', $request->grade);
             }
@@ -67,7 +75,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('admins.teachers.create');
+        $grades = Grade::all();
+        return view('admins.students.create')->with('grades', $grades);
     }
 
     /**
@@ -76,19 +85,20 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TeacherStoreFormRequest $request)
+    public function store(StudentStoreFormRequest $request)
     {
         $validated = $request->validated();
-        $validated['password'] = Hash::make($validated['password']);
+        // dd($validated);
+        // $validated['password'] = Hash::make($validated['password']);
 
         try {
-            Teacher::create($validated);
+            Student::create($validated);
         } catch (\Exception $e) {
-            return redirect()->route('admin.teacher-manager.index')
+            return redirect()->route('admin.student-manager.index')
                              ->with('error', 'Create failed');
         }
 
-        return redirect()->route('admin.teacher-manager.index')
+        return redirect()->route('admin.student-manager.index')
                              ->with('success', 'Create successfully');
     }
 
@@ -98,9 +108,11 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(Teacher $teacher_manager)
+    public function show(Student $student_manager)
     {
-        return view('admins.teachers.show')->with('teacher', $teacher_manager);
+        $grades = Grade::all();
+        return view('admins.students.show')
+            ->with(['student' => $student_manager, 'grades' => $grades]);
     }
 
     /**
@@ -121,18 +133,18 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(TeacherUpdateFormRequest $request, Teacher $teacher_manager)
+    public function update(StudentUpdateFormRequest $request, Student $student_manager)
     {
         $validated = $request->validated();
 
         try {
-            $teacher_manager->update($validated);
+            $student_manager->update($validated);
         } catch (\Exception $e) {
-            return redirect()->route('admin.teacher-manager.index')
+            return redirect()->route('admin.student-manager.index')
                              ->with('error', 'Update failed');
         }
 
-        return redirect()->route('admin.teacher-manager.index')
+        return redirect()->route('admin.student-manager.index')
                          ->with('success', 'Update successfully');
     }
 

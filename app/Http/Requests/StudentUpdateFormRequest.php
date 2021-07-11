@@ -27,7 +27,7 @@ class StudentUpdateFormRequest extends FormRequest
         return [
             'name' => 'required|min:3',
             'dob' => 'required',
-            'code' => 'required|unique:students',
+            'code' => 'required|min:8|max:8|unique:students,code,' . $id,
             'phone' => 'required|regex:/^[0-9]{10}$/|unique:students,phone,' 
                         . $id,
             'gender' => 'required',

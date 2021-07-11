@@ -17,6 +17,46 @@
 
 				<div class="card-content">
 					<div class="row">
+						<label class="col-sm-2 label-on-right">Student Code</label>
+						<div class="col-sm-10">
+							<div class="form-group label-floating is-empty">
+								<label class="control-label"></label>
+								<input type="text" class="form-control" name="code" value="{{ old('code') }}">
+								@error('code')
+									<div class="alert alert-danger">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 label-on-right">Grade</label>
+						<div class="col-sm-10">
+							<div class="form-group label-floating is-empty">
+								<label class="control-label"></label>
+								<select name="id_grade" id="" class="selectpicker" data-style="select-with-transition" title="Choose Grade">
+									<option value="" disabled>Choose Grade</option>
+									@foreach ($grades as $grade)
+										<option value="{{ $grade->id }}" 
+											{{ 
+												$grade->id == old('id_grade') 
+												? 'selected' : '' 
+											}}
+										>
+											{{ $grade->name }}
+										</option>
+									@endforeach
+								</select>
+								@error('id_grade')
+									<div class="alert alert-danger">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
+						</div>
+					</div>
+					<div class="row">
 						<label class="col-sm-2 label-on-right">Fullname</label>
 						<div class="col-sm-10">
 							<div class="form-group label-floating is-empty">
@@ -79,20 +119,6 @@
 								<label class="control-label"></label>
 								<input type="text" class="form-control datepicker" name="dob" value="{{ old('dob') }}" />
 								@error('dob')
-									<div class="alert alert-danger">
-										{{ $message }}
-									</div>
-								@enderror
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<label class="col-sm-2 label-on-right">Password</label>
-						<div class="col-sm-10">
-							<div class="form-group label-floating is-empty">
-								<label class="control-label"></label>
-								<input type="password" class="form-control" name="password" value="{{ old('password') }}">
-								@error('password')
 									<div class="alert alert-danger">
 										{{ $message }}
 									</div>
