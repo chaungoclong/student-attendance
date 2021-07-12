@@ -80,8 +80,8 @@
             </li>
 
             {{-- assign --}}
-            <li>
-                <a>
+            <li class="{{ request()->is('admin/assign') || request()->is('admin/assign/*') ? 'active' : '' }}">
+                <a href="{{ route('admin.assign.index') }}">
                     <i class="material-icons">image</i>
                     <p> 
                         Phân công giảng dạy

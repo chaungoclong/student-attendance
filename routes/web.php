@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AssignController;
 use App\Http\Controllers\Admin\HomeController as HomeAdmin;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
@@ -73,6 +74,9 @@ Route::middleware(['auth:admin'])->group(function() {
         Route::resource('lesson', LessonController::class);
 
         Route::resource('student-manager', StudentController::class);
+
+        // assign
+        Route::resource('assign', AssignController::class);
     });
 });
 
