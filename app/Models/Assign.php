@@ -12,6 +12,12 @@ class Assign extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "id_grade",
+        "id_subject",
+        "id_teacher"
+    ];
+
     public function grade()
     {
         return $this->belongsTo(Grade::class, 'id_grade');

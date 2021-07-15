@@ -5,6 +5,7 @@
 	<div class="card-header card-header-icon" data-background-color="rose">
 		<i class="material-icons">assignment</i>
 	</div>
+
 	<div class="card-header">
 		{{-- add --}}
 		<a href="{{ route('admin.assign.create') }}">
@@ -12,6 +13,9 @@
 		</a>
 	</div>
 	<div class="card-content">
+		<div class="card-header">
+			<div id="message"></div>
+		</div>
 
 		<div class="table-responsive">
 			<table class="table">
@@ -46,3 +50,21 @@
 	</div>
 </div>
 @stop
+
+@push('script')
+<script type="text/javascript">
+	$(function() {
+
+		setTimeout(() => {
+			$('.alert').remove();
+		}, 5000);
+		
+		if (localStorage.getItem('assign_success') !== null) {
+			$('#message').html('').removeClass('alert alert-success');
+			$('#message').html(localStorage.getItem('assign_success'))
+			.addClass('alert alert-success');
+			localStorage.clear();
+		}
+	});
+</script>
+@endpush
