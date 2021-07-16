@@ -10,7 +10,7 @@
 		<i class="material-icons">assignment</i>
 	</div>
 	<div class="card-content">
-		<div class="card-title" style="display: flex; justify-content: space-between; align-items: center;"> 
+		<div class="card-header" style="display: flex; justify-content: space-between; align-items: center;"> 
 
 			{{-- number of row to show --}}
 			<div class="col-lg-1 col-md-1 col-sm-1">

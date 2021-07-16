@@ -18,10 +18,50 @@ class AssignController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $assigns = Assign::all();
-        return view('admins.assigns.index', ['assigns' => $assigns]);
+        $rowPerPage = 10;
+
+        if ($request->ajax()) {
+            // query builder
+            $query = Assign::select('*');
+            $rowPerPage = $request->row ?? $rowPerPage;
+
+            // grade filter
+            if ($request->has('grade') && $request->grade !== null) {
+                $query->where('id_grade', $request->grade);
+            }
+
+             // subject filter
+            if ($request->has('subject') && $request->subject !== null) {
+                $query->where('id_subject', $request->subject);
+            }
+
+             // teacher filter
+            if ($request->has('teacher') && $request->teacher !== null) {
+                $query->where('id_teacher', $request->teacher);
+            }
+
+            // get list of assign match with key
+            $assigns = $query->paginate($rowPerPage);
+
+            return view('admins.assigns.load_index')
+                    ->with(['assigns' => $assigns]);
+        }
+
+        $assigns = Assign::paginate($rowPerPage);
+        $grades = Grade::all();
+        $subjects = Subject::all();
+        $teachers = Teacher::all();
+
+        $data = [
+            'assigns' => $assigns,
+            'grades' => $grades,
+            'subjects' => $subjects,
+            'teachers' => $teachers
+        ];
+
+        return view('admins.assigns.index', $data);
     }
 
     /**

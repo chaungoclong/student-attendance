@@ -13,7 +13,7 @@
 		<div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
 
 			{{-- number of row to show --}}
-			<div class="col-lg-2 col-md-2 col-sm-2">
+			<div class="col-lg-1 col-md-1 col-sm-1">
 				<select class="selectpicker" data-style="select-with-transition" title="Choose row" id="row">
 					<option value disabled>Choose row</option>
 					<option value="10" selected>10</option>
