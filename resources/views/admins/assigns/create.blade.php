@@ -4,52 +4,9 @@
 
 @section('name_page', 'Create Assign')
 
-<style>
-table {
-	table-layout: fixed;
-	width: 100%;
-}
-
-.col-input {
-	vertical-align: top !important;
-	padding: 8px !important;
-}
-
-.col-input select {
-	width: 100%;
-	height: 30px;
-	border-radius: 10px;
-	background: #ffffff;
-}
-
-.is-error {
-	border-color: red;
-}
-
-.show-error {
-	overflow-wrap: break-word;
-	word-wrap: break-word;
-	hyphens: auto;
-	display: block;
-	padding: 3px;
-	margin-top: 5px;
-}
-
-.error {
-	border: 1px solid red;
-	border-radius: 5px;
-	color: red;
-}
-
-.remove-row {
-	color: red;
-	margin-top: -10px;
-}
-
-.remove-row:hover {
-	cursor: pointer;
-}
-</style>
+@push('style')
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/app/assigns/create.css') }}">
+@endpush
 
 @section('content')
 
@@ -58,35 +15,34 @@ table {
 		<div class="card">
 			<form class="form-horizontal" id="form">
 				@csrf
-				<div class="card-header card-header-text" data-background-color="rose">
-					<h4 class="card-title">Add Assign</h4>
+
+				{{-- title --}}
+				<div class="card-header" data-background-color="blue">
+					<h4 class="card-title">ADD ASSIGN</h4>
 				</div>
+
+				{{-- alert --}}
 				<div class="card-header">
 					<div id="message"></div>
-				</div>
-				<div class="card-header">
-					<button type="button" class="btn btn-info" id="addRow">
-						MORE
-					</button>
 				</div>
 
 				<div class="card-content">
 					<div class="table-responsive">
-						<table class="table table-hover">
+						<table class="table table-hover table-bordered">
 							<thead>
 								<tr>
-									<th width="30%">GRADE</th>
-									<th width="30%">SUBJECT</th>
-									<th width="30%">TEACHER</th>
-									<th width="10%">REMOVE</th>
+									<th class="text-center" width="30%">GRADE</th>
+									<th class="text-center" width="30%">SUBJECT</th>
+									<th class="text-center" width="30%">TEACHER</th>
+									<th class="text-center" width="10%">REMOVE</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td class="col-input">
-										<select name="id_grade[]" title="grade" class="select-grade">
+										<select name="id_grade[]" title="Grade" class="select-grade select">
 											<option disabled selected>
-												choose grade
+												Choose Grade
 											</option>
 											@foreach ($grades as $grade)
 											<option value="{{ $grade->id }}">
@@ -98,9 +54,9 @@ table {
 										</small>
 									</td>
 									<td class="col-input">
-										<select name="id_subject[]" title="grade" class="select-subject">
+										<select name="id_subject[]" title="Subject" class="select-subject select">
 											<option disabled selected>
-												choose subject
+												Choose Subject
 											</option>
 											@foreach ($subjects as $subject)
 											<option value="{{ $subject->id }}">
@@ -112,9 +68,9 @@ table {
 										</small>
 									</td>
 									<td class="col-input">
-										<select name="id_teacher[]" title="grade" class="select-teacher">
+										<select name="id_teacher[]" title="Teacher" class="select-teacher select">
 											<option disabled selected>
-												choose teacher
+												Choose Teacher
 											</option>
 											@foreach ($teachers as $teacher)
 											<option value="{{ $teacher->id }}">
@@ -127,7 +83,7 @@ table {
 										</small>
 									</td>
 									<td class="text-center">
-										<i class="fas fa-trash-alt fa-lg remove-row"></i>
+										<i class="fas fa-times fa-2x remove-row" data-toggle="tooltip" title="remove this row"  data-placement="left"></i>
 									</td>	
 								</tr>
 							</tbody>
@@ -135,7 +91,9 @@ table {
 					</div>
 
 					<div class="row text-center">
-						<button class="btn btn-success" id="btnSubmit">SAVE</button>
+						<button type="button" class="btn btn-primary btn-round" id="addRow">NEW ASSIGN</button>
+						<button class="btn btn-success btn-round" id="btnSubmit">SAVE</button>
+						<button type="reset" class="btn btn-warning btn-round">RESET</button>
 					</div>
 				</div>
 			</form>
@@ -150,6 +108,7 @@ table {
 <script src="{{ asset('assets/js/app/assigns/validation.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+		$('[data-toggle="tooltip"]').tooltip();
 
 		demo.initFormExtendedDatetimepickers();
 
@@ -166,14 +125,21 @@ table {
 		$(document).on('click', '#addRow', function() {
 			let trLast = $('#form .table tbody tr:last');
 			let trNew = trLast.clone();
-			trLast.after(trNew);
+			trNew.hide().insertAfter(trLast).fadeIn('slow');
+
+			// clear error
+			$('.show-error').html('').removeClass('error');
+			$('[data-toggle="tooltip"]').tooltip();
 		});
 
 		// remove row
 		$(document).on('click', '.remove-row', function() {
 			let numberOfRow = $('tbody tr').length;
+
 			if (numberOfRow > 1) {
-				$(this).closest('tr').remove();
+				$(this).closest('tr').fadeOut('slow', function() {
+					$(this).remove();
+				});
 			} else {
 				$('#message').html('cannot remove this row').addClass('alert alert-danger');
 
@@ -181,7 +147,11 @@ table {
 					$('#message').html('').removeClass('alert alert-danger');
 				}, 5000);
 			}
-			
+		});
+
+		// clear error when select
+		$(document).on('change', '.select', function() {
+			$('.show-error').html('').removeClass('error');
 		});
 	});
 
@@ -197,9 +167,7 @@ table {
 				window.location.replace(res.redirect);
 			},
 			error: (res) => {
-				console.log(res);
 				let errorRes = res.responseJSON;
-				console.log(errorRes);
 
 				let allErrors = $('.show-error');
 				let errorGrades = $('.error-grade');
@@ -210,10 +178,9 @@ table {
 
 				if (errorRes.code == 1) {
 					let errorRows = errorRes.errorRows;
+					let message = errorRes.message;
 
 					for (let i of errorRows) {
-						let message = errorRes.message;
-
 						$(errorGrades[i]).html(message).addClass('error');
 						$(errorSubjects[i]).html(message).addClass('error');
 						$(errorTeachers[i]).html(message).addClass('error');
