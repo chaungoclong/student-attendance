@@ -14,6 +14,14 @@ use Illuminate\Http\Request;
 class AssignController extends Controller
 {
     /**
+     * [__construct description]
+     */
+    public function __construct()
+    {
+        $this->middleware('preventCache');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -89,7 +97,9 @@ class AssignController extends Controller
         }
 
         // redirect after create success
-        $success = ['redirect' => route('admin.assign.index')];
+        $success = ['url' => route('admin.assign.index')];
+
+        $request->session()->flash('success', 'add assign successfully');
 
         return response()->json($success, 200);
     }

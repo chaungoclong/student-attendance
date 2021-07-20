@@ -26,9 +26,9 @@
 					<option value disabled> Choose Grade</option>
 					<option value="">All</option>
 					@foreach ($grades as $grade)
-						<option value="{{ $grade->id }}">
-							{{ $grade->name }}
-						</option>
+					<option value="{{ $grade->id }}">
+						{{ $grade->name }}
+					</option>
 					@endforeach
 				</select>
 			</div>
@@ -39,9 +39,9 @@
 					<option value disabled> Choose Subject</option>
 					<option value="">All</option>
 					@foreach ($subjects as $subject)
-						<option value="{{ $subject->id }}">
-							{{ $subject->name }}
-						</option>
+					<option value="{{ $subject->id }}">
+						{{ $subject->name }}
+					</option>
 					@endforeach
 				</select>
 			</div>
@@ -52,9 +52,9 @@
 					<option value disabled> Choose Teacher</option>
 					<option value="">All</option>
 					@foreach ($teachers as $teacher)
-						<option value="{{ $teacher->id }}">
-							{{ $teacher->name }}
-						</option>
+					<option value="{{ $teacher->id }}">
+						{{ $teacher->name }}
+					</option>
 					@endforeach
 				</select>
 			</div>
@@ -66,7 +66,15 @@
 		</div>
 
 		<div class="card-header">
-			<div id="message"></div>
+			{{-- alert success --}}
+			@if (session('success'))
+			<div class="alert alert-dismissable alert-success">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-right: 20px;">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<strong>Success!</strong> {{ session('success') }}
+			</div>
+			@endif
 		</div>
 
 		<div class="table-responsive">
@@ -98,12 +106,12 @@
 		}, 5000);
 		
 		// alert success when add new assign success
-		if (localStorage.getItem('assign_success') !== null) {
-			$('#message').html('').removeClass('alert alert-success');
-			$('#message').html(localStorage.getItem('assign_success'))
-			.addClass('alert alert-success');
-			localStorage.clear();
-		}
+		// if (localStorage.getItem('assign_success') !== null) {
+		// 	$('#message').html('').removeClass('alert alert-success');
+		// 	$('#message').html(localStorage.getItem('assign_success'))
+		// 	.addClass('alert alert-success');
+		// 	localStorage.clear();
+		// }
 
 		// fetch data when choose row
 		$(document).on('change', '#row', function() {
@@ -159,10 +167,10 @@
 
 	function get_search() {
 		return [
-			$('#row').val(), 
-			$('#filterGrade').val(),
-			$('#filterSubject').val(),
-			$('#filterTeacher').val()
+		$('#row').val(), 
+		$('#filterGrade').val(),
+		$('#filterSubject').val(),
+		$('#filterTeacher').val()
 		];
 	}
 </script>

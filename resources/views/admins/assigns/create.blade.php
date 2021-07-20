@@ -163,8 +163,7 @@
 			dataType: 'JSON',
 			data: $('#form').serialize(),
 			success: (res) => {
-				localStorage.setItem('assign_success', 'add assign success' );
-				window.location.replace(res.redirect);
+				window.location.replace(res.url);
 			},
 			error: (res) => {
 				let errorRes = res.responseJSON;
