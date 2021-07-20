@@ -152,8 +152,12 @@
 				$('tbody').html(res.html);
 			},
 			error: function(res) {
+				let error = res.responseJSON;
+
 				// redirect if unauthenticate
-				window.location.replace(res.responseJSON.redirectTo);
+				if (error.hasOwnProperty('url')) {
+					window.location.replace(error.url);
+				}
 			}
 		});
 	}
