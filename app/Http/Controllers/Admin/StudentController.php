@@ -28,38 +28,7 @@ class StudentController extends Controller
         $grades = Grade::all();
 
         if ($request->ajax()) {
-            // query builder
-            $query = Student::select('*');
-            $rowPerPage = $request->row ?? $rowPerPage;
-
-            // gender filter
-            if ($request->has('gender') && $request->gender !== null) {
-                $query->where('gender', $request->gender);
-            }
-
-            // grade filter
-            if ($request->has('grade') && $request->grade !== null) {
-                $query->where('id_grade', $request->grade);
-            }
-
-            // search: name, email, address, phone
-            if ($request->has('search')) {
-                $query->where(function($subQuery) use($request) {
-                    $search = $request->search;
-
-                    $subQuery->where('name', 'LIKE', "%$search%")
-                             ->orWhere('email', 'LIKE', "%$search%")
-                             ->orWhere('address', 'LIKE', "%$search%")
-                             ->orWhere('phone', 'LIKE', "%$search%")
-                             ->orWhere('code', 'LIKE', "%$search%");
-                });
-            }
-
-            // get list of students match with key
-            $students = $query->paginate($rowPerPage);
-
-            return view('admins.students.load_index')
-                    ->with(['students' => $students]);
+            return $this->search($request, $rowPerPage);
         }
 
         $students = Student::paginate($rowPerPage);
@@ -157,5 +126,44 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         //
+    }
+
+    public function search($request, $rowPerPage)
+    {
+        // query builder
+        $query = Student::select('*');
+        $rowPerPage = $request->row ?? $rowPerPage;
+
+        // gender filter
+        if ($request->has('gender') && $request->gender !== null) {
+            $query->where('gender', $request->gender);
+        }
+
+        // grade filter
+        if ($request->has('grade') && $request->grade !== null) {
+            $query->where('id_grade', $request->grade);
+        }
+
+        // search: name, email, address, phone
+        if ($request->has('search')) {
+            $query->where(function($subQuery) use($request) {
+                $search = $request->search;
+
+                $subQuery->where('name', 'LIKE', "%$search%")
+                         ->orWhere('email', 'LIKE', "%$search%")
+                         ->orWhere('address', 'LIKE', "%$search%")
+                         ->orWhere('phone', 'LIKE', "%$search%")
+                         ->orWhere('code', 'LIKE', "%$search%");
+            });
+        }
+
+        // get list of students match with key
+        $students = $query->paginate($rowPerPage);
+
+        $html = view('admins.students.load_index')
+                ->with(['students' => $students])
+                ->render();
+
+        return response()->json(['html' => $html], 200);
     }
 }

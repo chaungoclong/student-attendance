@@ -147,8 +147,9 @@
 		$.ajax({
 			url: url,
 			type: 'GET',
+			dataType: 'json',
 			success: function(res) {
-				$('tbody').html(res);
+				$('tbody').html(res.html);
 			},
 			error: function(res) {
 				// redirect if unauthenticate

@@ -23,30 +23,7 @@ class AssignController extends Controller
         $rowPerPage = 10;
 
         if ($request->ajax()) {
-            // query builder
-            $query = Assign::select('*');
-            $rowPerPage = $request->row ?? $rowPerPage;
-
-            // grade filter
-            if ($request->has('grade') && $request->grade !== null) {
-                $query->where('id_grade', $request->grade);
-            }
-
-             // subject filter
-            if ($request->has('subject') && $request->subject !== null) {
-                $query->where('id_subject', $request->subject);
-            }
-
-             // teacher filter
-            if ($request->has('teacher') && $request->teacher !== null) {
-                $query->where('id_teacher', $request->teacher);
-            }
-
-            // get list of assign match with key
-            $assigns = $query->paginate($rowPerPage);
-
-            return view('admins.assigns.load_index')
-                    ->with(['assigns' => $assigns]);
+            return $this->search($request, $rowPerPage);
         }
 
         $assigns = Assign::paginate($rowPerPage);
@@ -208,5 +185,36 @@ class AssignController extends Controller
 
             Assign::create($row);
         }
+    }
+
+    public function search($request, $rowPerPage)
+    {
+        // query builder
+        $query = Assign::select('*');
+        $rowPerPage = $request->row ?? $rowPerPage;
+
+        // grade filter
+        if ($request->has('grade') && $request->grade !== null) {
+            $query->where('id_grade', $request->grade);
+        }
+
+         // subject filter
+        if ($request->has('subject') && $request->subject !== null) {
+            $query->where('id_subject', $request->subject);
+        }
+
+         // teacher filter
+        if ($request->has('teacher') && $request->teacher !== null) {
+            $query->where('id_teacher', $request->teacher);
+        }
+
+        // get list of assign match with key
+        $assigns = $query->paginate($rowPerPage);
+
+        $html = view('admins.assigns.load_index')
+                ->with(['assigns' => $assigns])
+                ->render();
+
+        return response()->json(['html' => $html], 200);
     }
 }

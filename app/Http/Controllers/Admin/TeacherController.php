@@ -26,32 +26,7 @@ class TeacherController extends Controller
         $rowPerPage = 10;
 
         if ($request->ajax()) {
-            // query builder
-            $query = Teacher::select('*');
-            $rowPerPage = $request->row ?? $rowPerPage;
-
-            // gender filter
-            if ($request->has('gender') && $request->gender !== null) {
-                $query->where('gender', $request->gender);
-            }
-
-            // search: name, email, address, phone
-            if ($request->has('search')) {
-                $query->where(function($subQuery) use($request) {
-                    $search = $request->search;
-
-                    $subQuery->where('name', 'LIKE', "%$search%")
-                             ->orWhere('email', 'LIKE', "%$search%")
-                             ->orWhere('address', 'LIKE', "%$search%")
-                             ->orWhere('phone', 'LIKE', "%$search%");
-                });
-            }
-
-            // get list of teachers match with key
-            $teachers = $query->paginate($rowPerPage);
-
-            return view('admins.teachers.load_index')
-                    ->with(['teachers' => $teachers]);
+           return $this->search($request, $rowPerPage);
         }
 
         $teachers = Teacher::paginate($rowPerPage);
@@ -145,5 +120,43 @@ class TeacherController extends Controller
     public function destroy(Teacher $teacher)
     {
         //
+    }
+
+    /**
+     * [search description]
+     * @param  [type] $request [description]
+     * @return [type]          [description]
+     */
+    public function search($request, $rowPerPage)
+    {
+        // query builder
+        $query = Teacher::select('*');
+        $rowPerPage = $request->row ?? $rowPerPage;
+
+        // gender filter
+        if ($request->has('gender') && $request->gender !== null) {
+            $query->where('gender', $request->gender);
+        }
+
+        // search: name, email, address, phone
+        if ($request->has('search')) {
+            $query->where(function($subQuery) use($request) {
+                $search = $request->search;
+
+                $subQuery->where('name', 'LIKE', "%$search%")
+                         ->orWhere('email', 'LIKE', "%$search%")
+                         ->orWhere('address', 'LIKE', "%$search%")
+                         ->orWhere('phone', 'LIKE', "%$search%");
+            });
+        }
+
+        // get list of teachers match with key
+        $teachers = $query->paginate($rowPerPage);
+
+        $html = view('admins.teachers.load_index')
+                ->with(['teachers' => $teachers])
+                ->render();
+
+        return response()->json(['html' => $html], 200);
     }
 }
