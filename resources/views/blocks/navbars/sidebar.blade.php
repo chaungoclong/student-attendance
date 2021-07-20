@@ -40,140 +40,147 @@
             </div>
         </div>
         <ul class="nav">
-            <li class="{{ 
-                request()->is('admin')
-                || request()->is('teacher') 
-                ? 'active' : '' 
-            }}">
-                <a href="{{ route('admin.dashboard') }}">
+            {{-- function of admin --}}
+            @auth('admin')
+                {{-- dashboard --}}
+                <li class="{{ request()->is('admin') ? 'active' : '' }}">
+                    <a href="{{ route('admin.dashboard') }}">
+                        <i class="material-icons">dashboard</i>
+                        <p> Dashboard </p>
+                    </a>
+                </li>
+
+                {{-- admin --}}
+                @can('admin-manager')
+                    <li class="{{  request()->is('admin/admin-manager')
+                        || request()->is('admin/admin-manager/*') 
+                        ? 'active' : ''  }}">
+                        <a href="{{ route('admin.admin-manager.index') }}">
+                            <i class="material-icons">image</i>
+                            <p> 
+                                Quản lý Giáo vụ
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+
+                {{-- teacher --}}
+                <li class="{{ 
+                    request()->is('admin/teacher-manager')
+                    || request()->is('admin/teacher-manager/*') 
+                    ? 'active' : '' 
+                }}">
+                    <a href="{{ route('admin.teacher-manager.index') }}">
+                        <i class="material-icons">image</i>
+                        <p> 
+                            Quản lý Giáo viên
+                        </p>
+                    </a>
+                </li>
+
+                {{-- assign --}}
+                <li class="{{ request()->is('admin/assign') || request()->is('admin/assign/*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.assign.index') }}">
+                        <i class="material-icons">image</i>
+                        <p> 
+                            Phân công giảng dạy
+                        </p>
+                    </a>
+                </li>
+
+                {{-- lession --}}
+                <li>
+                    <a href="{{ route('admin.lesson.index') }}">
+                        <i class="material-icons">image</i>
+                        <p> 
+                            Quản lý ca học
+                        </p>
+                    </a>
+                </li>
+
+                {{-- schedule --}}
+                <li>
+                    <a>
+                        <i class="material-icons">image</i>
+                        <p> 
+                            Quản lý Lịch học
+                        </p>
+                    </a>
+                </li>
+
+                {{-- year schools --}}
+                <li>
+                    <a href="{{ route('admin.yearschool.index') }}">
+                        <i class="material-icons">image</i>
+                        <p> 
+                            Quản lý Khóa học
+                        </p>
+                    </a>
+                </li>
+
+                {{-- grade --}}
+                <li>
+                    <a href="{{ route('admin.grade.index') }}">
+                        <i class="material-icons">image</i>
+                        <p> 
+                            Quản lý Lớp học
+                        </p>
+                    </a>
+                </li>
+
+                {{-- subject --}}
+                <li>
+                    <a href="{{ route('admin.subject.index') }}">
+                        <i class="material-icons">image</i>
+                        <p> 
+                            Quản lý môn học
+                        </p>
+                    </a>
+                </li>
+
+                {{-- student --}}
+                <li class="{{  request()->is('admin/student-manager')
+                    || request()->is('admin/student-manager/*') 
+                    ? 'active' : ''  }}">
+                    <a href="{{ route('admin.student-manager.index') }}">
+                        <i class="material-icons">image</i>
+                        <p> 
+                            Quản lý Sinh viên
+                        </p>
+                    </a>
+                </li>
+
+                {{-- class room --}}
+                <li>
+                    <a href="{{ route('admin.classroom.index') }}">
+                        <i class="material-icons">house</i>
+                        <p> 
+                            Quản lý phòng học
+                        </p>
+                    </a>
+                </li>
+
+                {{-- statistical --}}
+                <li>
+                    <a>
+                        <i class="material-icons">image</i>
+                        <p> 
+                            Thống kê
+                        </p>
+                    </a>
+                </li>
+            @endauth
+
+            {{-- function of teacher --}}
+            @auth('teacher')
+            {{-- dashboard --}}
+            <li class="{{ request()->is('teacher') ? 'active' : '' }}">
+                <a href="{{ route('teacher.dashboard') }}">
                     <i class="material-icons">dashboard</i>
                     <p> Dashboard </p>
                 </a>
             </li>
 
-            {{-- function of admin --}}
-            @auth('admin')
-            {{-- admin --}}
-            <li class="{{  request()->is('admin/admin-manager')
-                || request()->is('admin/admin-manager/*') 
-                ? 'active' : ''  }}">
-                <a href="{{ route('admin.admin-manager.index') }}">
-                    <i class="material-icons">image</i>
-                    <p> 
-                        Quản lý Giáo vụ
-                    </p>
-                </a>
-            </li>
-
-            {{-- teacher --}}
-            <li class="{{ 
-                request()->is('admin/teacher-manager')
-                || request()->is('admin/teacher-manager/*') 
-                ? 'active' : '' 
-            }}">
-                <a href="{{ route('admin.teacher-manager.index') }}">
-                    <i class="material-icons">image</i>
-                    <p> 
-                        Quản lý Giáo viên
-                    </p>
-                </a>
-            </li>
-
-            {{-- assign --}}
-            <li class="{{ request()->is('admin/assign') || request()->is('admin/assign/*') ? 'active' : '' }}">
-                <a href="{{ route('admin.assign.index') }}">
-                    <i class="material-icons">image</i>
-                    <p> 
-                        Phân công giảng dạy
-                    </p>
-                </a>
-            </li>
-
-            {{-- lession --}}
-            <li>
-                <a href="{{ route('admin.lesson.index') }}">
-                    <i class="material-icons">image</i>
-                    <p> 
-                        Quản lý ca học
-                    </p>
-                </a>
-            </li>
-
-            {{-- schedule --}}
-            <li>
-                <a>
-                    <i class="material-icons">image</i>
-                    <p> 
-                        Quản lý Lịch học
-                    </p>
-                </a>
-            </li>
-
-            {{-- year schools --}}
-            <li>
-                <a href="{{ route('admin.yearschool.index') }}">
-                    <i class="material-icons">image</i>
-                    <p> 
-                        Quản lý Khóa học
-                    </p>
-                </a>
-            </li>
-
-            {{-- grade --}}
-            <li>
-                <a href="{{ route('admin.grade.index') }}">
-                    <i class="material-icons">image</i>
-                    <p> 
-                        Quản lý Lớp học
-                    </p>
-                </a>
-            </li>
-
-            {{-- subject --}}
-            <li>
-                <a href="{{ route('admin.subject.index') }}">
-                    <i class="material-icons">image</i>
-                    <p> 
-                        Quản lý môn học
-                    </p>
-                </a>
-            </li>
-
-            {{-- student --}}
-            <li class="{{  request()->is('admin/student-manager')
-                || request()->is('admin/student-manager/*') 
-                ? 'active' : ''  }}">
-                <a href="{{ route('admin.student-manager.index') }}">
-                    <i class="material-icons">image</i>
-                    <p> 
-                        Quản lý Sinh viên
-                    </p>
-                </a>
-            </li>
-
-            {{-- class room --}}
-            <li>
-                <a href="{{ route('admin.classroom.index') }}">
-                    <i class="material-icons">house</i>
-                    <p> 
-                        Quản lý phòng học
-                    </p>
-                </a>
-            </li>
-
-            {{-- statistical --}}
-            <li>
-                <a>
-                    <i class="material-icons">image</i>
-                    <p> 
-                        Thống kê
-                    </p>
-                </a>
-            </li>
-            @endauth
-
-            {{-- function of teacher --}}
-            @auth('teacher')
             {{-- attendance --}}
             <li>
                 <a>

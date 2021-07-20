@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 */
  
 // chi danh cho user(admin,teacher)
-Route::middleware(['auth:admin,teacher'])->group(function() {
+Route::middleware(['auth:admin,teacher', 'isActive'])->group(function() {
     // logout
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -49,12 +49,8 @@ Route::middleware(['auth:admin,teacher'])->group(function() {
         ->name('password');
 });
 
-Route::get('/', function () {
-    return view('admins.dashboard');
-})->name('home');
-
 // chi danh cho admin
-Route::middleware(['auth:admin'])->group(function() {
+Route::middleware(['auth:admin', 'isActive'])->group(function() {
     Route::prefix('admin')->name('admin.')->group(function() {
         // dashboard
         Route::get('', [HomeAdmin::class, 'index'])
@@ -69,7 +65,8 @@ Route::middleware(['auth:admin'])->group(function() {
         Route::resource('teacher-manager', TeacherController::class);
 
         // manager admin
-        Route::resource('admin-manager', AdminController::class);
+        Route::resource('admin-manager', AdminController::class)
+              ->middleware('isSuper');
 
         Route::resource('lesson', LessonController::class);
 
@@ -81,7 +78,7 @@ Route::middleware(['auth:admin'])->group(function() {
 });
 
 // chi danh cho teacher
-Route::middleware(['auth:teacher'])->group(function() {
+Route::middleware(['auth:teacher', 'isActive'])->group(function() {
     Route::prefix('teacher')->name('teacher.')->group(function() {
         Route::get('', [HomeTeacher::class, 'index'])
             ->name('dashboard');
@@ -107,4 +104,19 @@ Route::prefix('login')->name('login.')->group(function() {
 // home page (auth, guest)
 Route::get('/', [Home::class, 'index'])->name('home');
 
-Route::view('/test', 'auth.profiles.admin_profile');
+// error
+Route::prefix('error')->name('error.')->group(function() {
+    Route::view('401', 'errors.401')->name('401');
+    Route::view('403', 'errors.403')->name('403');
+    Route::view('404', 'errors.404')->name('404');
+    Route::view('419', 'errors.419')->name('419');
+    Route::view('429', 'errors.429')->name('429');
+    Route::view('500', 'errors.500')->name('500');
+    Route::view('503', 'errors.503')->name('503');
+});
+
+// test
+Route::get('/test', function() {
+    abort(403, "hello");
+});
+
