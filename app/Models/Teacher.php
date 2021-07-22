@@ -20,7 +20,8 @@ class Teacher extends Authenticatable
         'phone',
         'address',
         'email',
-        'password'
+        'password',
+        'status'
     ];
 
     protected $hidden = ['password', 'remember_token'];

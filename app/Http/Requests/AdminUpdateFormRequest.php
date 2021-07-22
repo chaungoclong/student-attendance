@@ -32,6 +32,15 @@ class AdminUpdateFormRequest extends FormRequest
             'gender' => 'required',
             'address' => 'required',
             'email' => 'required|email|unique:admins,email,' . $id,
+            'status' => 'required|gte:is_super',
+            'is_super' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'status.gte' => 'Super admin cannot disabled',
         ];
     }
 }

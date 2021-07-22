@@ -33,7 +33,8 @@ class StudentUpdateFormRequest extends FormRequest
             'gender' => 'required',
             'address' => 'required',
             'email' => 'required|email|unique:students,email,' . $id,
-            'id_grade' => 'required'
+            'id_grade' => 'required',
+            'status' => 'required',
         ];
     }
 }

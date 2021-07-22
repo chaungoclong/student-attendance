@@ -8,7 +8,10 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="card">
-			<form class="form-horizontal">
+			<form class="form-horizontal" action="{{ 
+				route('admin.admin-manager.update', $admin->id) }}" method="POST">
+				@csrf
+				@method('put')
 				<input type="hidden" name="id" value="{{ $admin->id }}">
 				<div class="card-header card-header-text" data-background-color="rose">
 					<h4 class="card-title">Profile admin</h4>
@@ -20,7 +23,7 @@
 						<div class="col-sm-10">
 							<div class="form-group label-floating is-empty">
 								<label class="control-label"></label>
-								<input type="text" class="form-control" name="name" value="{{ $admin->name }}" disabled>
+								<input type="text" class="form-control" name="name" value="{{ old('name', $admin->name) }}">
 								@error('name')
 									<div class="alert alert-danger">
 										{{ $message }}
@@ -34,7 +37,7 @@
 						<div class="col-sm-10">
 							<div class="form-group label-floating is-empty">
 								<label class="control-label"></label>
-								<input type="email" class="form-control" name="email" value="{{ $admin->email }}" disabled>
+								<input type="email" class="form-control" name="email" value="{{ old('email', $admin->email) }}" >
 								@error('email')
 									<div class="alert alert-danger">
 										{{ $message }}
@@ -48,7 +51,7 @@
 						<div class="col-sm-10">
 							<div class="form-group label-floating is-empty">
 								<label class="control-label"></label>
-								<input type="number" class="form-control" name="phone" value="{{ $admin->phone }}" disabled>
+								<input type="number" class="form-control" name="phone" value="{{ old('phone', $admin->phone) }}" >
 								@error('phone')
 									<div class="alert alert-danger">
 										{{ $message }}
@@ -62,7 +65,7 @@
 						<div class="col-sm-10">
 							<div class="form-group label-floating is-empty">
 								<label class="control-label"></label>
-								<input type="text" class="form-control" name="address" value="{{ $admin->address }}" disabled>
+								<input type="text" class="form-control" name="address" value="{{ old('address', $admin->address) }}">
 								@error('address')
 									<div class="alert alert-danger">
 										{{ $message }}
@@ -76,7 +79,7 @@
 						<div class="col-sm-10">
 							<div class="form-group label-floating is-empty">
 								<label class="control-label"></label>
-								<input type="text" class="form-control datepicker" name="dob" value="{{ $admin->dob }}" disabled/>
+								<input type="text" class="form-control datepicker" name="dob" value="{{ old('dob', $admin->dob) }}"/>
 								@error('dob')
 									<div class="alert alert-danger">
 										{{ $message }}
@@ -91,15 +94,17 @@
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="1"
-									{{ $admin->gender == 'Nam' 
-										? 'checked' : ''}} disabled> Male
+									{{ old('gender') == '1'
+										|| $admin->gender == 'Nam' 
+										? 'checked' : ''}}> Male
 								</label>
 							</div>
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="0"
-									{{ $admin->gender == 'Nữ' 
-										? 'checked' : ''}} disabled> Female
+									{{ old('gender') == '0'
+										|| $admin->gender == 'Nữ' 
+										? 'checked' : ''}}> Female
 								</label>
 							</div>
 							@error('gender')
@@ -109,14 +114,76 @@
 							@enderror
 						</div>
 					</div>
-					@if (Auth::id() == $admin->id)
+					<div class="row">
+						<label class="col-sm-2 label-on-right">Status</label>
+						<div class="col-sm-5">
+							<div class="form-group label-floating is-empty">
+								<label class="control-label"></label>
+								<select name="status" id="" class="selectpicker" data-style="select-with-transition" title="Choose Status">
+									<option value="" disabled>Choose Status</option>
+									<option value="1"
+										{{ old('status') == '1' 
+											|| $admin->status == '1' 
+												? 'selected' : ''
+										}}
+									>
+										Active
+									</option>
+									<option value="0"
+										{{ old('status') == '0' 
+											|| $admin->status == '0' 
+												? 'selected' : ''
+										}}
+									>
+										Inactive
+									</option>
+								</select>
+								@error('status')
+									<div class="alert alert-danger">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-2 label-on-right">Role</label>
+						<div class="col-sm-5">
+							<div class="form-group label-floating is-empty">
+								<label class="control-label"></label>
+								<select name="is_super" id="" class="selectpicker" data-style="select-with-transition" title="Choose Role">
+									<option value="" disabled>Choose Role</option>
+									<option value="1"
+										{{ old('is_super') == '1' 
+											|| $admin->is_super == '1' 
+												? 'selected' : ''
+										}}
+									>
+										Super Admin
+									</option>
+									<option value="0"
+										{{ old('is_super') == '0' 
+											|| $admin->is_super == '0' 
+												? 'selected' : ''
+										}}
+									>
+										Admin
+									</option>
+								</select>
+								@error('is_super')
+									<div class="alert alert-danger">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
+						</div>
+					</div>
+					@if (! $admin->is_super)
 						<div class="row">
 							<div class="col-md-12 text-center">
-								<a href="{{ route('profile.show') }}">
-									<button  type="button" class="btn btn-success">
-										Edit Your Profile
-									</button>
-								</a>
+								<button class="btn btn-success btn-round">
+									save
+								</button>
 							</div>
 						</div>
 					@endif

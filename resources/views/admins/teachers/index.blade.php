@@ -81,6 +81,7 @@
 					<th>DOB</th>
 					<th>Address</th>
 					<th>Gender</th>
+					<th>Status</th>
 					<th>Actions</th>
 				</tr>
 			</thead>

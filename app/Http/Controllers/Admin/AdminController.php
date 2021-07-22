@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminStoreFormRequest;
+use App\Http\Requests\AdminUpdateFormRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -95,9 +96,19 @@ class AdminController extends Controller
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Admin $admin)
+    public function update(AdminUpdateFormRequest $request, Admin $admin_manager)
     {
-        //
+        $validated = $request->validated();
+
+        try {
+            $admin_manager->update($validated);
+        } catch (\Exception $e) {
+            return redirect()->route('admin.admin-manager.index')
+                         ->with('error', 'Update failed');
+        }
+
+        return redirect()->route('admin.admin-manager.index')
+                         ->with('success', 'Update successfully');
     }
 
     /**

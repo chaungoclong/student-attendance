@@ -7,8 +7,14 @@
 	<td>{{ $teacher->dob }}</td>
 	<td>{{ $teacher->address }}</td>
 	<td>{{ $teacher->gender }}</td>
-	<td class="td-actions text-right" 
-	style="display: flex; justify-content: space-around;">
+	<td class="text-center">
+		@if ($teacher->status)
+			<span class="badge" style="background: green;">Active</span>
+		@else
+			<span class="badge" style="background: red;">Inactive</span>
+		@endif
+	</td>
+	<td class="td-actions text-center">
 		<a href="{{ route('admin.teacher-manager.show', $teacher->id) }}">
 			<button type="button" rel="tooltip" class="btn btn-info">
 				<i class="material-icons">person</i>
@@ -23,7 +29,7 @@
 </tr>
 @endforeach
 <tr>
-	<td colspan="8">
+	<td colspan="9">
 		{{ $teachers->links() }}
 	</td>
 </tr>

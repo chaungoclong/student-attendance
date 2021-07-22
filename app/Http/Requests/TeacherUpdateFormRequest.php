@@ -32,6 +32,7 @@ class TeacherUpdateFormRequest extends FormRequest
             'gender' => 'required',
             'address' => 'required',
             'email' => 'required|email|unique:teachers,email,' . $id,
+            'status' => 'required',
         ];
     }
 }

@@ -13,13 +13,28 @@
 	<td>{{ $admin->dob }}</td>
 	<td>{{ $admin->address }}</td>
 	<td>{{ $admin->gender }}</td>
-	<td class="td-actions text-right" 
-	style="display: flex; justify-content: space-around;">
-		<a href="{{ route('admin.admin-manager.show', $admin->id) }}">
-			<button type="button" rel="tooltip" class="btn btn-info">
-				<i class="material-icons">person</i>
-			</button>
-		</a>
+	<td class="td-actions text-center">
+		@if ($admin->is_super && Auth::id() == $admin->id)
+			<a href="{{ route('profile.show') }}">
+				<button type="button" rel="tooltip" class="btn btn-info">
+					My Profile
+				</button>
+		    </a>
+		@else
+			<a href="{{ route('admin.admin-manager.show', $admin->id) }}">
+				<button type="button" rel="tooltip" class="btn btn-info">
+					<i class="material-icons">person</i>
+				</button>
+		    </a>
+		@endif
+
+		@if (! $admin->is_super)
+			<a href="{{ route('admin.admin-manager.show', $admin->id) }}">
+				<button type="button" rel="tooltip" class="btn btn-success">
+					<i class="material-icons">edit</i>
+				</button>
+		    </a>
+		@endif
 	</td>
 </tr>
 @endforeach

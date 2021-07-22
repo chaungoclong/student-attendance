@@ -8,9 +8,15 @@
 	<td>{{ $student->dob }}</td>
 	<td>{{ $student->address }}</td>
 	<td>{{ $student->gender }}</td>
-	<td>{{ $student->grade->name }}</td>
-	<td class="td-actions text-right" 
-	style="display: flex; justify-content: space-around;">
+	<td>{{ $student->grade->name . $student->grade->yearSchool->name }}</td>
+	<td class="text-center">
+		@if ($student->status)
+			<span class="badge" style="background: green;">Active</span>
+		@else
+			<span class="badge" style="background: red;">Inactive</span>
+		@endif
+	</td>
+	<td class="td-actions text-center">
 		<a href="{{ route('admin.student-manager.show', $student->id) }}">
 			<button type="button" rel="tooltip" class="btn btn-info">
 				<i class="material-icons">person</i>
@@ -25,7 +31,7 @@
 </tr>
 @endforeach
 <tr>
-	<td colspan="8">
+	<td colspan="11">
 		{{ $students->links() }}
 	</td>
 </tr>

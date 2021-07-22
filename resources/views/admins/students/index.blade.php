@@ -30,7 +30,7 @@
 					<option value="">All</option>
 					@foreach ($grades as $grade)
 					<option value="{{ $grade->id }}">
-						{{ $grade->name }}
+						{{ $grade->name . $grade->yearSchool->name }}
 					</option>
 					@endforeach
 				</select>
@@ -96,6 +96,7 @@
 						<th>Address</th>
 						<th>Gender</th>
 						<th>Class</th>
+						<th>Status</th>
 						<th>Actions</th>
 					</tr>
 				</thead>

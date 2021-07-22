@@ -44,7 +44,7 @@
 												? 'selected' : '' 
 											}}
 										>
-											{{ $grade->name }}
+											{{ $grade->name . $grade->yearSchool->name }}
 										</option>
 									@endforeach
 								</select>
