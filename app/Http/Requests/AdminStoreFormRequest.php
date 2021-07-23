@@ -30,7 +30,8 @@ class AdminStoreFormRequest extends FormRequest
             'gender' => 'required',
             'address' => 'required',
             'email' => 'required|email|unique:admins',
-            'password' => 'required|min:8|max:32'
+            'password' => 'required|min:8|max:32',
+            'is_super' => 'required',
         ];
     }
 }

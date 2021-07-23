@@ -94,6 +94,7 @@
 						<button type="button" class="btn btn-primary btn-round" id="addRow">NEW ASSIGN</button>
 						<button class="btn btn-success btn-round" id="btnSubmit">SAVE</button>
 						<button type="reset" class="btn btn-warning btn-round">RESET</button>
+						<button type="button" class="btn btn-danger btn-round" onclick="window.location.replace('{{ route('admin.assign.index') }}')">back</button>
 					</div>
 				</div>
 			</form>

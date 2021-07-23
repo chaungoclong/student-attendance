@@ -27,7 +27,7 @@
 					<option value="">All</option>
 					@foreach ($grades as $grade)
 					<option value="{{ $grade->id }}">
-						{{ $grade->name }}
+						{{ $grade->name . $grade->yearSchool->name }}
 					</option>
 					@endforeach
 				</select>
@@ -61,7 +61,10 @@
 
 			{{-- add --}}
 			<a href="{{ route('admin.assign.create') }}">
-				<button class="btn btn-success">Add new</button>
+				<button class="btn btn-success btn-round"
+				data-toggle="tooltip" title="Add New Assign" data-placement="left" style="padding-left: 14px; padding-right: 14px;">
+					<i class="fas fa-plus fa-lg"></i>
+				</button>
 			</a>
 		</div>
 
@@ -85,7 +88,8 @@
 						<th>Subject</th>
 						<th>Teacher</th>
 						<th>Duration</th>
-						<th width="10%">Action</th>
+						<th>Status</th>
+						<th class="text-right">Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -104,6 +108,8 @@
 		setTimeout(() => {
 			$('.alert').remove();
 		}, 5000);
+
+		$('[data-toggle="tooltip"]').tooltip();
 		
 		// alert success when add new assign success
 		// if (localStorage.getItem('assign_success') !== null) {
@@ -157,6 +163,7 @@
 			dataType: 'json',
 			success: function(res) {
 				$('tbody').html(res.html);
+				$('[data-toggle="tooltip"]').tooltip();
 			},
 			error: function(res) {
 				let error = res.responseJSON;

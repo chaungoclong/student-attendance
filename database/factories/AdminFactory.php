@@ -24,7 +24,7 @@ class AdminFactory extends Factory
     {
         return [
             'name'       => $this->faker->name(),
-            'dob'        => $this->faker->date(),
+            'dob'        => $this->faker->date('d-m-Y'),
             'gender'     => $this->faker->numberBetween(0, 1),
             'phone'      => $this->faker->unique()->numerify('##########'),
             'address'    => $this->faker->streetAddress(),

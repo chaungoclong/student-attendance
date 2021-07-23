@@ -106,13 +106,13 @@
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="1"
-									{{ old('gender') == 1 ?'checked' : '' }}> Male
+									{{ old('gender') == '1' ?'checked' : '' }}> Male
 								</label>
 							</div>
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="0"
-									{{ old('gender') == 0 ?'checked' : '' }}> Female
+									{{ old('gender') == '0' ?'checked' : '' }}> Female
 								</label>
 							</div>
 							@error('gender')
@@ -124,7 +124,9 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12 text-center">
-							<button class="btn btn-success">save</button>
+							<button class="btn btn-success btn-round">save</button>
+							<button type="reset" class="btn btn-warning btn-round">reset</button>
+							<button type="button" class="btn btn-danger btn-round" onclick="window.location.replace('{{ route('admin.teacher-manager.index') }}')">back</button>
 						</div>
 					</div>
 				</div>

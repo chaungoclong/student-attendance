@@ -135,17 +135,22 @@ class StudentController extends Controller
         $rowPerPage = $request->row ?? $rowPerPage;
 
         // gender filter
-        if ($request->has('gender') && $request->gender !== null) {
+        if (isset($request->gender)) {
             $query->where('gender', $request->gender);
         }
 
         // grade filter
-        if ($request->has('grade') && $request->grade !== null) {
+        if (isset($request->grade)) {
             $query->where('id_grade', $request->grade);
         }
 
+        // status filter
+        if (isset($request->status)) {
+            $query->where('status', $request->status);
+        }
+
         // search: name, email, address, phone
-        if ($request->has('search')) {
+        if (isset($request->search)) {
             $query->where(function($subQuery) use($request) {
                 $search = $request->search;
 

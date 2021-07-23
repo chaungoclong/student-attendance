@@ -18,13 +18,13 @@
 	</td>
 	<td class="td-actions text-center">
 		<a href="{{ route('admin.student-manager.show', $student->id) }}">
-			<button type="button" rel="tooltip" class="btn btn-info">
-				<i class="material-icons">person</i>
+			<button type="button" rel="tooltip" class="btn btn-info btn-info btn-round" data-toggle="tooltip" title="View and Edit" data-placement="left">
+				<i class="material-icons">edit</i>
 			</button>
 		</a>
 		<a href="{{ route('admin.student-manager.show', $student->id) }}">
-			<button type="submit" rel="tooltip" class="btn btn-success">
-				<i class="material-icons">edit</i>
+			<button type="button" rel="tooltip" class="btn btn-danger btn-round" data-toggle="tooltip" title="Delete" data-placement="left">
+				<i class="material-icons">close</i>
 			</button>
 		</a>
 	</td>

@@ -94,17 +94,25 @@
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="1"
-									{{ old('gender') == '1'
-										|| $admin->gender == 'Nam' 
-										? 'checked' : ''}}> Male
+									@if (old('gender') !== null))
+										{{ old('gender') == '1' 
+											? 'checked' : '' }}
+									@else
+										{{ $admin->gender == 'Nam' 
+											? 'checked' : '' }}
+									@endif> Male
 								</label>
 							</div>
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="0"
-									{{ old('gender') == '0'
-										|| $admin->gender == 'Nữ' 
-										? 'checked' : ''}}> Female
+									@if (old('gender') !== null))
+										{{ old('gender') == '0' 
+											? 'checked' : '' }}
+									@else
+										{{ $admin->gender == 'Nữ' 
+											? 'checked' : '' }}
+									@endif> Female
 								</label>
 							</div>
 							@error('gender')
@@ -122,18 +130,24 @@
 								<select name="status" id="" class="selectpicker" data-style="select-with-transition" title="Choose Status">
 									<option value="" disabled>Choose Status</option>
 									<option value="1"
-										{{ old('status') == '1' 
-											|| $admin->status == '1' 
-												? 'selected' : ''
-										}}
+										@if (old('status') !== null))
+											{{ old('status') == '1' 
+												? 'selected' : '' }}
+										@else
+											{{ $admin->status == '1' 
+												? 'selected' : '' }}
+										@endif
 									>
 										Active
 									</option>
 									<option value="0"
-										{{ old('status') == '0' 
-											|| $admin->status == '0' 
-												? 'selected' : ''
-										}}
+										@if (old('status') !== null))
+											{{ old('status') == '0' 
+												? 'selected' : '' }}
+										@else
+											{{ $admin->status == '0' 
+												? 'selected' : '' }}
+										@endif
 									>
 										Inactive
 									</option>
@@ -154,18 +168,24 @@
 								<select name="is_super" id="" class="selectpicker" data-style="select-with-transition" title="Choose Role">
 									<option value="" disabled>Choose Role</option>
 									<option value="1"
-										{{ old('is_super') == '1' 
-											|| $admin->is_super == '1' 
-												? 'selected' : ''
-										}}
+										@if (old('is_super') !== null))
+											{{ old('is_super') == '1' 
+												? 'selected' : '' }}
+										@else
+											{{ $admin->is_super == '1' 
+												? 'selected' : '' }}
+										@endif
 									>
 										Super Admin
 									</option>
 									<option value="0"
-										{{ old('is_super') == '0' 
-											|| $admin->is_super == '0' 
-												? 'selected' : ''
-										}}
+										@if (old('is_super') !== null))
+											{{ old('is_super') == '0' 
+												? 'selected' : '' }}
+										@else
+											{{ $admin->is_super == '0' 
+												? 'selected' : '' }}
+										@endif
 									>
 										Admin
 									</option>
@@ -178,15 +198,19 @@
 							</div>
 						</div>
 					</div>
-					@if (! $admin->is_super)
-						<div class="row">
-							<div class="col-md-12 text-center">
+					<div class="row">
+						<div class="col-md-12 text-center">
+							@if (! $admin->is_super)
 								<button class="btn btn-success btn-round">
 									save
 								</button>
-							</div>
+								<button type="reset" class="btn btn-warning btn-round">
+									reset
+								</button>
+							@endif
+							<button type="button" class="btn btn-danger btn-round" onclick="window.location.replace('{{ route('admin.admin-manager.index') }}')">back</button>
 						</div>
-					@endif
+					</div>
 				</div>
 			</form>
 		</div>

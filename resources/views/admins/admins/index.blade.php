@@ -23,13 +23,33 @@
 				</select>
 			</div>
 
-			{{-- filter --}}
-			<div class="col-lg-3 col-md-3 col-sm-3">
+			{{-- filter gender --}}
+			<div class="col-lg-2 col-md-2 col-sm-2">
 				<select class="selectpicker" data-style="select-with-transition" title="Choose gender" data-size="7" id="filterGender">
 					<option value disabled> Choose gender</option>
 					<option value="">All</option>
 					<option value="1">Male </option>
 					<option value="0">Female</option>
+				</select>
+			</div>
+
+			{{-- filter role --}}
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<select class="selectpicker" data-style="select-with-transition" title="Choose Role" data-size="7" id="filterRole">
+					<option value disabled> Choose Role</option>
+					<option value="">All</option>
+					<option value="1">Super Admin </option>
+					<option value="0">Admin</option>
+				</select>
+			</div>
+
+			{{-- filter status --}}
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<select class="selectpicker" data-style="select-with-transition" title="Choose Status" data-size="7" id="filterStatus">
+					<option value disabled> Choose Status</option>
+					<option value="">All</option>
+					<option value="1">Active</option>
+					<option value="0">Inactive</option>
 				</select>
 			</div>
 
@@ -47,7 +67,10 @@
 
 			{{-- add --}}
 			<a href="{{ route('admin.admin-manager.create') }}">
-				<button class="btn btn-success">Add new</button>
+				<button class="btn btn-success btn-round"
+				data-toggle="tooltip" title="Add New Admin" data-placement="left" style="padding-left: 14px; padding-right: 14px;">
+					<i class="fas fa-plus fa-lg"></i>
+				</button>
 			</a>
 	</div>
 	{{-- alert success --}}
@@ -81,6 +104,7 @@
 					<th>DOB</th>
 					<th>Address</th>
 					<th>Gender</th>
+					<th>Status</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -101,28 +125,31 @@
 			$('.alert').remove();
 		}, 5000);
 
+		$('[data-toggle="tooltip"]').tooltip();
+
 		// fetch data when type in search bar
 		$(document).on('keyup', '#searchBar', function() {
-			let search = $(this).val();
-			let gender = $('#filterGender').val();
-			let row = $('#row').val();
-			fetch_page(search, row, gender);
+			fetch_page(...get_search());
 		});
 
 		// fetch data when choose row
 		$(document).on('change', '#row', function() {
-			let search = $('#searchBar').val();
-			let gender = $('#filterGender').val();
-			let row = $(this).val();
-			fetch_page(search, row, gender);
+			fetch_page(...get_search());
 		});
 
 		// fetch data when choose gender
 		$(document).on('change', '#filterGender', function() {
-			let gender = $(this).val();
-			let search = $('#searchBar').val();
-			let row = $('#row').val();
-			fetch_page(search, row, gender);
+			fetch_page(...get_search());
+		});
+
+		// fetch data when choose role
+		$(document).on('change', '#filterRole', function() {
+			fetch_page(...get_search());
+		});
+
+		// fetch data when choose status
+		$(document).on('change', '#filterStatus', function() {
+			fetch_page(...get_search());
 		});
 
 		// fetch data when click search button
@@ -133,16 +160,13 @@
 		// fetch data when switch page
 		$(document).on('click', '.pagination a', function(e) {
 			e.preventDefault();
-			let search = $('#searchBar').val();
-			let gender = $('#filterGender').val();
 			let page = $(this).attr('href').split('page=')[1];
-			let row = $('#row').val();
-			fetch_page(search, row, gender, page);
+			fetch_page(...get_search(), page);
 		});
 	});
 
-	function fetch_page(search, row = 5, gender = 2, page = 1) {
-		let url =  `{{ route('admin.admin-manager.index') }}?search=${search}&page=${page}&gender=${gender}&row=${row}`;
+	function fetch_page(row = 10, gender, is_super, status, search, page = 1) {
+		let url =  `{{ route('admin.admin-manager.index') }}?row=${row}&gender=${gender}&is_super=${is_super}&status=${status}&search=${search}&page=${page}`;
 
 		$.ajax({
 			url: url,
@@ -150,6 +174,7 @@
 			dataType: 'json',
 			success: function(res) {
 				$('tbody').html(res.html);
+				$('[data-toggle="tooltip"]').tooltip();
 			},
 			error: function(res) {
 				let error = res.responseJSON;
@@ -160,6 +185,16 @@
 				}
 			}
 		});
+	}
+
+	function get_search() {
+		return [
+			$('#row').val(),
+			$('#filterGender').val(),
+			$('#filterRole').val(),
+			$('#filterStatus').val(),
+			$('#searchBar').val()
+		];
 	}
 </script>
 @endpush

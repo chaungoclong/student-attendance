@@ -15,7 +15,7 @@
 
 				{{-- id for FormRequest unique ignore --}}
 				<input type="hidden" name="id" value="{{ $teacher->id }}">
-				<div class="card-header card-header-text" data-background-color="rose">
+				<div class="card-header card-header-text" data-background-color="blue">
 					<h4 class="card-title">Profile Teacher</h4>
 				</div>
 
@@ -96,17 +96,25 @@
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="1"
-									{{ old('gender') == '1'
-										|| $teacher->gender == 'Nam' 
-										? 'checked' : ''}}> Male
+									@if (old('gender') !== null))
+										{{ old('gender') == '1' 
+											? 'checked' : '' }}
+									@else
+										{{ $teacher->gender == 'Nam' 
+											? 'checked' : '' }}
+									@endif> Male
 								</label>
 							</div>
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="0"
-									{{ old('gender') == '0'
-										|| $teacher->gender == 'Nữ' 
-										? 'checked' : ''}}> Female
+									@if (old('gender') !== null))
+										{{ old('gender') == '0' 
+											? 'checked' : '' }}
+									@else
+										{{ $teacher->gender == 'Nữ' 
+											? 'checked' : '' }}
+									@endif> Female
 								</label>
 							</div>
 							@error('gender')
@@ -124,18 +132,24 @@
 								<select name="status" id="" class="selectpicker" data-style="select-with-transition" title="Choose Status">
 									<option value="" disabled>Choose Status</option>
 									<option value="1"
-										{{ old('status') == '1' 
-											|| $teacher->status == '1' 
-												? 'selected' : ''
-										}}
+										@if (old('status') !== null))
+											{{ old('status') == '1' 
+												? 'selected' : '' }}
+										@else
+											{{ $teacher->status == '1' 
+												? 'selected' : '' }}
+										@endif
 									>
 										Active
 									</option>
 									<option value="0"
-										{{ old('status') == '0' 
-											|| $teacher->status == '0' 
-												? 'selected' : ''
-										}}
+										@if (old('status') !== null))
+											{{ old('status') == '0' 
+												? 'selected' : '' }}
+										@else
+											{{ $teacher->status == '0' 
+												? 'selected' : '' }}
+										@endif
 									>
 										Inactive
 									</option>
@@ -150,8 +164,9 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12 text-center">
-							<button class="btn btn-success">save</button>
-							<button type="reset" class="btn btn-warning">reset</button>
+							<button class="btn btn-success btn-round">save</button>
+							<button type="reset" class="btn btn-warning btn-round">reset</button>
+							<button type="button" class="btn btn-danger btn-round" onclick="window.location.replace('{{ route('admin.teacher-manager.index') }}')">back</button>
 						</div>
 					</div>
 				</div>

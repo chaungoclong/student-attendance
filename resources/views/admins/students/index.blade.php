@@ -10,7 +10,7 @@
 		<i class="material-icons">assignment</i>
 	</div>
 	<div class="card-content">
-		<div class="card-header" style="display: flex; justify-content: space-between; align-items: center;"> 
+		<div class="card-title" style="display: flex; justify-content: space-between; align-items: center;"> 
 
 			{{-- number of row to show --}}
 			<div class="col-lg-1 col-md-1 col-sm-1">
@@ -46,6 +46,16 @@
 				</select>
 			</div>
 
+			{{-- filter status --}}
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<select class="selectpicker" data-style="select-with-transition" title="Choose Status" data-size="7" id="filterStatus">
+					<option value disabled> Choose Status</option>
+					<option value="">All</option>
+					<option value="1">Active</option>
+					<option value="0">Inactive</option>
+				</select>
+			</div>
+
 			{{-- search --}}
 			<form class="navbar-form navbar-right" id="formSearch">
 				<div class="form-group form-search is-empty">
@@ -60,7 +70,10 @@
 
 			{{-- add --}}
 			<a href="{{ route('admin.student-manager.create') }}">
-				<button class="btn btn-success">Add new</button>
+				<button class="btn btn-success btn-round"
+				data-toggle="tooltip" title="Add New Student" data-placement="left" style="padding-left: 14px; padding-right: 14px;">
+					<i class="fas fa-plus fa-lg"></i>
+				</button>
 			</a>
 		</div>
 		{{-- alert success --}}
@@ -117,44 +130,31 @@
 			$('.alert').remove();
 		}, 5000);
 
+		$('[data-toggle="tooltip"]').tooltip();
+
 		// fetch data when type in search bar
 		$(document).on('keyup', '#searchBar', function() {
-			let row = $('#row').val();
-			let grade = $('#filterGrade').val();
-			let gender = $('#filterGender').val();
-			let search = $(this).val();
-
-			fetch_page(search, row, gender, grade);
+			fetch_page(...get_search());
 		});
 
-		// fetch data when type in search bar
+		// fetch data when choose grade
 		$(document).on('change', '#filterGrade', function() {
-			let row = $('#row').val();
-			let grade = $(this).val();
-			let gender = $('#filterGender').val();
-			let search = $('#searchBar').val();
-
-			fetch_page(search, row, gender, grade);
+			fetch_page(...get_search());
 		});
 
 		// fetch data when choose row
 		$(document).on('change', '#row', function() {
-			let row = $(this).val();
-			let grade = $('#filterGrade').val();
-			let gender = $('#filterGender').val();
-			let search = $('#searchBar').val();
-
-			fetch_page(search, row, gender, grade);
+			fetch_page(...get_search());
 		});
 
 		// fetch data when choose gender
 		$(document).on('change', '#filterGender', function() {
-			let row = $('#row').val();
-			let grade = $('#filterGrade').val();
-			let gender = $(this).val();
-			let search = $('#searchBar').val();
+			fetch_page(...get_search());
+		});
 
-			fetch_page(search, row, gender, grade);
+		// fetch data when choose status
+		$(document).on('change', '#filterStatus', function() {
+			fetch_page(...get_search());
 		});
 
 		// fetch data when click search button
@@ -165,19 +165,15 @@
 		// fetch data when switch page
 		$(document).on('click', '.pagination a', function(e) {
 			e.preventDefault();
-			
-			let row = $('#row').val();
-			let grade = $('#filterGrade').val();
-			let gender = $('#filterGender').val();
-			let search = $('#searchBar').val();
+
 			let page = $(this).attr('href').split('page=')[1];
 
-			fetch_page(search, row, gender, grade, page);
+			fetch_page(...get_search(), page);
 		});
 	});
 
-	function fetch_page(search, row = 10, gender, grade, page = 1) {
-		let url =  `{{ route('admin.student-manager.index') }}?row=${row}&grade=${grade}&gender=${gender}&search=${search}&page=${page}`;
+	function fetch_page(row = 10, grade, gender, status, search, page = 1) {
+		let url =  `{{ route('admin.student-manager.index') }}?row=${row}&grade=${grade}&gender=${gender}&status=${status}&search=${search}&page=${page}`;
 
 		$.ajax({
 			url: url,
@@ -185,6 +181,7 @@
 			dataType: 'json',
 			success: function(res) {
 				$('tbody').html(res.html);
+				$('[data-toggle="tooltip"]').tooltip();
 			},
 			error: function(res) {
 				let error = res.responseJSON;
@@ -195,6 +192,16 @@
 				}
 			}
 		});
+	}
+
+	function get_search() {
+		return [
+			$('#row').val(),
+			$('#filterGrade').val(),
+			$('#filterGender').val(),
+			$('#filterStatus').val(),
+			$('#searchBar').val()
+		];
 	}
 </script>
 @endpush

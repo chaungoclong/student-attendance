@@ -1,11 +1,18 @@
 @foreach ($admins as $admin)
 <tr>
-	<td>{{ $admin->id }}</td>
+	<td>{{ str_pad($admin->id, 3, "0", STR_PAD_LEFT) }}</td>
 	<td>
 		{{ $admin->name }}
 		@if (Auth::id() == $admin->id)
-			<strong class="text-rose badge" 
-			style="background: #4df74c;">YOU</strong>
+			<strong class="badge" 
+			style="background: lawngreen; display: inline-block; margin-left: 2px;">YOU</strong>
+		@endif
+		@if ($admin->is_super)
+			<span class="badge" style="background: red; display: inline-block; margin-left: 2px;"
+			data-toggle="tooltip" title="Super Admin" data-placement="right">SA</span>
+		@else
+			<span class="badge" style="background: cornflowerblue; display: inline-block; margin-left: 2px;"
+			data-toggle="tooltip" title="Admin" data-placement="right">A</span>
 		@endif
 	</td>
 	<td>{{ $admin->email }}</td>
@@ -13,16 +20,25 @@
 	<td>{{ $admin->dob }}</td>
 	<td>{{ $admin->address }}</td>
 	<td>{{ $admin->gender }}</td>
-	<td class="td-actions text-center">
+	<td class="text-center">
+		@if ($admin->status)
+			<span class="badge" style="background: green;">Active</span>
+		@else
+			<span class="badge" style="background: red;">Inactive</span>
+		@endif
+	</td>
+	<td class="td-actions text-right">
 		@if ($admin->is_super && Auth::id() == $admin->id)
 			<a href="{{ route('profile.show') }}">
-				<button type="button" rel="tooltip" class="btn btn-info">
-					My Profile
+				<button type="button" rel="tooltip" class="btn btn-round btn-success" data-toggle="tooltip" title="My Profile" data-placement="left">
+					MP
 				</button>
 		    </a>
-		@else
+		@endif
+
+		@if ($admin->is_super && Auth::id() != $admin->id)
 			<a href="{{ route('admin.admin-manager.show', $admin->id) }}">
-				<button type="button" rel="tooltip" class="btn btn-info">
+				<button type="button" rel="tooltip" class="btn btn-primary btn-round" data-toggle="tooltip" title="View" data-placement="left">
 					<i class="material-icons">person</i>
 				</button>
 		    </a>
@@ -30,8 +46,13 @@
 
 		@if (! $admin->is_super)
 			<a href="{{ route('admin.admin-manager.show', $admin->id) }}">
-				<button type="button" rel="tooltip" class="btn btn-success">
+				<button type="button" rel="tooltip" class="btn btn-info btn-round" data-toggle="tooltip" title="View and Edit" data-placement="left">
 					<i class="material-icons">edit</i>
+				</button>
+		    </a>
+			<a href="{{ route('admin.admin-manager.show', $admin->id) }}">
+				<button type="button" rel="tooltip" class="btn btn-danger btn-round" data-toggle="tooltip" title="Delete" data-placement="left">
+					<i class="material-icons">close</i>
 				</button>
 		    </a>
 		@endif
@@ -39,7 +60,7 @@
 </tr>
 @endforeach
 <tr>
-	<td colspan="8">
+	<td colspan="9">
 		{{ $admins->links() }}
 	</td>
 </tr>

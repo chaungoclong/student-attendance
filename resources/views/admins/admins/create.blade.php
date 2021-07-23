@@ -106,13 +106,13 @@
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="1"
-									{{ old('gender') == 1 ?'checked' : '' }}> Male
+									{{ old('gender') == '1' ?'checked' : '' }}> Male
 								</label>
 							</div>
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="0"
-									{{ old('gender') == 0 ?'checked' : '' }}> Female
+									{{ old('gender') == '0' ?'checked' : '' }}> Female
 								</label>
 							</div>
 							@error('gender')
@@ -123,8 +123,34 @@
 						</div>
 					</div>
 					<div class="row">
+						<label class="col-sm-2 label-on-right">Role</label>
+						<div class="col-sm-5">
+							<div class="form-group label-floating is-empty">
+								<label class="control-label"></label>
+								<select name="is_super" id="" class="selectpicker" data-style="select-with-transition" title="Choose Role">
+									<option value="" disabled>Choose Role</option>
+									<option value="1" {{ old('is_super') == '1' ? 'selected' : '' }}
+									>
+										Super Admin
+									</option>
+									<option value="0" {{ old('is_super') == '0' ? 'selected' : '' }}
+									>
+										Admin
+									</option>
+								</select>
+								@error('is_super')
+									<div class="alert alert-danger">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
+						</div>
+					</div>
+					<div class="row">
 						<div class="col-md-12 text-center">
-							<button class="btn btn-success">save</button>
+							<button class="btn btn-success btn-round">save</button>
+							<button type="reset" class="btn btn-warning btn-round">reset</button>
+							<button type="button" class="btn btn-danger btn-round" onclick="window.location.replace('{{ route('admin.admin-manager.index') }}')">back</button>
 						</div>
 					</div>
 				</div>

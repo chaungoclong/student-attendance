@@ -135,17 +135,25 @@
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="1"
-									{{ old('gender') == '1'
-										|| $student->gender == 'Nam' 
-										? 'checked' : ''}}> Male
+									@if (old('gender') !== null))
+										{{ old('gender') == '1' 
+											? 'checked' : '' }}
+									@else
+										{{ $student->gender == 'Nam' 
+											? 'checked' : '' }}
+									@endif> Male
 								</label>
 							</div>
 							<div class="radio">
 								<label>
 									<input type="radio" name="gender" value="0"
-									{{ old('gender') == '0'
-										|| $student->gender == 'Nữ' 
-										? 'checked' : ''}}> Female
+									@if (old('gender') !== null))
+										{{ old('gender') == '0' 
+											? 'checked' : '' }}
+									@else
+										{{ $student->gender == 'Nữ' 
+											? 'checked' : '' }}
+									@endif> Female
 								</label>
 							</div>
 							@error('gender')
@@ -163,18 +171,24 @@
 								<select name="status" id="" class="selectpicker" data-style="select-with-transition" title="Choose Status">
 									<option value="" disabled>Choose Status</option>
 									<option value="1"
-										{{ old('status') == '1' 
-											|| $student->status == '1' 
-												? 'selected' : ''
-										}}
+										@if (old('status') !== null))
+											{{ old('status') == '1' 
+												? 'selected' : '' }}
+										@else
+											{{ $student->status == '1' 
+												? 'selected' : '' }}
+										@endif
 									>
 										Active
 									</option>
 									<option value="0"
-										{{ old('status') == '0' 
-											|| $student->status == '0' 
-												? 'selected' : ''
-										}}
+										@if (old('status') !== null))
+											{{ old('status') == '0' 
+												? 'selected' : '' }}
+										@else
+											{{ $student->status == '0' 
+												? 'selected' : '' }}
+										@endif
 									>
 										Inactive
 									</option>
@@ -189,8 +203,9 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12 text-center">
-							<button class="btn btn-success">save</button>
-							<button type="reset" class="btn btn-warning">reset</button>
+							<button class="btn btn-success btn-round">save</button>
+							<button type="reset" class="btn btn-warning btn-round">reset</button>
+							<button type="button" class="btn btn-danger btn-round" onclick="window.location.replace('{{ route('admin.student-manager.index') }}')">back</button>
 						</div>
 					</div>
 				</div>

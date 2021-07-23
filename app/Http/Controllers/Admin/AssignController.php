@@ -204,17 +204,17 @@ class AssignController extends Controller
         $rowPerPage = $request->row ?? $rowPerPage;
 
         // grade filter
-        if ($request->has('grade') && $request->grade !== null) {
+        if (isset($request->grade)) {
             $query->where('id_grade', $request->grade);
         }
 
          // subject filter
-        if ($request->has('subject') && $request->subject !== null) {
+        if (isset($request->subject)) {
             $query->where('id_subject', $request->subject);
         }
 
          // teacher filter
-        if ($request->has('teacher') && $request->teacher !== null) {
+        if (isset($request->teacher)) {
             $query->where('id_teacher', $request->teacher);
         }
 
