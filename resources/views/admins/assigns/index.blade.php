@@ -78,6 +78,15 @@
 				<strong>Success!</strong> {{ session('success') }}
 			</div>
 			@endif
+
+			@if (session('error'))
+			<div class="alert alert-dismissable alert-danger">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-right: 20px;">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<strong>Failed!</strong> {{ session('error') }}
+			</div>
+			@endif
 		</div>
 
 		<div class="table-responsive">

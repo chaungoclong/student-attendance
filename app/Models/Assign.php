@@ -15,7 +15,8 @@ class Assign extends Model
     protected $fillable = [
         "id_grade",
         "id_subject",
-        "id_teacher"
+        "id_teacher",
+        'status'
     ];
 
     public function grade()

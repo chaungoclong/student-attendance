@@ -12,7 +12,7 @@
 		@endif
 	</td>
 	<td class="td-actions text-right">
-		<a href="">
+		<a href="{{ route('admin.assign.show', $assign->id) }}">
 			<button type="button" rel="tooltip" class="btn btn-info btn-info btn-round" data-toggle="tooltip" title="View and Edit" data-placement="left">
 				<i class="material-icons">edit</i>
 			</button>
@@ -26,7 +26,7 @@
 </tr>
 @endforeach
 <tr>
-	<td colspan="5">
+	<td colspan="6">
 		{{ $assigns->links() }}
 	</td>
 </tr>

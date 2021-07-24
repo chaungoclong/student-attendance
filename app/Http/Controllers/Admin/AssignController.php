@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Assign\AssignStoreFormRequest;
+use App\Http\Requests\Assign\AssignUpdateFormRequest;
 use App\Models\Assign;
 use App\Models\Grade;
 use App\Models\Schedule;
@@ -112,7 +113,18 @@ class AssignController extends Controller
      */
     public function show(Assign $assign)
     {
-        //
+        $grades = Grade::all();
+        $subjects = Subject::all();
+        $teachers = Teacher::all();
+
+        $data = [
+            'grades' => $grades,
+            'subjects' => $subjects,
+            'teachers' => $teachers,
+            'assign' => $assign
+        ];
+
+        return view('admins.assigns.show', $data);
     }
 
     /**
@@ -133,9 +145,21 @@ class AssignController extends Controller
      * @param  \App\Models\Assign  $assign
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Assign $assign)
+    public function update(AssignUpdateFormRequest $request, Assign $assign)
     {
-        //
+        $validated = $request->validated();
+
+        try {
+            $assign->update($validated);
+        } catch (\Exception $e) {
+            return redirect()
+                    ->route('admin.assign.index')
+                    ->with('error', 'Update failed');
+        }
+
+        return redirect()
+                    ->route('admin.assign.index')
+                    ->with('success', 'Update successfully');
     }
 
     /**
