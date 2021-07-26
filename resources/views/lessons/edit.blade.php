@@ -11,14 +11,22 @@
 	<input type="time" name="end" class="input" value="{{ $lesson->end }}">
 	<input type="submit" value="Submit" class="btn">
 </form>
-@error('start')
-	<span class="invalid-feedback" role="alert">
-        <p>{{ $message }}</p>
-    </span>
-@enderror
-@error('end')
-	<span class="invalid-feedback" role="alert">
-        <p>{{ $message }}</p>
-    </span>
-@enderror
+<table width="410px">
+	<tr align="center">
+		<td width="210px">
+			@error('start')
+				<span class="invalid-feedback" role="alert">
+			        {{ $message }}
+			    </span>
+			@enderror
+		</td>
+		<td width="200px">
+			@error('end')
+				<span class="invalid-feedback" role="alert">
+			        {{ $message }}
+			    </span>
+			@enderror
+		</td>
+	</tr>
+</table>
 @stop
