@@ -7,6 +7,13 @@
 @section('content')
 <div class="row">
 	<div class="col-md-12">
+		<div class="card-header">
+			{{ Breadcrumbs::render() }}
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
 		<div class="card">
 			<div class="card-header card-header-icon" data-background-color="green">
 				<i class="material-icons">&#xE894;</i>

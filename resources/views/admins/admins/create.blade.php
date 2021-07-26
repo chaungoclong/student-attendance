@@ -7,6 +7,9 @@
 @section('content')
 <div class="row">
 	<div class="col-md-12">
+		<div class="">
+			{{ Breadcrumbs::render() }}
+		</div>
 		<div class="card">
 			<form method="post" action="
 			{{ route('admin.admin-manager.store') }}" class="form-horizontal">
