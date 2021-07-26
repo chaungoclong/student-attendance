@@ -50,11 +50,15 @@
 					<i class="material-icons">edit</i>
 				</button>
 		    </a>
-			<a href="{{ route('admin.admin-manager.show', $admin->id) }}">
-				<button type="button" rel="tooltip" class="btn btn-danger btn-round" data-toggle="tooltip" title="Delete" data-placement="left">
-					<i class="material-icons">close</i>
-				</button>
-		    </a>
+			<a>
+				<form action="{{ route('admin.admin-manager.destroy', $admin->id) }}" method="POST" style="display: inline-block;">
+					@csrf
+					@method('delete')
+					<button type="submit" rel="tooltip" class="btn btn-danger btn-round" data-toggle="tooltip" title="Delete" data-placement="left" onclick="confirm('are you sure?')">
+						<i class="material-icons">close</i>
+					</button>
+		    	</form>
+			</a>
 		@endif
 	</td>
 </tr>
