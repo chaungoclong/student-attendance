@@ -117,9 +117,17 @@ class AdminController extends Controller
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Admin $admin)
+    public function destroy(Admin $admin_manager)
     {
-        //
+        try {
+            $admin_manager->delete();
+        } catch (\Exception $e) {
+            return redirect()->route('admin.admin-manager.index')
+                             ->with('error', 'Delete failed');
+        }
+
+        return redirect()->route('admin.admin-manager.index')
+                         ->with('success', 'Delete successfully');
     }
 
     public function search($request, $rowPerPage)
