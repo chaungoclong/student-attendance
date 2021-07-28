@@ -54,7 +54,7 @@
 				<form action="{{ route('admin.admin-manager.destroy', $admin->id) }}" method="POST" style="display: inline-block;">
 					@csrf
 					@method('delete')
-					<button type="submit" rel="tooltip" class="btn btn-danger btn-round" data-toggle="tooltip" title="Delete" data-placement="left" onclick="confirm('are you sure?')">
+					<button type="submit" rel="tooltip" class="btn btn-danger btn-round" data-toggle="tooltip" title="Delete" data-placement="left" onclick="return confirm('are you sure?')">
 						<i class="material-icons">close</i>
 					</button>
 		    	</form>
