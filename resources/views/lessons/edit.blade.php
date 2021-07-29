@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'lessons')
+@section('name_page', 'lessons')
+
 @section('content')
 <h1>Edit Lesson</h1>
 <form action="{{ route('admin.lesson.update', $lesson->id) }}" method="POST">
