@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'lessons')
-@section('name_page', 'lessons')
+@section('title', 'Lessons')
+@section('name_page', 'Lessons')
 
 @section('content')
 <div class="card">
@@ -9,14 +9,6 @@
 		<i class="material-icons">assignment</i>
 	</div>
 	<div class="card-content">
-		@if(Session::has('message'))
-			@if(Session::get('message')['status'] == true)
-				<div class="alert alert-success">{{ Session::get('message')['content'] }}</div>
-			@endif
-			@if(Session::get('message') == false)
-				<div class="alert alert-danger">{{ Session::get('message')['content'] }}</div>
-			@endif
-		@endif
 		<form action="{{ route('admin.lesson.store') }}" method="POST">
 			@csrf
 			<div class="row text-center" style="text-align: center; display:flex; justify-content:center;">
@@ -39,10 +31,18 @@
 					@enderror
 				</div>
 				<div class="col-md-2 form-group" style="display:flex; align-items:center;">
-					<input type="submit" value="Submit" class="btn btn-success">
+					<input type="submit" value="Submit" class="btn btn-success btn-round">
 				</div>
 			</div>
 		</form>
+		@if(Session::has('message'))
+			@if(Session::get('message')['status'] == true)
+				<div class="alert alert-success">{{ Session::get('message')['content'] }}</div>
+			@endif
+			@if(Session::get('message') == false)
+				<div class="alert alert-danger">{{ Session::get('message')['content'] }}</div>
+			@endif
+		@endif
 		<div class="table-responsive" style="margin-top:25px;">
 			<table class="table">
 				<thead>
@@ -60,7 +60,7 @@
 						<td>{{ $lesson->start }}</td>
 						<td>{{ $lesson->end }}</td>
 						<td>
-							<a data-toggle="tooltip" title="Edit" href="{{ route('admin.lesson.edit', $lesson->id) }}" class="btn btn-info btn-round" data-placement="right">
+							<a data-toggle="tooltip" title="Edit" href="{{ route('admin.lesson.edit', $lesson->id) }}" class="btn btn-info btn-round" data-placement="left">
 								<i class="material-icons">edit</i>
 							</a>
 						</td>
