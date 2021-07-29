@@ -19,7 +19,7 @@ class CreateAssignsTable extends Migration
             $table->unsignedInteger("id_subject");
             $table->unsignedInteger("id_teacher");
             $table->float("time_done")->default(0);
-            $table->boolean('status')->default(true);
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
             $table->unique(["id_grade", "id_subject", "id_teacher"]);
             $table->foreign("id_grade")->references("id")->on("grades");

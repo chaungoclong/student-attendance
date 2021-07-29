@@ -20,11 +20,17 @@
 				<i class="material-icons">edit</i>
 			</button>
 		</a>
-		<a href="{{ route('admin.teacher-manager.show', $teacher->id) }}">
-			<button type="button" rel="tooltip" class="btn btn-info btn-danger btn-round" data-toggle="tooltip" title="Delete" data-placement="left">
-				<i class="material-icons">close</i>
-			</button>
-		</a>
+		@if (! $teacher->hasAssign())
+			<a>
+				<form action="{{ route('admin.teacher-manager.destroy', $teacher->id) }}" method="POST" style="display: inline-block;">
+					@csrf
+					@method('delete')
+					<button type="submit" rel="tooltip" class="btn btn-danger btn-round" data-toggle="tooltip" title="Delete" data-placement="left" onclick="return confirm('are you sure?')">
+						<i class="material-icons">close</i>
+					</button>
+		    	</form>
+			</a>
+		@endif
 	</td>
 </tr>
 @endforeach

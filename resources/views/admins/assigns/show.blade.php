@@ -139,6 +139,30 @@
 									>
 										Inactive
 									</option>
+									<option value="2"
+										@if (old('status') !== null))
+											{{ old('status') == '2' 
+												? 'selected' : '' }}
+										@else
+											{{ $assign->status == '2' 
+												? 'selected' : '' }}
+										@endif
+										disabled 
+									>
+										Moved
+									</option>
+									<option value="3"
+										@if (old('status') !== null))
+											{{ old('status') == '3' 
+												? 'selected' : '' }}
+										@else
+											{{ $assign->status == '3' 
+												? 'selected' : '' }}
+										@endif
+										disabled 
+									>
+										Done
+									</option>
 								</select>
 								@error('status')
 									<div class="alert alert-danger">

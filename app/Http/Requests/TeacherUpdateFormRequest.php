@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TeacherUpdateFormRequest extends FormRequest
 {
@@ -23,15 +24,22 @@ class TeacherUpdateFormRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->request->get('id');
+        // $id = $this->request->get('id');
         return [
             'name' => 'required|min:3',
             'dob' => 'required',
-            'phone' => 'required|regex:/^[0-9]{10}$/|unique:teachers,phone,' 
-                        . $id,
+            'phone' => [
+                'required',
+                'regex:/^[0-9]{10}$/',
+                Rule::unique('teachers')->ignore($this->teacher_manager),
+            ],
             'gender' => 'required',
             'address' => 'required',
-            'email' => 'required|email|unique:teachers,email,' . $id,
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('teachers')->ignore($this->teacher_manager)
+            ],
             'status' => 'required',
         ];
     }

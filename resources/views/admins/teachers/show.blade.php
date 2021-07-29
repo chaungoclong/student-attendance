@@ -20,6 +20,17 @@
 				</div>
 
 				<div class="card-content">
+					<div class="card-title">
+						{{-- alert error --}}
+						@if (session('error'))
+						<div class="alert alert-dismissable alert-danger">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-right: 20px;">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<strong>Error!</strong> {{ session('error') }}
+						</div>
+						@endif
+					</div>
 					<div class="row">
 						<label class="col-sm-2 label-on-right">Fullname</label>
 						<div class="col-sm-10">

@@ -5,11 +5,26 @@
 	<td>{{ $assign->teacher->name }}</td>
 	<td>{{ $assign->time_done }}</td>
 	<td class="text-center">
-		@if ($assign->status)
-			<span class="badge" style="background: green;">Active</span>
-		@else
-			<span class="badge" style="background: red;">Inactive</span>
-		@endif
+		@switch($assign->status)
+			@case('0')
+		        <span class="badge" style="background: red;">Inactive</span>
+		        @break;
+
+		    @case('1')
+		        <span class="badge" style="background: green;">Active</span>
+		        @break;
+
+		    @case('2')
+		        <span class="badge" style="background: orange;">Moved</span>
+		        @break;
+
+		    @case('3')
+		        <span class="badge" style="background: blue;">Done</span>
+		        @break;
+		
+		    @default
+		        <span class="badge" style="background: red;">Inactive</span>
+		@endswitch
 	</td>
 	<td class="td-actions text-right">
 		<a href="{{ route('admin.assign.show', $assign->id) }}">
