@@ -19,20 +19,9 @@ class GradeController extends Controller
     {
         //
         $dataGrades = Array();
-        $yearSchools = YearSchool::all();
-        $grades = Grade::all();
+        $yearSchools = YearSchool::paginate(6);
 
-        foreach ($yearSchools as $index => $yearSchool) {
-            $dataGrades[$index]['name'] = $yearSchool->name;
-            $dataGrades[$index]['id'] = $yearSchool->id;
-            foreach ($grades as $grade) {
-                if ($yearSchool->id == $grade->id_year_school) {
-                     $dataGrades[$index][$yearSchool->id][] = $grade;
-                }
-            }
-        }
-
-        return view('grades.index')->with('dataGrades', $dataGrades);
+        return view('grades.index')->with('yearSchools', $yearSchools);
     }
 
     /**
