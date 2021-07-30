@@ -4,8 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Lesson;
+use App\Models\ClassRoom;
+use App\Models\Assign;
 
 class Schedule extends Model
 {
     use HasFactory;
+
+    public function lesson () {
+        return $this->belongsTo(Lesson::class, 'id_lesson');
+    }
+
+    public function classRoom () {
+        return $this->belongsTo(ClassRoom::class, 'id_class_room');
+    }
+
+    public function assign () {
+        return $this->belongsTo(Assign::class, 'id_assign');
+    }
 }

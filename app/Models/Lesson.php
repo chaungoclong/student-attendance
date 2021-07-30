@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Models\Schedule;
 
 class Lesson extends Model
 {
@@ -20,5 +21,9 @@ class Lesson extends Model
     public function getEndAttribute($value) {
         return Carbon::createFromFormat('H:i:s', $value)
                       ->format('H:i');
+    }
+
+    public function schedules() {
+        return $this->hasMany(Schedule::class, 'id_lesson');
     }
 }
