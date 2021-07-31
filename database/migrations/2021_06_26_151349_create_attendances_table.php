@@ -16,6 +16,8 @@ class CreateAttendancesTable extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger("id_assign");
+            $table->float('time')->default(0);
+            $table->string('note')->default('');
             $table->timestamps();
             $table->foreign("id_assign")->references("id")->on("assigns");
         });

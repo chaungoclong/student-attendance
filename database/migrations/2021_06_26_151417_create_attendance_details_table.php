@@ -18,6 +18,7 @@ class CreateAttendanceDetailsTable extends Migration
             $table->unsignedInteger("id_attendance");
             $table->unsignedInteger("id_student");
             $table->boolean("status");
+            $table->string('note')->default('');
             $table->unique(["id_attendance", "id_student"]);
             $table->foreign("id_attendance")->references("id")->on("attendances");
         });
