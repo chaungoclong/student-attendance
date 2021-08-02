@@ -13,6 +13,7 @@ use App\Http\Controllers\GradeController;
 use App\Http\Controllers\HomeController as Home;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Teacher\HomeController as HomeTeacher;
 use App\Http\Controllers\YearSchoolController;
 use Illuminate\Support\Facades\Route;
@@ -82,6 +83,8 @@ Route::middleware(['auth:teacher', 'isActive'])->group(function() {
     Route::prefix('teacher')->name('teacher.')->group(function() {
         Route::get('', [HomeTeacher::class, 'index'])
             ->name('dashboard');
+        // attendance
+        Route::resource('attendance', AttendanceController::class);
     });
 });
 

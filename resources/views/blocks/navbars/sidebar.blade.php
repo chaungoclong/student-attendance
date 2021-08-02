@@ -182,13 +182,35 @@
             </li>
 
             {{-- attendance --}}
-            <li>
-                <a>
+           <li>
+                <a data-toggle="collapse" href="#attendance">
                     <i class="material-icons">image</i>
-                    <p> 
-                        Điểm danh
+                    <p> Điểm danh
+                        <b class="caret"></b>
                     </p>
                 </a>
+                <div class="collapse" id="attendance">
+                    <ul class="nav">
+                        <li class="{{ request()->is('teacher/attendance/create') ? 'active' : '' }}">
+                            <a href="{{ route('teacher.attendance.create') }}">
+                                <span class="sidebar-mini"> P </span>
+                                <span class="sidebar-normal"> Tạo điểm danh </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./pages/rtl.html">
+                                <span class="sidebar-mini"> RS </span>
+                                <span class="sidebar-normal"> Xem điểm danh </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./pages/timeline.html">
+                                <span class="sidebar-mini"> T </span>
+                                <span class="sidebar-normal"> Tạo báo cáo </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
 
             {{-- Work --}}

@@ -87,6 +87,8 @@
 <script src="{{ asset('assets/js/material-dashboard.js?v=1.2.1') }}"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="{{ asset('assets/js/demo.js') }}"></script>
+<!-- common helper! -->
+<script src="{{ asset('assets/js/helpers/common.js') }}"></script>
 
 {{-- my script --}}
 @stack('script')

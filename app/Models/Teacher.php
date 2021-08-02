@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Assign;
+use App\Models\Grade;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -136,5 +137,69 @@ class Teacher extends Authenticatable
 
         // get by status
         return $this->assigns->where('status', $status);
+    }
+
+
+    /**
+     * lay danh sach cac lop ma giao vien duoc phan cong theo status cua phan cong neu co. neu khong co status thi lay het cac lop cua giao vien do
+     * @param  [type] $status [description]
+     * @return [type]         [description]
+     */
+    public function getMyGrades($status = null)
+    {
+        // lay het cac lop cua giao vien
+        if ($status === null) {
+            return Grade::whereIn('id', function($query) {
+                $query->selectRaw('id_grade')
+                      ->from('assigns')
+                      ->whereRaw('id_teacher = ?', [$this->id]);
+            })->distinct()->get();
+        }
+
+        // lay cac lop cua giao vien theo status phan cong
+        return Grade::whereIn('id', function($query) use ($status) {
+            $query->selectRaw('id_grade')
+                  ->from('assigns')
+                  ->whereRaw('status = ? and id_teacher = ?', [
+                    $status, $this->id
+                ]);
+        })->distinct()->get();
+    }
+
+    /**
+     * lay cac mon cua giao vien duoc phan cong theo status cua phan cong neu co. neu khong co status thi lay het
+     * @param  [type] $status [description]
+     * @return [type]         [description]
+     */
+    public function getMySubjects($status = null, $idGrade = null)
+    {
+        $where = "id_teacher = ?";
+        $bind = [$this->id];
+
+        // tao cau dieu kien va du lieu dien vao tuong ung
+        if ($status === null && $idGrade === null) {
+            // lay tat ca mon cua giao vien trong phan cong
+            $where = $where;
+            $bind = $bind;
+        } elseif ($status === null) {
+            // lay cac mon theo lop trong phan cong
+            $where .= " and id_grade = ?";
+            $bind[] = $idGrade;
+        } elseif ($idGrade === null) {
+            // lay cac mon theo trang thai phan cong
+            $where .= " and status = ?";
+            $bind[] = $status;
+        } else {
+            // lay cac mon theo trang thai phan cong va lop
+            $where .= " and status = ? and id_grade = ?";
+            $bind = [...$bind, $status, $idGrade];
+        }
+
+        // lay cac mon cua giao vien theo dieu kien
+        return Subject::whereIn('id', function($query) use ($where, $bind) {
+                $query->selectRaw('id_subject')
+                      ->from('assigns')
+                      ->whereRaw($where, $bind);
+        })->distinct()->get();
     }
 }

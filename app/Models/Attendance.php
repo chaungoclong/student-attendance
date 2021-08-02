@@ -9,6 +9,10 @@ class Attendance extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
+    public $timestamps = false;
+
     public function attendanceDetails () {
         return $this->hasMany(AttendanceDetails::class, 'id_attendance');
     }

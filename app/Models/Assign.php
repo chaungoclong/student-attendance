@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Attendance;
 use App\Models\Grade;
+use App\Models\Schedule;
 use App\Models\Subject;
 use App\Models\Teacher;
-use App\Models\Schedule;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +18,8 @@ class Assign extends Model
         "id_grade",
         "id_subject",
         "id_teacher",
-        'status'
+        "status",
+        "time_done"
     ];
 
     public function grade()
@@ -38,5 +40,22 @@ class Assign extends Model
     public function schedules()
     {
         return $this->hasMany(Schedule::class, 'id_assign');
+    }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'id_assign');
+    }
+
+    public function findAttendanceByDate($createdAt)
+    {
+        return $this->attendances
+                    ->where('created_at', '>=', $createdAt)
+                    ->first();
+    }
+
+    public function findScheduleByDay($day)
+    {
+        return $this->schedules->where('day', $day)->first();
     }
 }

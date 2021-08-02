@@ -17,7 +17,7 @@ class CreateAttendancesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger("id_assign");
             $table->float('time')->default(0);
-            $table->string('note')->default('');
+            $table->string('note')->nullable();
             $table->timestamps();
             $table->foreign("id_assign")->references("id")->on("assigns");
         });

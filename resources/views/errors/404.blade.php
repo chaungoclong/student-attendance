@@ -2,4 +2,10 @@
 
 @section('title', __('Not Found'))
 @section('code', '404')
-@section('message', __('Not Found'))
+@section('message')
+	@if (session('message'))
+		{{ session('message') }}
+	@else
+		{{ __('Not Found') }}
+	@endif
+@stop
