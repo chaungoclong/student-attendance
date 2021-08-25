@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Attendance;
 use App\Models\Grade;
+use App\Models\Schedule;
 use App\Models\Subject;
 use App\Models\Teacher;
-use App\Models\Schedule;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Assign extends Model
 {
@@ -17,7 +19,9 @@ class Assign extends Model
         "id_grade",
         "id_subject",
         "id_teacher",
-        'status'
+        "status",
+        "time_done",
+        "start_at"
     ];
 
     public function grade()
@@ -38,5 +42,83 @@ class Assign extends Model
     public function schedules()
     {
         return $this->hasMany(Schedule::class, 'id_assign');
+    }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'id_assign');
+    }
+
+    public function findAttendanceByDate($createdAt)
+    {
+        return $this->attendances
+                    ->where('created_at', '>=', $createdAt)
+                    ->first();
+    }
+
+    public function findScheduleByDay($day)
+    {
+        return $this->schedules->where('day', $day)->first();
+    }
+
+    // convert d-m-Y to Y-m-d when set dob Attribute
+    public function setStartAtAttribute($value)
+    {
+        $this->attributes['start_at'] = Carbon::parse($value)->format('Y-m-d');
+    }
+
+    public function getStartAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-m-Y');
+    }
+
+    public function getInfoAttribute()
+    {
+        $subjectDuration = $this->subject->duration;
+
+        $timeDonePreviousMonths = Attendance::whereRaw(
+                "DATE(created_at) < DATE_FORMAT(NOW(), '%Y-%m-01')"
+            )->where('id_assign', $this->id)->sum('time');
+
+        $timeDoneCurrentMonth = Attendance::whereRaw(
+                'MONTH(created_at) = MONTH(CURDATE()) 
+                AND YEAR(created_at) = YEAR(CURDATE())'
+            )->where('id_assign', $this->id)->sum('time');
+
+        $timeRemain = $subjectDuration - $this->time_done;
+
+        return [
+            'subjectDuration'        => $subjectDuration,
+            'timeDonePreviousMonths' => $timeDonePreviousMonths,
+            'timeDoneCurrentMonth'   => $timeDoneCurrentMonth,
+            'timeRemain'             => $timeRemain
+        ];
+    }
+
+    public function getHistoryAttendance()
+    {
+        $students    = $this->grade->students->sortBy('name');
+        foreach ($students as $key => $student) {
+            $students[$key]->fetchInfoAttendance($this);
+        }
+        
+        $attendances = $this->attendances->sortBy('created_at');
+        $statuses    = [];
+
+        foreach ($students as $key => $student) {
+            foreach ($attendances as $key => $attendance) {
+                $status = $attendance->attendanceDetails
+                                     ->where('id_student', $student->id)
+                                     ->first()->status ?? null;
+
+                $statuses[$attendance->id][$student->id] = $status;
+            }
+        }
+        
+        return (object) [
+            'attendances' => $attendances,
+            'students'    => $students,
+            'statuses'    => $statuses
+        ];
     }
 }

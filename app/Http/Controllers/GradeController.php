@@ -19,7 +19,7 @@ class GradeController extends Controller
     {
         //
         $dataGrades = Array();
-        $yearSchools = YearSchool::paginate(6);
+        $yearSchools = YearSchool::orderByRaw("CAST(substring(name, 2) AS UNSIGNED)")->paginate(6);
 
         return view('grades.index')->with('yearSchools', $yearSchools);
     }

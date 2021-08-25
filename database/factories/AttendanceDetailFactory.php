@@ -26,7 +26,7 @@ class AttendanceDetailFactory extends Factory
         return [
             'id_attendance' => Attendance::inRandomOrder()->first()->id,
             'id_student'    => Student::inRandomOrder()->first()->id,
-            'status'        => $this->faker->numberBetween(0, 2)
+            'status'        => $this->faker->numberBetween(0, 3)
         ];
     }
 }

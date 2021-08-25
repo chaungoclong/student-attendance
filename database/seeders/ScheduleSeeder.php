@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 class ScheduleSeeder extends Seeder
 {
+    private $try_time = 0;
     /**
      * Run the database seeds.
      *

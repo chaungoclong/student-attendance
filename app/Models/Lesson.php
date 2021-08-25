@@ -26,4 +26,9 @@ class Lesson extends Model
     public function schedules() {
         return $this->hasMany(Schedule::class, 'id_lesson');
     }
+
+    public function getTimeAttribute()
+    {
+        return (strtotime($this->end) - strtotime($this->start)) / 3600;
+    }
 }

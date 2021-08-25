@@ -14,8 +14,13 @@ use App\Http\Controllers\GradeController;
 use App\Http\Controllers\HomeController as Home;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Teacher\HomeController as HomeTeacher;
 use App\Http\Controllers\YearSchoolController;
+use App\Models\Assign;
+use App\Models\Attendance;
+use App\Models\Grade;
+use App\Models\Student;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -91,6 +96,16 @@ Route::middleware(['auth:teacher', 'isActive'])->group(function() {
     Route::prefix('teacher')->name('teacher.')->group(function() {
         Route::get('', [HomeTeacher::class, 'index'])
             ->name('dashboard');
+        // attendance
+        Route::get('attendance/history', [
+            AttendanceController::class, 'history'
+        ])->name('attendance.history');
+
+        Route::post('attendance/history', [
+            AttendanceController::class, 'updatehistory'
+        ])->name('attendance.update_history');
+        
+        Route::resource('attendance', AttendanceController::class);
     });
 });
 
@@ -122,10 +137,28 @@ Route::prefix('error')->name('error.')->group(function() {
     Route::view('429', 'errors.429')->name('429');
     Route::view('500', 'errors.500')->name('500');
     Route::view('503', 'errors.503')->name('503');
+    Route::view('', 'errors.custom')->name('custom');
 });
 
 // test
 Route::get('/test', function() {
-    abort(403, "hello");
+  // $students = Grade::find(1)->students;
+  // $data = [];
+  // // dd($students);
+  // $assign = Assign::find(8);
+  // foreach ($students as $key => $student) {
+  //     $students[$key]->fetchInfoAttendance($assign);
+  //     $data[] = (object) [
+  //       "id" => $students[$key]->id,
+  //       "code" => $students[$key]->code,
+  //       "name" => $students[$key]->name,
+  //       "infoAttendance" => $students[$key]->infoAttendance
+  //     ];
+  // }
+  $attendance = Attendance::find(30);
+  $attendanceDetails = $attendance->attendanceDetails;
+  dd($attendanceDetails->map->only('status')->toArray());
+
 });
+
 

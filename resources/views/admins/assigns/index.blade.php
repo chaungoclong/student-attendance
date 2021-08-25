@@ -97,6 +97,7 @@
 						<th>Subject</th>
 						<th>Teacher</th>
 						<th>Duration</th>
+						<th>Start at</th>
 						<th>Status</th>
 						<th class="text-right">Action</th>
 					</tr>

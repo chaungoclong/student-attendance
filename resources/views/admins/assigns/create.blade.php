@@ -31,10 +31,11 @@
 						<table class="table table-hover table-bordered">
 							<thead>
 								<tr>
-									<th class="text-center" width="30%">GRADE</th>
-									<th class="text-center" width="30%">SUBJECT</th>
-									<th class="text-center" width="30%">TEACHER</th>
-									<th class="text-center" width="10%">REMOVE</th>
+									<th class="text-center" width="23%">GRADE</th>
+									<th class="text-center" width="23%">SUBJECT</th>
+									<th class="text-center" width="23%">TEACHER</th>
+									<th class="text-center" width="23%">START</th>
+									<th class="text-center" width="8%">REMOVE</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -46,7 +47,7 @@
 											</option>
 											@foreach ($grades as $grade)
 											<option value="{{ $grade->id }}">
-												{{ $grade->name }}
+												{{ $grade->name . $grade->yearSchool->name }}
 											</option>
 											@endforeach
 										</select>
@@ -82,6 +83,16 @@
 
 										</small>
 									</td>
+
+									<td class="col-input">
+										<div class="form-group label-floating is-empty">
+											<input type="text" class="select select-start" name="start_at[]"/>
+										</div>
+										<small class="show-error error-start">
+
+										</small>
+									</td>
+
 									<td class="text-center">
 										<i class="fas fa-times fa-2x remove-row" data-toggle="tooltip" title="remove this row"  data-placement="left"></i>
 									</td>	
@@ -107,95 +118,116 @@
 <script src="{{ asset('assets/js/helpers/array.js') }}"></script>
 <script src="{{ asset('assets/js/helpers/selector.js') }}"></script>
 <script src="{{ asset('assets/js/app/assigns/validation.js') }}"></script>
+<script src="{{ asset('assets/js/my-datepicker.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('[data-toggle="tooltip"]').tooltip();
+		const app = (function() {
+			const form = $('#form');
 
-		demo.initFormExtendedDatetimepickers();
+			return {
+				// add new row
+				addRow() {
+					let trLast = $('#form .table tbody tr:last');
+					let trNew = trLast.clone();
+					$(trNew).find('input')
+							.removeAttr('id')
+							.removeClass('hasDatepicker')
+							.val('');
 
-		// submit form
-		$(document).on('click', '#btnSubmit', function(e) {
-			e.preventDefault();
+					// effect fade in when add new row
+					trNew.hide().insertAfter(trLast).fadeIn('slow');
 
-			if (validation()) {
-				submit();
+					// clear error when add new row
+					$('.show-error').html('').removeClass('error');
+
+					// set tooltip after add new row
+					$('[data-toggle="tooltip"]').tooltip();
+
+					// set date picker for input field after add new row
+					my_datepicker('.select-start');
+				},
+
+				// remove row
+				removeRow() {
+					let numberOfRow = $('#form .table tbody tr').length;
+					
+					if (numberOfRow > 1) {
+						$(this).closest('tr').fadeOut('slow', function() {
+							$(this).remove();
+						});
+					} else {
+						render_alert('error', 'cannot remove this row', '#message');
+					}
+				},
+
+				// save
+				save() {
+					$.ajax({
+						url: '{{ route('admin.assign.store') }}',
+						type: 'POST',
+						dataType: 'JSON',
+						data: $('#form').serialize(),
+						success: (res) => {
+							window.location.replace(res.url);
+						},
+						error: (res) => {
+							let error = res.responseJSON;
+
+							if ('url' in error) {
+								window.location.replace(error.url);
+							}
+
+							if ('message' in error && 'rowErrors' in error) {
+								let element = [
+										'.error-grade', 
+										'.error-subject', 
+										'.error-teacher'
+									];
+
+								// clear error before display new error
+								clear_error(element, 'error');
+
+								let renderErrorOption = [
+									{
+										element: element, 
+										index: error.rowErrors, 
+										message: error.message,
+										class: 'error'
+									}
+								];
+
+								render_error(renderErrorOption);
+							}
+						}
+					});
+				},
+
+				// run
+				run() {
+					// set datepicker and tooltip
+					my_datepicker('.select-start');
+					$('[data-toggle="tooltip"]').tooltip();
+
+					// add row
+					$(document).on('click', '#addRow', this.addRow);
+
+					// remove row
+					$(document).on('click', '.remove-row', this.removeRow);
+
+					// save
+					$(document).on('click', '#btnSubmit', (e) => {
+						e.preventDefault();
+
+						if (validation()) {
+							this.save();
+						}
+					});
+				}
 			}
-		});
+		})();
 
-		// add new row
-		$(document).on('click', '#addRow', function() {
-			let trLast = $('#form .table tbody tr:last');
-			let trNew = trLast.clone();
-			trNew.hide().insertAfter(trLast).fadeIn('slow');
-
-			// clear error
-			$('.show-error').html('').removeClass('error');
-			$('[data-toggle="tooltip"]').tooltip();
-		});
-
-		// remove row
-		$(document).on('click', '.remove-row', function() {
-			let numberOfRow = $('tbody tr').length;
-
-			if (numberOfRow > 1) {
-				$(this).closest('tr').fadeOut('slow', function() {
-					$(this).remove();
-				});
-			} else {
-				$('#message').html('cannot remove this row').addClass('alert alert-danger');
-
-				setTimeout(() => {
-					$('#message').html('').removeClass('alert alert-danger');
-				}, 5000);
-			}
-		});
-
-		// clear error when select
-		$(document).on('change', '.select', function() {
-			$('.show-error').html('').removeClass('error');
-		});
+		app.run();
 	});
 
-	// submit function
-	function submit() {
-		$.ajax({
-			url: '{{ route('admin.assign.store') }}',
-			type: 'POST',
-			dataType: 'JSON',
-			data: $('#form').serialize(),
-			success: (res) => {
-				window.location.replace(res.url);
-			},
-			error: (res) => {
-				let errorRes = res.responseJSON;
-
-				let allErrors = $('.show-error');
-				let errorGrades = $('.error-grade');
-				let errorSubjects = $('.error-subject');
-				let errorTeachers = $('.error-teacher');
-
-				$(allErrors).html('').removeClass('error');
-
-				if (errorRes.code == 1) {
-					let errorRows = errorRes.errorRows;
-					let message = errorRes.message;
-
-					for (let i of errorRows) {
-						$(errorGrades[i]).html(message).addClass('error');
-						$(errorSubjects[i]).html(message).addClass('error');
-						$(errorTeachers[i]).html(message).addClass('error');
-					} 
-				}
-
-				if (errorRes.code == 2) {
-					$('#message').html('').removeClass('alert alert-danger');
-
-					let message = errorRes.message;
-
-					$('#message').html(message).addClass('alert alert-danger');
-				}
-			}
-		});
-	}
 </script>
 @endpush
