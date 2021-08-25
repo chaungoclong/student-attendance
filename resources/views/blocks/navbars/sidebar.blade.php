@@ -88,8 +88,18 @@
                     </a>
                 </li>
 
-                {{-- lession --}}
-                <li>
+                {{-- schedule --}}
+                <li class="{{ request()->is('admin/schedule') || request()->is('admin/schedule*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.schedule.index') }}">
+                        <i class="material-icons">image</i>
+                        <p> 
+                            Quản lý Lịch học
+                        </p>
+                    </a>
+                </li>
+
+                {{-- lesson --}}
+                <li class="{{ request()->is('admin/lesson') || request()->is('admin/lesson/*') ? 'active' : '' }}">
                     <a href="{{ route('admin.lesson.index') }}">
                         <i class="material-icons">image</i>
                         <p> 
@@ -98,18 +108,8 @@
                     </a>
                 </li>
 
-                {{-- schedule --}}
-                <li>
-                    <a>
-                        <i class="material-icons">image</i>
-                        <p> 
-                            Quản lý Lịch học
-                        </p>
-                    </a>
-                </li>
-
                 {{-- year schools --}}
-                <li>
+                <li class="{{ request()->is('admin/yearschool') || request()->is('admin/yearschool/*') ? 'active' : '' }}">
                     <a href="{{ route('admin.yearschool.index') }}">
                         <i class="material-icons">image</i>
                         <p> 
@@ -119,7 +119,7 @@
                 </li>
 
                 {{-- grade --}}
-                <li>
+                <li class="{{ request()->is('admin/grade') || request()->is('admin/grade/*') ? 'active' : '' }}">
                     <a href="{{ route('admin.grade.index') }}">
                         <i class="material-icons">image</i>
                         <p> 
@@ -129,7 +129,7 @@
                 </li>
 
                 {{-- subject --}}
-                <li>
+                <li class="{{ request()->is('admin/subject') || request()->is('admin/subject/*') ? 'active' : '' }}">
                     <a href="{{ route('admin.subject.index') }}">
                         <i class="material-icons">image</i>
                         <p> 
@@ -151,7 +151,7 @@
                 </li>
 
                 {{-- class room --}}
-                <li>
+                <li class="{{ request()->is('admin/classroom') || request()->is('admin/classroom/*') ? 'active' : '' }}">
                     <a href="{{ route('admin.classroom.index') }}">
                         <i class="material-icons">house</i>
                         <p> 

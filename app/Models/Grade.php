@@ -22,4 +22,9 @@ class Grade extends Model
     {
         return $this->belongsTo(YearSchool::class, 'id_year_school');
     }
+
+    public function assigns()
+    {
+        return $this->hasMany(Assign::class, 'id_grade');
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AssignController;
+use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\HomeController as HomeAdmin;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
@@ -27,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
- 
+
 // chi danh cho user(admin,teacher)
 Route::middleware(['auth:admin,teacher', 'isActive'])->group(function() {
     // logout
@@ -74,6 +75,14 @@ Route::middleware(['auth:admin', 'isActive'])->group(function() {
 
         // assign
         Route::resource('assign', AssignController::class);
+
+        // schedule
+        Route::resource('schedule', ScheduleController::class);
+        Route::get('scheduleIndexAll', [ScheduleController::class, 'indexAll'])->name('schedule.indexAll');
+        Route::get('scheduleIndexTeacher', [ScheduleController::class, 'indexTeacher'])->name('schedule.indexTeacher');
+        Route::get('scheduleIndexClass', [ScheduleController::class, 'indexClass'])->name('schedule.indexClass');
+        Route::POST('schedule.ajax', [ScheduleController::class, 'requestAjax'])->name('schedule.requestAjax');
+        Route::POST('schedule.update.ajax', [ScheduleController::class, 'updateMultiSchedule'])->name('schedule.updateMultiSchedule');
     });
 });
 

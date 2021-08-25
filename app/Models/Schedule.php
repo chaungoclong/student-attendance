@@ -12,6 +12,18 @@ class Schedule extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "id_assign",
+        "id_class_room",
+        "day",
+        'id_lesson',
+        'day_finish'
+    ];
+
+    public function getDayAttribute($value) {
+        return "Thứ ". ($value+1);
+    }
+
     public function lesson () {
         return $this->belongsTo(Lesson::class, 'id_lesson');
     }
