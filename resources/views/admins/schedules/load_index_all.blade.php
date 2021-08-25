@@ -16,7 +16,7 @@
 		@endif
 	</td>
 	<td class="td-actions text-right">
-		<a href="{{ route('admin.schedule.show', $schedule->id) }}">
+		<a href="{{ route('admin.schedule.edit', $schedule->assign->id) }}">
 			<button type="button" rel="tooltip" class="btn btn-info btn-info btn-round" data-toggle="tooltip" title="View and Edit" data-placement="left">
 				<i class="material-icons">edit</i>
 			</button>
