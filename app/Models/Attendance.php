@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\AttendanceDetail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\AttendanceDetails;
+
 class Attendance extends Model
 {
     use HasFactory;
@@ -14,6 +15,6 @@ class Attendance extends Model
     public $timestamps = false;
 
     public function attendanceDetails () {
-        return $this->hasMany(AttendanceDetails::class, 'id_attendance');
+        return $this->hasMany(AttendanceDetail::class, 'id_attendance');
     }
 }

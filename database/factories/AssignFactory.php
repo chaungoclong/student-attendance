@@ -28,6 +28,7 @@ class AssignFactory extends Factory
             'id_grade'   => Grade::inRandomOrder()->first()->id,
             'id_subject' => Subject::inRandomOrder()->first()->id,
             'id_teacher' => Teacher::inRandomOrder()->first()->id,
+            'start_at'   => $this->faker->date(),
             'time_done'  => $this->faker->numberBetween(20, 100),
             'created_at' => $this->faker->dateTime($max = 'now'),
             'updated_at' => $this->faker->dateTime($max = 'now')

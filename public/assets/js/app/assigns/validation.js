@@ -1,23 +1,28 @@
 function validation() {
 	let data = get_inputs(
-		'.select-grade', '.select-subject', '.select-teacher'
+			'.select-grade', 
+			'.select-subject', 
+			'.select-teacher', 
+			'.select-start'
 		);
 
 	let grades   = data.select_grade;
 	let subjects = data.select_subject;
 	let teachers = data.select_teacher;
+	let starts   = data.select_start;
 
-	return handle_error(grades, subjects, teachers);
+	return handle_error(grades, subjects, teachers, starts);
 
 }
 
-function handle_error(grades, subjects, teachers) {
+function handle_error(grades, subjects, teachers, starts) {
 	let validated = true;
 
-	let allErrors = $('.show-error');
-	let errorGrades = $('.error-grade');
+	let allErrors     = $('.show-error');
+	let errorGrades   = $('.error-grade');
 	let errorSubjects = $('.error-subject');
 	let errorTeachers = $('.error-teacher');
+	let errorStarts   = $('.error-start');
 
 	// clear all error
 	$(allErrors).html('').removeClass('error');
@@ -41,6 +46,13 @@ function handle_error(grades, subjects, teachers) {
 		if (v === null) {
 			validated = false;
 			$(errorTeachers[k]).html('required').addClass('error');
+		}
+	});
+
+	$(starts).each(function(k, v) {
+		if (v == '') {
+			validated = false;
+			$(errorStarts[k]).html('required').addClass('error');
 		}
 	});
 

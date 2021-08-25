@@ -103,12 +103,6 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="row">
-				<div class="col-md-12 text-center" id="updateAt">
-					
-				</div>
-			</div>
 		</div>
 		<hr style="height: 2px; background: grey;">
 		<div class="table-responsive card">
@@ -241,7 +235,6 @@
 							console.table(res);
 							this.renderResponse(res);
 							alert("cap nhat thanh cong");
-							this.getData(grade.val(), subject.val())
 						},
 						error: (res) => {
 							let error = res.responseJSON;

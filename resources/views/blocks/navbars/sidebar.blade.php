@@ -197,8 +197,8 @@
                                 <span class="sidebar-normal"> Tạo điểm danh </span>
                             </a>
                         </li>
-                        <li>
-                            <a href="./pages/rtl.html">
+                        <li class="{{ request()->is('teacher/attendance/history') ? 'active' : '' }}">
+                            <a href="{{ route('teacher.attendance.history') }}">
                                 <span class="sidebar-mini"> RS </span>
                                 <span class="sidebar-normal"> Xem điểm danh </span>
                             </a>

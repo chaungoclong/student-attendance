@@ -4,24 +4,20 @@
 	<td>{{ $assign->subject->name }}</td>
 	<td>{{ $assign->teacher->name }}</td>
 	<td>{{ $assign->time_done }}</td>
+	<td>{{ $assign->start_at }}</td>
 	<td class="text-center">
 		@switch($assign->status)
 			@case('0')
-		        <span class="badge" style="background: red;">Inactive</span>
+		        <span class="badge" style="background: red;">Moved</span>
 		        @break;
 
 		    @case('1')
-		        <span class="badge" style="background: green;">Active</span>
+		        <span class="badge" style="background: green;">Teaching</span>
 		        @break;
 
 		    @case('2')
-		        <span class="badge" style="background: orange;">Moved</span>
+		        <span class="badge" style="background: orange;">Completed</span>
 		        @break;
-
-		    @case('3')
-		        <span class="badge" style="background: blue;">Done</span>
-		        @break;
-		
 		    @default
 		        <span class="badge" style="background: red;">Inactive</span>
 		@endswitch

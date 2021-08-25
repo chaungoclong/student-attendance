@@ -34,8 +34,8 @@ class AttendanceController extends Controller
     public function create(Request $request)
     {
         $teacher = Auth::user();
-
-        return $this->service->getView($request, $teacher);
+        $view = 'teachers.attendances.create';
+        return $this->service->getView($request, $teacher, $view);
     }
 
     /**
@@ -57,9 +57,18 @@ class AttendanceController extends Controller
      * @param  \App\Models\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function show(Attendance $attendance)
+    public function history(Request $request)
     {
-        //
+        // dd($request);
+        $teacher = Auth::user();
+        $view = 'teachers.attendances.history';
+        return $this->service->getView($request, $teacher, $view);
+    }
+
+    public function updateHistory(Request $request)
+    {
+        $teacher = Auth::user();
+        return $this->service->updateHistory($request, $teacher);
     }
 
     /**

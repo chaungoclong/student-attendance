@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Student extends Authenticatable
 {
@@ -51,5 +52,40 @@ class Student extends Authenticatable
     {
         $this->attributes['dob'] = Carbon::createFromFormat('d-m-Y', $value)
                                           ->format('Y-m-d');
+    }
+
+    public function setInfoAttendanceAttribute($value)
+    {
+        $this->attributes['infoAttendance'] = $value;
+    }
+
+    public function fetchInfoAttendance($assign)
+    {   
+        $totalTimes = count($assign->attendances);
+
+        $query = DB::table('attendances')
+        ->join('attendance_details', 'attendances.id', '=', 'attendance_details.id_attendance')
+        ->where('attendances.id_assign', $assign->id)
+        ->where('attendance_details.id_student', $this->id)
+        ->selectRaw('SUM(IF(attendance_details.status = 0, 1, 0)) as absents, 
+            SUM(IF(attendance_details.status = 1, 1, 0)) as presents, 
+            SUM(IF(attendance_details.status = 2, 1, 0)) as lates, 
+            SUM(IF(attendance_details.status = 3, 1, 0)) as hasReasons');
+
+        $result = (array) $query->get()->toArray()[0];
+        $missTimes = $totalTimes - array_sum($result);
+        $result['missTimes'] = $missTimes;
+        $result['totalTimes'] = $totalTimes;
+
+        // thong ke
+        $timeAsAbsents = $result['absents'] + floor($result['lates'] / 2);
+        $absentPercent = ($totalTimes > 0) 
+                        ? round($timeAsAbsents / $totalTimes * 100) : 0;
+
+        $result['timeAsAbsents'] = $timeAsAbsents;
+        $result['absentPercent'] = $absentPercent;
+        
+        // set attribute infoAttendance
+        $this->infoAttendance = (object) $result;
     }
 }

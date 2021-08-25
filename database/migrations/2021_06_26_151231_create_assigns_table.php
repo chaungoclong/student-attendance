@@ -18,6 +18,7 @@ class CreateAssignsTable extends Migration
             $table->unsignedInteger("id_grade");
             $table->unsignedInteger("id_subject");
             $table->unsignedInteger("id_teacher");
+            $table->date('start_at');
             $table->float("time_done")->default(0);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
