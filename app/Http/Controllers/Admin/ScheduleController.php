@@ -3,19 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Assign;
+use App\Models\ClassRoom;
+use App\Models\Grade;
+use App\Models\Lesson;
+use App\Models\Schedule;
+use App\Models\Subject;
+use App\Models\Teacher;
+use App\Services\ScheduleService;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Services\ScheduleService;
-use App\Models\Schedule;
-use App\Models\Grade;
-use App\Models\Subject;
-use App\Models\Teacher;
-use App\Models\ClassRoom;
-use App\Models\Lesson;
-use App\Models\Assign;
 use Illuminate\Http\Response;
 
 /**
@@ -23,10 +24,7 @@ use Illuminate\Http\Response;
  */
 class ScheduleController extends Controller
 {
-    /**
-     * @var ScheduleService
-     */
-    private ScheduleService $service;
+    private $service;
 
     /**
      * [__construct description]
@@ -89,7 +87,7 @@ class ScheduleController extends Controller
 
         try {
             $this->service->storeRepeat($request);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             var_dump($e);
             $error = [
                 "code" => 2,
@@ -139,7 +137,7 @@ class ScheduleController extends Controller
             ];
         }
 
-        session(['schedule_edit'=> $schedule]);
+        session(['schedule_edit' => $schedule]);
 
         $data = [
             'schedule' => $schedule,
@@ -148,7 +146,7 @@ class ScheduleController extends Controller
             'lessons' => $lessons
         ];
 
-        return view('admins.schedules.edit',$data);
+        return view('admins.schedules.edit', $data);
     }
 
     /**
@@ -166,71 +164,19 @@ class ScheduleController extends Controller
     public function updateMultiSchedule(Request $request)
     {
         $id_assign = $request->id_assign;
-        $id_schedule = $request->id_schedule;
-        $id_class_rooms = $request->id_class_room;
-        $days = $request->day;
-        $id_lessons = $request->id_lesson;
-        $oldSchedules = session('schedule_edit');
-        $successRows = [];
-        $errorRows = [];
-        $result = [];
+        $resultValidate = $this->service->validateUpdateMultiSchedule($request);
 
-        for ($i = 0; $i < count($id_schedule); $i++) {
-            $row = [
-                'id_class_room' => (int)$id_class_rooms[$i],
-                'day' => (int)$days[$i],
-                'id_lesson' => (int)$id_lessons[$i],
-                'id' => (int)$id_schedule[$i]
-            ];
-
-            if (!in_array($row, $oldSchedules)) {
-                $row += [
-                    'id_assign' => $id_assign,
-                    'day_finish' => NULL
-                ];
-                $lessonNew = Lesson::find($row['id_lesson']);
-                if ($oldSchedules[$i]['day'] == $row['day'] && $oldSchedules[$i]['id_class_room'] == $row['id_class_room']) {
-                    $oldLesson = Lesson::find($oldSchedules[$i]['id_lesson']);
-                    if ($this->service->checkLessonUpdateSameClassAndDay($oldLesson, $lessonNew)) {
-                        $successRows[] = $row;
-                        continue;
-                    }
-                    $teacher = $this->service->getTeacherByIdAssign($id_assign);
-                    $allAssignOfTeacher = $teacher->assigns->where('status', 1);
-                    $allLessonOfTeacher = [];
-                    foreach ($allAssignOfTeacher as $assign) {
-                        foreach ($assign->schedules as $schedule) {
-                            if (((int)substr($schedule->day, -1, 1) - 1) == $oldSchedules[$i]['day']) {
-                                $allLessonOfTeacher[] = $schedule->lesson;
-                            }
-                        }
-                    }
-                    $oldLesson = Lesson::find($oldSchedules[$i]['id_lesson']);
-                    $allLessonOfTeacher = array_diff($allLessonOfTeacher, [$oldLesson]);
-                    if (!count($allLessonOfTeacher)) {
-                        $successRows[] = $row;
-                        continue;
-                    }
-                }
-                if ($this->service->checkSchedule($row)) {
-                    $successRows[] = $row;
-                } else {
-                    $errorRows[] = $i;
-                }
-            }
-        }
-
-        if (!empty($errorRows)) {
+        if ($resultValidate['status'] === false) {
             $result['message'] = 'already exist';
-            $result['errorRows'] = $errorRows;
+            $result['errorRows'] = $resultValidate['error_rows'];
             $result['code'] = 1;
-//            return response()->json($result, 422);
+            return response()->json($result, 422);
         } else {
-            foreach ($successRows as $scheduleUpdate) {
+            foreach ($resultValidate['success_row'] as $scheduleUpdate) {
                 $schedule = Schedule::find($scheduleUpdate['id']);
                 try {
-//                    $schedule->update($scheduleUpdate);
-                } catch (\Exception $e) {
+                    $schedule->update($scheduleUpdate);
+                } catch (Exception $e) {
                     return redirect()
                         ->route('admin.schedule.edit', $id_assign)
                         ->with('error', 'Update failed');
@@ -238,8 +184,9 @@ class ScheduleController extends Controller
             }
             $success = ['url' => route('admin.schedule.indexAll')];
             $request->session()->flash('success', 'add schedules successfully');
-//            return response()->json($success, 200);
+            return response()->json($success, 200);
         }
+
     }
 
     /**
@@ -383,8 +330,8 @@ class ScheduleController extends Controller
                     return response()->json([], 422);
                 }
                 $html = view('admins.schedules.schedules_teacher')
-                        ->with('assigns', $assigns)
-                        ->render();
+                    ->with('assigns', $assigns)
+                    ->render();
                 $result = [
                     'html' => $html
                 ];
@@ -406,8 +353,8 @@ class ScheduleController extends Controller
                     return response()->json([], 422);
                 }
                 $html = view('admins.schedules.schedules_grade')
-                        ->with('assigns', $assigns)
-                        ->render();
+                    ->with('assigns', $assigns)
+                    ->render();
                 $result = [
                     'html' => $html
                 ];
