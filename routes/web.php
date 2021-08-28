@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AssignController;
-use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\HomeController as HomeAdmin;
+use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Auth\ChangePasswordController;
@@ -16,6 +16,7 @@ use App\Http\Controllers\LessonController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Teacher\HomeController as HomeTeacher;
+use App\Http\Controllers\Teacher\WorkController;
 use App\Http\Controllers\YearSchoolController;
 use App\Models\Assign;
 use App\Models\Attendance;
@@ -106,6 +107,12 @@ Route::middleware(['auth:teacher', 'isActive'])->group(function() {
         ])->name('attendance.update_history');
         
         Route::resource('attendance', AttendanceController::class);
+
+        // work
+       Route::prefix('work')->name('work.')->group(function() {
+           Route::get('assign', [WorkController::class, 'assign'])
+                ->name('assign');
+       });
     });
 });
 

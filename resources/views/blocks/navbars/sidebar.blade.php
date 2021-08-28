@@ -1,4 +1,4 @@
-<div class="sidebar" data-active-color="rose" data-background-color="white" data-image="{{ asset('assets/img/sidebar-1.jpg') }}">
+<div class="sidebar" data-active-color="green" data-background-color="white" data-image="{{ asset('assets/img/sidebar-1.jpg') }}">
             <!--
         Tip 1: You can change the color of active element of the sidebar using: data-active-color="purple | blue | green | orange | red | rose"
         Tip 2: you can also add an image using data-image tag
@@ -223,8 +223,8 @@
                 </a>
                 <div class="collapse" id="assignMenu">
                     <ul class="nav">
-                        <li>
-                            <a href="./pages/pricing.html">
+                        <li class="{{ request()->is('teacher/work/assign') ? 'active' : '' }}">
+                            <a href="{{ route('teacher.work.assign') }}">
                                 <span class="sidebar-mini"> P </span>
                                 <span class="sidebar-normal"> 
                                   Phân công

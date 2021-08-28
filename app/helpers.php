@@ -26,3 +26,48 @@ if (! function_exists('t_now')) {
 		];
 	}
 }
+
+// count day of month by name
+function count_day_by_name($nameOfDay = '', $timeString = '') {
+  $startMonth = $timeString ? Carbon::parse($timeString)->startOfMonth() 
+                            : Carbon::today()->startOfMonth();
+  
+  $endMonth = $startMonth->copy()->endOfMonth();
+  
+  $nameOfDay = ucfirst(strtolower($nameOfDay));
+  
+  $nameMethod = '';
+  
+  switch($nameOfDay) {
+    case 'Monday':
+      $nameMethod = "isMonday";
+      break;
+    case 'Tuesday':
+      $nameMethod = "isTuesday";
+      break;
+    case 'Wednesday':
+      $nameMethod = "isWednesday";
+      break;
+    case 'Thursday':
+      $nameMethod = "isThursday";
+      break;
+    case 'Friday':
+      $nameMethod = "isFriday";
+      break;
+    case 'Saturday':
+      $nameMethod = "isSaturday";
+      break;
+    case 'Sunday':
+      $nameMethod = "isSunday";
+      break;
+    default:
+      $nameMethod = "isMonday";
+      break;
+  }
+  
+  $count = $startMonth->diffInDaysFiltered(function($date) use($nameMethod) {
+    return $date->$nameMethod();
+  }, $endMonth);
+  
+  return $count;
+}
