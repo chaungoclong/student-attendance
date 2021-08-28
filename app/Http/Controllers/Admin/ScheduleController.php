@@ -131,7 +131,7 @@ class ScheduleController extends Controller
         foreach ($schedules as $value) {
             $schedule[] = [
                 'id_class_room' => $value->id_class_room,
-                'day' => (int)substr($value->day, -1, 1) - 1,
+                'day' => $value->day,
                 'id_lesson' => $value->id_lesson,
                 'id' => $value->id
             ];
@@ -183,6 +183,7 @@ class ScheduleController extends Controller
                 }
             }
             $success = ['url' => route('admin.schedule.indexAll')];
+            session()->forget('schedule_edit');
             $request->session()->flash('success', 'add schedules successfully');
             return response()->json($success, 200);
         }
