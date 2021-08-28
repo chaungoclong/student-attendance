@@ -291,7 +291,7 @@ class ScheduleService
         $allLessonOfTeacher = [];
         foreach ($allAssignOfTeacher as $assign) {
             foreach ($assign->schedules as $schedule) {
-                if (((int)substr($schedule->day, -1, 1) - 1) == $oldDay) {
+                if ($schedule->day == $oldDay) {
                     $allLessonOfTeacher[] = $schedule->lesson;
                 }
             }

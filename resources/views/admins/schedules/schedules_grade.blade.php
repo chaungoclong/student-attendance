@@ -45,7 +45,7 @@
                         @foreach($assign->schedules as $schedule)
                             <tr>
                                 <td>{{ $schedule->classRoom->name }}</td>
-                                <td>{{ $schedule->day }}</td>
+                                <td>{{ "Thứ " . ($schedule->day+1) }}</td>
                                 <td>{{ $schedule->lesson->start." - ".$schedule->lesson->end }}</td>
                                 <td>{{ $schedule->created_at }}</td>
                                 <td>

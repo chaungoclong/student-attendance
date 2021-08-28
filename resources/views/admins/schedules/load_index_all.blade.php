@@ -5,7 +5,7 @@
 	<td>{{ $schedule->assign->subject->name }}</td>
 	<td>{{ $schedule->assign->teacher->name }}</td>
 	<td>{{ $schedule->classRoom->name }}</td>
-	<td>{{ $schedule->day }}</td>
+	<td>{{ "Thứ " . ($schedule->day+1) }}</td>
 	<td>{{ $schedule->lesson->start . __(' - ') . $schedule->lesson->end }}</td>
 
 	<td class="text-center">

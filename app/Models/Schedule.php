@@ -20,10 +20,6 @@ class Schedule extends Model
         'day_finish'
     ];
 
-    public function getDayAttribute($value) {
-        return "Thứ ". ($value+1);
-    }
-
     public function lesson () {
         return $this->belongsTo(Lesson::class, 'id_lesson');
     }
