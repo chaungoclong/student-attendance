@@ -7,8 +7,9 @@
 	<td>{{ $schedule->classRoom->name }}</td>
 	<td>{{ "Thứ " . ($schedule->day+1) }}</td>
 	<td>{{ $schedule->lesson->start . __(' - ') . $schedule->lesson->end }}</td>
+    <td>{{ $schedule->assign->start_at }}</td>
 
-	<td class="text-center">
+    <td class="text-center">
 		@if(isset($schedule->day_finish))
 			{{ __('done') }}
 		@else
