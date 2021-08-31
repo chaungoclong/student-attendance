@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AssignController;
 use App\Http\Controllers\Admin\HomeController as HomeAdmin;
 use App\Http\Controllers\Admin\ScheduleController;
+use App\Http\Controllers\Admin\StatisticController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Auth\ChangePasswordController;
@@ -89,6 +90,15 @@ Route::middleware(['auth:admin', 'isActive'])->group(function() {
         Route::get('scheduleIndexClass', [ScheduleController::class, 'indexClass'])->name('schedule.indexClass');
         Route::POST('schedule.ajax', [ScheduleController::class, 'requestAjax'])->name('schedule.requestAjax');
         Route::POST('schedule.update.ajax', [ScheduleController::class, 'updateMultiSchedule'])->name('schedule.updateMultiSchedule');
+
+        // thong ke
+        Route::prefix('statistic')->name('statistic.')->group(function() {
+            Route::get('attendance', [StatisticController::class, 'attendance'])
+                 ->name('attendance');
+
+            Route::post('export', [StatisticController::class, 'exportExcel'])
+                 ->name('export');
+        });
     });
 });
 

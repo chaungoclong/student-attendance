@@ -59,7 +59,7 @@ class Student extends Authenticatable
         $this->attributes['infoAttendance'] = $value;
     }
 
-    public function fetchInfoAttendance($assign)
+    public function fetchInfoAttendance($assign, $mode = 0)
     {   
         $totalTimes = count($assign->attendances);
 
@@ -73,8 +73,13 @@ class Student extends Authenticatable
             SUM(IF(attendance_details.status = 3, 1, 0)) as hasReasons');
 
         $result = (array) $query->get()->toArray()[0];
-        $missTimes = $totalTimes - array_sum($result);
-        $result['missTimes'] = $missTimes;
+
+        foreach ($result as $key => $value) {
+            $result[$key] = $value ?? 0;
+        }
+        
+        $missTimes            = $totalTimes - array_sum($result);
+        $result['missTimes']  = $missTimes;
         $result['totalTimes'] = $totalTimes;
 
         // thong ke
@@ -87,5 +92,9 @@ class Student extends Authenticatable
         
         // set attribute infoAttendance
         $this->infoAttendance = (object) $result;
+
+        if ($mode) {
+           return (object) $result;
+        }
     }
 }

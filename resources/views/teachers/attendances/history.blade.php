@@ -177,6 +177,7 @@
 
 				// run
 				run() {
+					grade.find('option:disabled').prop('selected', true);
 					// an nut save khi chua chon lop + mon
 					saveBtn.hide();
 

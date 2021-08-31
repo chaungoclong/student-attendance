@@ -161,8 +161,8 @@
                 </li>
 
                 {{-- statistical --}}
-                <li>
-                    <a>
+                <li class="{{ request()->is('admin/statistic/attendance') ? 'active' : '' }}">
+                    <a href="{{ route('admin.statistic.attendance') }}">
                         <i class="material-icons">image</i>
                         <p> 
                             Thống kê

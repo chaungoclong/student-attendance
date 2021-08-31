@@ -195,6 +195,7 @@
 							console.log(error);
 							table.hide();
 							boxInfo.hide();
+							$('#updateAt').html('');
 
 							render_alert('warning', error.message, '#alert', 5000);
 							table.hide();

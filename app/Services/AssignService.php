@@ -110,7 +110,7 @@ class AssignService
         for ($i = 0; $i < count($idGrades); $i++) { 
             $count = Assign::where('id_grade', $idGrades[$i])
                            ->where('id_subject', $idSubjects[$i])
-                           ->where('id_teacher', $idTeachers[$i])
+                           // ->where('id_teacher', $idTeachers[$i])
                            ->count();
 
         	// them STT cua hang vao mang loi neu ton tai ban ghi cua hang do trong DB
@@ -124,7 +124,7 @@ class AssignService
         if (count($rowErrors) > 0) {
         	return [
         		"status" => "error",
-        		"message" => "already exist",
+        		"message" => "Phân công đã tồn tại hoặc môn này đã được dạy bởi giáo viên khác",
         		"rowErrors" => $rowErrors
         	];
         }
