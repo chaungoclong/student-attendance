@@ -287,7 +287,7 @@
 
 					if ('updateAt' in res) {
 						$('#updateAt').html(`
-							<strong class="text-info">Cập nhật lúc: 
+							<strong class="text-info">Điểm danh môn này cập nhật lần cuối lúc: 
 							<span class="text-danger">${res.updateAt}</span>
 							</strong>`
 						);

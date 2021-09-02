@@ -85,7 +85,9 @@ class Assign extends Model
                 AND YEAR(created_at) = YEAR(CURDATE())'
             )->where('id_assign', $this->id)->sum('time');
 
-        $timeRemain = $subjectDuration - $this->time_done;
+        $allTimeDone = $timeDonePreviousMonths + $timeDoneCurrentMonth;
+        $timeRemain  = $subjectDuration - $allTimeDone;
+        $timeRemain  = $timeRemain > 0 ? $timeRemain : 0;
 
         return [
             'subjectDuration'        => $subjectDuration,

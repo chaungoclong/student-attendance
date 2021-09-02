@@ -115,7 +115,7 @@ class AttendanceService
 		// get data for view
 		$data = [];
 
-		if ($this->isCreated($assign->id, $now->date)) {
+		if ($this->isCreated($assign->id, $now->date) || $assign->status == 2) {
 			// $idAttendance = $assign->findAttendanceByDate($now->date)->id;
 			$data = $this->getDataForEdit($assign, $now);
 		} else {
@@ -123,7 +123,7 @@ class AttendanceService
 		}
 
 		// make response success
-		$responseSuccess = $this->makeResponse($assign, $now, $data);
+		$responseSuccess = $this->makeResponse($assign, $data);
 
 		return response()->json($responseSuccess, 200);
 	}
@@ -139,7 +139,14 @@ class AttendanceService
 	// get list student with their attendance record
 	public function getDataForEdit($assign, $now)
 	{	
-		$attendance        = $assign->findAttendanceByDate($now->date);
+		$attendance = null;
+
+		if ($assign->status == 2) {
+			$attendance = $assign->attendances->last();
+		} else {
+			$attendance = $assign->findAttendanceByDate($now->date);
+		}
+	
 		$attendanceDetails = $attendance->attendanceDetails;
 		$grade             = $assign->grade;
 		$students          = $grade->students;
@@ -249,9 +256,14 @@ class AttendanceService
 		$timePerLesson = $schedule->lesson->time;
 		
 		try {
-			if ($this->isCreated($assign->id, $now->date)) {
+			if ($this->isCreated($assign->id, $now->date) 
+				|| $assign->status == 2) {
 				// update attendance
-				$attendance = $assign->findAttendanceByDate($now->date);
+				if ($assign->status == 2) {
+					$attendance = $assign->attendances->last();
+				} else {
+					$attendance = $assign->findAttendanceByDate($now->date);
+				}
 
 				$data = [
 					'note'       => $mainNote, 
@@ -271,11 +283,11 @@ class AttendanceService
 				// add attendance detail
 				if ($this->addAttendanceDetail($idAttendance, $record)) {
 					// update assign (time done, status)
-					$this->updateAssign($assign, $timePerLesson);
+					$this->updateAssign($assign, $timePerLesson, $now);
 				}
 			}
 
-			$responseSuccess = $this->makeResponse($assign, $now);
+			$responseSuccess = $this->makeResponse($assign);
 
 			return response()->json($responseSuccess, 200);
 
@@ -386,7 +398,7 @@ class AttendanceService
 	}
 
 	// update assign
-	public function updateAssign($assign, $timePerLesson)
+	public function updateAssign($assign, $timePerLesson, $now)
 	{
 		$newTimeDone = (float)$assign->time_done + (float)$timePerLesson;
 		$subjectDuration = (float)$assign->subject->duration;
@@ -394,9 +406,13 @@ class AttendanceService
 		
 		try {
 			$assign->update([
-				'statuss' => $status,
+				'status' => $status,
 				'time_done' => $newTimeDone
 			]);
+
+			if ($status == 2) {
+				$assign->schedules()->update(['day_finish' => $now->time]);
+			}
 		} catch (\Exception $e) {
 			throw new CanNotUpdateException("cannot update assign");
 		}
@@ -511,7 +527,7 @@ class AttendanceService
 	}
 
 	// get info assign (time done, duration subject)
-	public function makeResponse($assign, $now, $data = '')
+	public function makeResponse($assign, $data = '')
 	{
 		// info of this assign (time done, time remaining, ...)
 		$response = $assign->info;
@@ -523,7 +539,13 @@ class AttendanceService
 		}
 
 		// last time update of this attendance of this assign
-		$response['updateAt'] = $now->custom;
+		$lastUpdate = '-';
+		if (count($assign->attendances) > 0) {
+			$lastUpdate = $assign->attendances->last()->updated_at;
+			$lastUpdate = Carbon::parse($lastUpdate)->locale('vi')->calendar();
+		}
+
+		$response['updateAt'] = $lastUpdate;
 
 		return $response;
 	}
@@ -549,13 +571,13 @@ class AttendanceService
 			];
 		}
 
-		// da day xong
-		if ($assign->status == 2) {
-			return [
-				'status' => 'error',
-				'message' => 'Đã dạy xong'
-			];
-		}
+		// // da day xong
+		// if ($assign->status == 2) {
+		// 	return [
+		// 		'status' => 'error',
+		// 		'message' => 'Đã dạy xong'
+		// 	];
+		// }
 
 		$schedule = $assign->findScheduleByDay($now->day);
 		// khong dung ngay (khong co lich hoc hom nay)

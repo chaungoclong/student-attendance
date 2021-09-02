@@ -23,6 +23,7 @@ use App\Models\Assign;
 use App\Models\Attendance;
 use App\Models\Grade;
 use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -159,22 +160,17 @@ Route::prefix('error')->name('error.')->group(function() {
 
 // test
 Route::get('/test', function() {
-  // $students = Grade::find(1)->students;
-  // $data = [];
-  // // dd($students);
-  // $assign = Assign::find(8);
-  // foreach ($students as $key => $student) {
-  //     $students[$key]->fetchInfoAttendance($assign);
-  //     $data[] = (object) [
-  //       "id" => $students[$key]->id,
-  //       "code" => $students[$key]->code,
-  //       "name" => $students[$key]->name,
-  //       "infoAttendance" => $students[$key]->infoAttendance
-  //     ];
-  // }
-  $attendance = Attendance::find(30);
-  $attendanceDetails = $attendance->attendanceDetails;
-  dd($attendanceDetails->map->only('status')->toArray());
+    // $teacher = Teacher::find(1);
+    // $assigns = $teacher->assigns;
+    // $startAt = $assigns->min('start_at');
+
+   $period = Carbon\CarbonPeriod::between(now(), now()->addMonth())->addFilter(function ($date) {
+        return $date->isMonday();
+    });
+
+  foreach ($period as $key => $day) {
+      echo $day . "\n";
+  }
 
 });
 
