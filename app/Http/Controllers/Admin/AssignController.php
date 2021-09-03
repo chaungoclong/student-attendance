@@ -138,6 +138,17 @@ class AssignController extends Controller
      */
     public function destroy(Assign $assign)
     {
-        //
+        try {
+            if (count($assign->attendances) == 0 
+                && count($assign->schedules) == 0) {
+               $assign->delete();
+            } else {
+                return redirect()->back()->with('error', 'khong the xoa');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'da xoa');
     }
 }

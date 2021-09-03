@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'preventCache' => \App\Http\Middleware\PreventCache::class,
         'isActive' => \App\Http\Middleware\CheckUserActive::class,
         'isSuper' => \App\Http\Middleware\CheckSuperAdmin::class,
+        'limitRequest' => \App\Http\Middleware\MyLimitRequest::class,
     ];
 }
