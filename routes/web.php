@@ -19,6 +19,7 @@ use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Teacher\HomeController as HomeTeacher;
 use App\Http\Controllers\Teacher\WorkController;
 use App\Http\Controllers\YearSchoolController;
+use App\Http\Controllers\Admin\Schedule\ScheduleExport;
 use App\Models\Assign;
 use App\Models\Attendance;
 use App\Models\Grade;
@@ -91,6 +92,8 @@ Route::middleware(['auth:admin', 'isActive'])->group(function() {
         Route::get('scheduleIndexClass', [ScheduleController::class, 'indexClass'])->name('schedule.indexClass');
         Route::POST('schedule.ajax', [ScheduleController::class, 'requestAjax'])->name('schedule.requestAjax');
         Route::POST('schedule.update.ajax', [ScheduleController::class, 'updateMultiSchedule'])->name('schedule.updateMultiSchedule');
+        Route::GET('schedule.export.signal/{id}', [ScheduleExport::class, 'exportForClass'])->name('schedule.export.signal');
+        Route::POST('schedule.export.multiple', [ScheduleExport::class, 'exportMultipleForClass'])->name('schedule.export.multiple');
 
         // thong ke
         Route::prefix('statistic')->name('statistic.')->group(function() {
@@ -116,7 +119,7 @@ Route::middleware(['auth:teacher', 'isActive'])->group(function() {
         Route::post('attendance/history', [
             AttendanceController::class, 'updatehistory'
         ])->name('attendance.update_history');
-        
+
         Route::resource('attendance', AttendanceController::class);
 
         // work

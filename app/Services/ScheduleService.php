@@ -20,6 +20,38 @@ class ScheduleService
      * @return [type]             [description]
      */
 
+    // search
+    public function search($request, $rowPerPage)
+    {
+        // query builder
+        $query = Schedule::select('*');
+        $rowPerPage = $request->row ?? $rowPerPage;
+
+        // class room filter
+        if (isset($request->classroom)) {
+            $query->where('id_class_room', $request->classroom);
+        }
+
+        // day filter
+        if (isset($request->day)) {
+            $query->where('day', $request->day);
+        }
+
+        // lesson filter
+        if (isset($request->lesson)) {
+            $query->where('id_lesson', $request->lesson);
+        }
+
+        // get list of schedule match with key
+        $schedules = $query->paginate($rowPerPage);
+
+        $html = view('admins.schedules.load_index_all')
+            ->with(['schedules' => $schedules])
+            ->render();
+
+        return response()->json(['html' => $html], 200);
+    }
+
     public function getSubjectsForSchedule($grade)
     {
         $assigns = Assign::where('id_grade', $grade)
@@ -75,6 +107,15 @@ class ScheduleService
             }
         }
 
+        if (session()->has('schedule_edit')) {
+            $oldSchedules = session('schedule_edit');
+            foreach ($oldSchedules as $oldSchedule) {
+                if ($oldSchedule['id_class_room'] == $id_class_room && !in_array($oldSchedule['day'], $data)) {
+                    $data[] = $oldSchedule['day'];
+                }
+            }
+        }
+
         if (!empty($data)) {
             return response()->json($data);
         } else {
@@ -92,6 +133,19 @@ class ScheduleService
         $idLessonInSchedule = [];
         foreach ($schedules as $schedule) {
             $idLessonInSchedule[] = $schedule->id_lesson;
+        }
+
+        if (session()->has('schedule_edit')) {
+            $oldSchedules = session('schedule_edit');
+            $oldLesson = null;
+            foreach ($oldSchedules as $oldschedule) {
+                if ($oldschedule['id_class_room'] == $id_class_room && $oldschedule['day'] == $day) {
+                    $oldLesson = $oldschedule['id_lesson'];
+                }
+            }
+            if (!empty($oldLesson)) {
+                $idLessonInSchedule = array_diff($idLessonInSchedule, [$oldLesson]);
+            }
         }
 
         $lessons = Lesson::whereNotIn('id', $idLessonInSchedule)

@@ -95,7 +95,6 @@
 
                         <div class="row text-center">
                             <button class="btn btn-success btn-round" id="btnSubmit">SAVE</button>
-                            <button type="reset" class="btn btn-warning btn-round">RESET</button>
                             <button type="button" class="btn btn-danger btn-round" onclick="window.location.replace('{{ route('admin.schedule.index') }}')">back</button>
                         </div>
                     </div>
@@ -123,34 +122,6 @@
 
                 if (validationSchedule()) {
                     submit();
-                }
-            });
-
-            // add new row
-            $(document).on('click', '#addRow', function() {
-                let trLast = $('#form .table tbody tr:last');
-                let trNew = trLast.clone();
-                trNew.hide().insertAfter(trLast).fadeIn('slow');
-
-                // clear error
-                $('.show-error').html('').removeClass('error');
-                $('[data-toggle="tooltip"]').tooltip();
-            });
-
-            // remove row
-            $(document).on('click', '.remove-row', function() {
-                let numberOfRow = $('tbody tr').length;
-
-                if (numberOfRow > 1) {
-                    $(this).closest('tr').fadeOut('slow', function() {
-                        $(this).remove();
-                    });
-                } else {
-                    $('#message').html('cannot remove this row').addClass('alert alert-danger');
-
-                    setTimeout(() => {
-                        $('#message').html('').removeClass('alert alert-danger');
-                    }, 5000);
                 }
             });
 

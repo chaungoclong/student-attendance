@@ -61,7 +61,17 @@
 <script src="{{ asset('assets/js/helpers/array.js') }}"></script>
 <script src="{{ asset('assets/js/helpers/selector.js') }}"></script>
 <script type="text/javascript">
-	// submit assign
+    // multiple export
+    $(document).on('click', '#exort_multiple', function (e) {
+        let id_assign = $('#assigns').val();
+        if (id_assign.length === 0) {
+            e.preventDefault();
+            alert("please choose assign");
+            return false;
+        }
+    });
+
+    // submit assign
 	$(document).on('click','#btnTeacher', function (e) {
 		e.preventDefault();
 		let id_teacher = $('#form_teacher select[name = "id_teacher"]').val();

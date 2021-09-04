@@ -58,6 +58,7 @@ class ScheduleController extends Controller
         $teachers = Teacher::all();
         $classrooms = ClassRoom::all();
         $lessons = Lesson::all();
+        session()->forget('schedule_edit');
 
         $data = [
             'classrooms' => $classrooms,
@@ -136,7 +137,7 @@ class ScheduleController extends Controller
                 'id' => $value->id
             ];
         }
-
+        session()->forget('schedule_edit');
         session(['schedule_edit' => $schedule]);
 
         $data = [
@@ -204,18 +205,22 @@ class ScheduleController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function indexAll()
+    public function indexAll(Request $request)
     {
-        $schedules = Schedule::paginate(16);
-        $grades = Grade::all();
-        $subjects = Subject::all();
-        $teachers = Teacher::all();
+        $paginate = 16;
+
+        if ($request->ajax()) {
+            return $this->service->search($request, $paginate);
+        }
+
+        $schedules = Schedule::paginate($paginate);
+        $classrooms = ClassRoom::all();
+        $lessons = Lesson::all();
 
         $data = [
             'schedules' => $schedules,
-            'grades' => $grades,
-            'subjects' => $subjects,
-            'teachers' => $teachers
+            'classrooms' => $classrooms,
+            'lessons' => $lessons
         ];
 
         return view('admins.schedules.index_all', $data);

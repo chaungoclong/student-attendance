@@ -1,18 +1,21 @@
 <div style="display: flex;">
-    <div class="col-md-4 form-group">
-        <select multiple class="input form-control">
-            @foreach ($assigns as $assign)
-                @if(count($assign->schedules))
-                    <option value="{{ $assign->id }}">
-                        {{ $assign->grade->name . " - " . $assign->subject->name }}
-                    </option>
-                @endif
-            @endforeach
-        </select>
-    </div>
-    <div class="col-md-1 form-group">
-        <a href="#" class="btn btn-round btn-success">Export Custom</a>
-    </div>
+    <form action="{{ route('admin.schedule.export.multiple') }}" method="POST">
+        @csrf
+        <div class="col-md-10 form-group">
+            <select multiple class="input form-control" id="assigns" name="id_assigns[]">
+                @foreach ($assigns as $assign)
+                    @if(count($assign->schedules))
+                        <option value="{{ $assign->id }}">
+                            {{ $assign->grade->name . " - " . $assign->subject->name }}
+                        </option>
+                    @endif
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-1 form-group">
+            <button class="btn btn-round btn-success" type="submit" id="exort_multiple">Export Custom</button>
+        </div>
+    </form>
 </div>
 <div>
     @foreach ($assigns as $assign)
@@ -23,7 +26,7 @@
                             <span style="font-size: 20px; font-weight: bold;">{{ $assign->grade->name . " - " . $assign->subject->name}}
                                 <b class="caret"></b>
                             </span>
-                        <a href="#" class="btn btn-round btn-success">export</a>
+                        <a href="{{ route('admin.schedule.export.signal', $assign->id) }}" class="btn btn-round btn-success">export</a>
                     </div>
                 </a>
             @endif
