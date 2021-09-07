@@ -6,10 +6,23 @@
 
 @section('content')
 <div class="card">
-	<div class="card-header card-header-icon" data-background-color="rose">
-		<i class="material-icons">assignment</i>
+	<div class="card-header" data-background-color="blue">
+		<strong style="font-size: 20px;">DANH SÁCH SINH VIÊN</strong>
 	</div>
 	<div class="card-content">
+		<div class="btn-group">
+		  <a type="button" class="btn btn-info utility-btn" data-toggle="tooltip" data-placement="right" title="thêm giáo vụ mới" href="{{ route('admin.student-manager.create') }}">
+		  	THÊM
+		  </a>
+
+		  <a type="button" class="btn btn-success utility-btn" data-toggle="tooltip" data-placement="right" title="nhập danh sách giáo vụ từ file excel" href="{{ route('admin.student-manager.form_import') }}">
+		  	NHẬP
+		  </a>
+
+		  <a type="button" class="btn btn-warning utility-btn" data-toggle="tooltip" data-placement="right" title="xuất danh sách giáo vụ ra file excel" href="{{ route('admin.student-manager.export_excel') }}">
+		  	XUẤT
+		  </a>
+		</div>
 		<div class="card-title" style="display: flex; justify-content: space-between; align-items: center;"> 
 
 			{{-- number of row to show --}}
@@ -30,7 +43,7 @@
 					<option value="">All</option>
 					@foreach ($grades as $grade)
 					<option value="{{ $grade->id }}">
-						{{ $grade->name . $grade->yearSchool->name }}
+						{{ $grade->name }}
 					</option>
 					@endforeach
 				</select>
@@ -67,14 +80,6 @@
 					<div class="ripple-container"></div>
 				</button>
 			</form>
-
-			{{-- add --}}
-			<a href="{{ route('admin.student-manager.create') }}">
-				<button class="btn btn-success btn-round"
-				data-toggle="tooltip" title="Add New Student" data-placement="left" style="padding-left: 14px; padding-right: 14px;">
-					<i class="fas fa-plus fa-lg"></i>
-				</button>
-			</a>
 		</div>
 		{{-- alert success --}}
 		@if (session('success'))

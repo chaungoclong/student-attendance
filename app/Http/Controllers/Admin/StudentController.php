@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Excel\StudentsExport;
+use App\Exports\Excel\StudentsExportMultiple;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentStoreFormRequest;
 use App\Http\Requests\StudentUpdateFormRequest;
+use App\Imports\Excel\StudentsImport;
 use App\Models\Grade;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -15,7 +18,7 @@ class StudentController extends Controller
     public function __construct()
     {
         // khong luu session flash vao cache
-        $this->middleware('preventCache');
+        // $this->middleware('preventCache');
     }
     /**
      * Display a listing of the resource.
@@ -170,5 +173,30 @@ class StudentController extends Controller
                 ->render();
 
         return response()->json(['html' => $html], 200);
+    }
+
+    public function showFormImport()
+    {
+        return view('admins.students.import');
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx']);
+
+        $import = new StudentsImport;
+        $import->import($request->file);
+        $failures = $import->failures();
+
+        if ($failures->count()) {
+            return redirect()->back()->with('failures', $failures);
+        }
+
+        return redirect()->back()->with('success', 'import successfully');
+    }
+
+    public function exportExcel()
+    {
+        return (new StudentsExportMultiple)->download('list_student_' . time() . '.xlsx');
     }
 }

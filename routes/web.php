@@ -72,15 +72,60 @@ Route::middleware(['auth:admin', 'isActive'])->group(function() {
         Route::resource('classroom', ClassroomController::class);
 
         // manager teacher
-        Route::resource('teacher-manager', TeacherController::class);
+        // import
+        Route::get('teacher-manager/import', [
+            TeacherController::class, 'showFormImport'
+        ])->name('teacher-manager.form_import');
+
+        Route::post('teacher-manager/import', [
+            TeacherController::class, 'importExcel'
+        ])->name('teacher-manager.import_excel');
+
+        // export
+        Route::get('teacher-manager/export', [
+            TeacherController::class, 'exportExcel'
+        ])->name('teacher-manager.export_excel');
+
+        Route::resource('teacher-manager', TeacherController::class)
+             ->middleware('preventCache');
 
         // manager admin
+        // import
+        Route::get('admin-manager/import', [
+            AdminController::class, 'showFormImport'
+        ])->name('admin-manager.form_import');
+
+        Route::post('admin-manager/import', [
+            AdminController::class, 'importExcel'
+        ])->name('admin-manager.import_excel');
+
+        // export
+        Route::get('admin-manager/export', [
+            AdminController::class, 'exportExcel'
+        ])->name('admin-manager.export_excel');
+
         Route::resource('admin-manager', AdminController::class)
-              ->middleware('isSuper');
+              ->middleware(['isSuper', 'preventCache']);
 
         Route::resource('lesson', LessonController::class);
 
-        Route::resource('student-manager', StudentController::class);
+        // STUDENT
+        // import
+        Route::get('student-manager/import', [
+            StudentController::class, 'showFormImport'
+        ])->name('student-manager.form_import');
+
+        Route::post('student-manager/import', [
+            StudentController::class, 'importExcel'
+        ])->name('student-manager.import_excel');
+
+        // export
+        Route::get('student-manager/export', [
+            StudentController::class, 'exportExcel'
+        ])->name('student-manager.export_excel');
+
+        Route::resource('student-manager', StudentController::class)
+             ->middleware('preventCache');
 
         // assign
         Route::resource('assign', AssignController::class);
@@ -163,18 +208,7 @@ Route::prefix('error')->name('error.')->group(function() {
 
 // test
 Route::get('/test', function() {
-    // $teacher = Teacher::find(1);
-    // $assigns = $teacher->assigns;
-    // $startAt = $assigns->min('start_at');
-
-   $period = Carbon\CarbonPeriod::between(now(), now()->addMonth())->addFilter(function ($date) {
-        return $date->isMonday();
-    });
-
-  foreach ($period as $key => $day) {
-      echo $day . "\n";
-  }
-
+  return view('admins.admins.import');
 });
 
 
