@@ -45,8 +45,7 @@ class Teacher extends Authenticatable
     // convert d-m-Y to Y-m-d when set dob Attribute
     public function setDobAttribute($value)
     {
-        $this->attributes['dob'] = Carbon::createFromFormat('d-m-Y', $value)
-                                          ->format('Y-m-d');
+        $this->attributes['dob'] = Carbon::parse($value)->format('Y-m-d');
     }
 
     /**

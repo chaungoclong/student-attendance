@@ -4,16 +4,37 @@
 
 @section('name_page', 'List admin')
 
+@push('style')
+<style>
+	.utility-btn {
+		border-radius: 5px;
+	}
+</style>
+@endpush
+
 @section('content')
 <div class="">
 	{{ Breadcrumbs::render() }}
 </div>
 
 <div class="card">
-	<div class="card-header card-header-icon" data-background-color="rose">
-		<i class="material-icons">assignment</i>
+	<div class="card-header" data-background-color="blue">
+		<strong style="font-size: 20px;">DANH SÁCH GIÁO VỤ</strong>
 	</div>
 	<div class="card-content">
+		<div class="btn-group">
+		  <a type="button" class="btn btn-info utility-btn" data-toggle="tooltip" data-placement="right" title="thêm giáo vụ mới" href="{{ route('admin.admin-manager.create') }}">
+		  	THÊM
+		  </a>
+
+		  <a type="button" class="btn btn-success utility-btn" data-toggle="tooltip" data-placement="right" title="nhập danh sách giáo vụ từ file excel" href="{{ route('admin.admin-manager.form_import') }}">
+		  	NHẬP
+		  </a>
+
+		  <a type="button" class="btn btn-warning utility-btn" data-toggle="tooltip" data-placement="right" title="xuất danh sách giáo vụ ra file excel" href="{{ route('admin.admin-manager.export_excel') }}">
+		  	XUẤT
+		  </a>
+		</div>
 		<div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
 
 			{{-- number of row to show --}}
@@ -68,14 +89,6 @@
 					<div class="ripple-container"></div>
 				</button>
 			</form>
-
-			{{-- add --}}
-			<a href="{{ route('admin.admin-manager.create') }}">
-				<button class="btn btn-success btn-round"
-				data-toggle="tooltip" title="Add New Admin" data-placement="left" style="padding-left: 14px; padding-right: 14px;">
-					<i class="fas fa-plus fa-lg"></i>
-				</button>
-			</a>
 	</div>
 	{{-- alert success --}}
 	@if (session('success'))

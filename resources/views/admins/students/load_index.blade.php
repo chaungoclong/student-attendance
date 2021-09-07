@@ -8,7 +8,7 @@
 	<td>{{ $student->dob }}</td>
 	<td>{{ $student->address }}</td>
 	<td>{{ $student->gender }}</td>
-	<td>{{ $student->grade->name . $student->grade->yearSchool->name }}</td>
+	<td>{{ $student->grade->name }}</td>
 	<td class="text-center">
 		@if ($student->status)
 			<span class="badge" style="background: green;">Active</span>

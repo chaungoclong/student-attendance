@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Excel\AdminsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminStoreFormRequest;
 use App\Http\Requests\AdminUpdateFormRequest;
+use App\Imports\Excel\AdminsImport;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
     public function __construct()
     {
         // ngan khong luu flash session vao cache
-        $this->middleware('preventCache');
+        // $this->middleware('preventCache');
     }
     /**
      * Display a listing of the resource.
@@ -171,5 +174,32 @@ class AdminController extends Controller
                 ->render();
 
         return response()->json(['html' => $html], 200);
+    }
+
+    // import admins by excel
+    
+    public function showFormImport()
+    {
+        return view('admins.admins.import');
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx']);
+
+        $import = new AdminsImport;
+        $import->import($request->file);
+        $failures = $import->failures();
+
+        if ($failures->count()) {
+            return redirect()->back()->with('failures', $failures);
+        }
+
+        return redirect()->back()->with('success', 'import successfully');
+    }
+
+    public function exportExcel()
+    {
+        return (new AdminsExport)->download('list_admin_' . time() . '.xlsx');
     }
 }

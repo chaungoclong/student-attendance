@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Excel\TeachersExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TeacherStoreFormRequest;
 use App\Http\Requests\TeacherUpdateFormRequest;
+use App\Imports\Excel\TeachersImport;
 use App\Models\Teacher;
 use App\Services\TeacherService;
 use Illuminate\Http\Request;
@@ -17,7 +19,7 @@ class TeacherController extends Controller
     public function __construct(TeacherService $service)
     {
         // ngan khong luu flash session vao cache
-        $this->middleware('preventCache');
+        // $this->middleware('preventCache');
 
         // teacher service
         $this->service = $service;
@@ -151,6 +153,30 @@ class TeacherController extends Controller
                          ->with('success', 'Delete successfully');
     }
 
+    public function showFormImport()
+    {
+        return view('admins.teachers.import');
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx']);
+
+        $import = new TeachersImport;
+        $import->import($request->file);
+        $failures = $import->failures();
+
+        if ($failures->count()) {
+            return redirect()->back()->with('failures', $failures);
+        }
+
+        return redirect()->back()->with('success', 'import successfully');
+    }
+
+    public function exportExcel()
+    {
+        return (new TeachersExport)->download('list_teacher_' . time() . '.xlsx');
+    }
     /**
      * [search description]
      * @param  [type] $request [description]

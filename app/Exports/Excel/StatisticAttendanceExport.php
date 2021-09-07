@@ -40,7 +40,6 @@ class StatisticAttendanceExport implements FromView, WithTitle, ShouldAutoSize
     {
         $grade = $this->assign->grade;
         return $grade->name 
-                . $grade->yearschool->name 
                 . "-" 
                 . $this->subject->name;
     }
