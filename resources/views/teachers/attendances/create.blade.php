@@ -43,7 +43,7 @@
 						<option selected disabled>Choose Grade</option>
 						@foreach ($grades as $grade)
 						<option value="{{ $grade->id }}">
-							{{ $grade->name . $grade->yearSchool->name }}
+							{{ $grade->name }}
 						</option>
 						@endforeach
 					</select>

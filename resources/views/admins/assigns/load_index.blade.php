@@ -1,6 +1,6 @@
 @foreach ($assigns as $assign)
 <tr>
-	<td>{{ $assign->grade->name . $assign->grade->yearSchool->name }}</td>
+	<td>{{ $assign->grade->name }}</td>
 	<td>{{ $assign->subject->name }}</td>
 	<td>{{ $assign->teacher->name }}</td>
 	<td>{{ $assign->time_done }}</td>
