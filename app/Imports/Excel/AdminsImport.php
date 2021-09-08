@@ -33,7 +33,14 @@ class AdminsImport implements
         $name = $row['ho_ten'];
         
         // dob
-        $dob = Carbon::parse($row['ngay_sinh'])->format('Y-m-d');
+        $dob = transformDate($row['ngay_sinh']);
+
+        if ($dob === null) {
+            return null;
+        } 
+
+        $dob = $dob->format('Y-m-d');
+        // dd($dob);
 
         // gender
         $gender = strtolower(trim($row['gioi_tinh']));
@@ -84,7 +91,7 @@ class AdminsImport implements
     {
         return [
             '*.ho_ten'     => 'required|min:3',
-            '*.ngay_sinh'  => 'required|date_format:d-m-Y',
+            '*.ngay_sinh'  => 'required',
             '*.dien_thoai' => 'required|regex:/^[0-9]{10}$/|unique:admins,phone',
             '*.gioi_tinh'  => 'required',
             '*.dia_chi'    => 'required',
@@ -109,7 +116,7 @@ class AdminsImport implements
             '*.gioi_tinh.required'  => 'Giới tính trống',
             '*.dia_chi.required'    => 'Địa chỉ trống',
             '*.mat_khau.required'   => 'Mật khẩu trống',
-            '*.mat_khau.regex'        => 'Mật khẩu không hợp lệ',
+            '*.mat_khau.regex'      => 'Mật khẩu không hợp lệ',
         ];
     }
 }

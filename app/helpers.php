@@ -1,5 +1,6 @@
 <?php 
 
+use App\Exceptions\CustomErrorException;
 use Carbon\Carbon;
 /**
  * date time
@@ -12,25 +13,25 @@ if (! function_exists('t_now')) {
 		// other date: add hour, minute, second
 		if ($dateString !== '') {
 			$now = Carbon::parse($dateString)
-				->locale('vi')
-				->addHours($now->hour)
-				->addMinutes($now->minute)
-				->addSeconds($now->second);
-		}
+      ->locale('vi')
+      ->addHours($now->hour)
+      ->addMinutes($now->minute)
+      ->addSeconds($now->second);
+    }
 
-		return (object) [
-			'day' => $now->dayOfWeekIso,
-			'date' => $now->toDateString(),
-			'time' => $now,
-			'custom' => $now->isoFormat($customFormat)
-		];
-	}
+    return (object) [
+     'day' => $now->dayOfWeekIso,
+     'date' => $now->toDateString(),
+     'time' => $now,
+     'custom' => $now->isoFormat($customFormat)
+   ];
+ }
 }
 
 // count day of month by name
 function count_day_by_name($nameOfDay = '', $timeString = '') {
   $startMonth = $timeString ? Carbon::parse($timeString)->startOfMonth() 
-                            : Carbon::today()->startOfMonth();
+  : Carbon::today()->startOfMonth();
   
   $endMonth = $startMonth->copy()->endOfMonth();
   
@@ -40,29 +41,29 @@ function count_day_by_name($nameOfDay = '', $timeString = '') {
   
   switch($nameOfDay) {
     case 'Monday':
-      $nameMethod = "isMonday";
-      break;
+    $nameMethod = "isMonday";
+    break;
     case 'Tuesday':
-      $nameMethod = "isTuesday";
-      break;
+    $nameMethod = "isTuesday";
+    break;
     case 'Wednesday':
-      $nameMethod = "isWednesday";
-      break;
+    $nameMethod = "isWednesday";
+    break;
     case 'Thursday':
-      $nameMethod = "isThursday";
-      break;
+    $nameMethod = "isThursday";
+    break;
     case 'Friday':
-      $nameMethod = "isFriday";
-      break;
+    $nameMethod = "isFriday";
+    break;
     case 'Saturday':
-      $nameMethod = "isSaturday";
-      break;
+    $nameMethod = "isSaturday";
+    break;
     case 'Sunday':
-      $nameMethod = "isSunday";
-      break;
+    $nameMethod = "isSunday";
+    break;
     default:
-      $nameMethod = "isMonday";
-      break;
+    $nameMethod = "isMonday";
+    break;
   }
   
   $count = $startMonth->diffInDaysFiltered(function($date) use($nameMethod) {
@@ -70,4 +71,20 @@ function count_day_by_name($nameOfDay = '', $timeString = '') {
   }, $endMonth);
   
   return $count;
+}
+
+if (! function_exists('transformDate')) {
+  function transformDate($value, $format = 'Y-m-d') {
+    try {
+      return Carbon::instance(
+        \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(
+          $value));
+    } catch (\ErrorException $e) {
+      try {
+        return Carbon::createFromFormat($format, $value);
+      } catch (\Carbon\Exceptions\InvalidFormatException $e) {
+        return null;
+      }
+    }
+  }
 }

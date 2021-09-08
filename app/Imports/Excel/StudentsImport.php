@@ -42,7 +42,11 @@ class StudentsImport implements
         $name = $row['ho_ten'];
         
         // dob
-        $dob = Carbon::parse($row['ngay_sinh'])->format('Y-m-d');
+        $dob = transformDate($row['ngay_sinh']);
+
+        if ($dob === null) {
+            return null;
+        } 
 
         // gender
         $gender = strtolower(trim($row['gioi_tinh']));
@@ -97,9 +101,9 @@ class StudentsImport implements
     public function rules() : array
     {
         return [
-            '*.ma_sinh_vien' => 'required',
+            '*.ma_sinh_vien' => 'required|unique:students,code',
             '*.ho_ten'       => 'required|min:3',
-            '*.ngay_sinh'    => 'required|date_format:d-m-Y',
+            '*.ngay_sinh'    => 'required',
             '*.dien_thoai'   => 'required|regex:/^[0-9]{10}$/|unique:students,phone',
             '*.gioi_tinh'    => 'required',
             '*.dia_chi'      => 'required',
@@ -112,6 +116,7 @@ class StudentsImport implements
     {
         return [
             '*.ma_sinh_vien.required' => 'Mã sinh viên trống',
+            '*.ma_sinh_vien.unique'   => 'Mã sinh viên đã tồn tại',
             '*.ho_ten.required'       => 'Họ tên trống',
             '*.ho_ten.min'            => 'Họ tên quá ngắn',
             '*.dien_thoai.regex'      => 'Số điện thoại định dạng không đúng',
@@ -124,7 +129,7 @@ class StudentsImport implements
             '*.ngay_sinh.unique'      => 'Ngày sinh sai định dạng',
             '*.gioi_tinh.required'    => 'Giới tính trống',
             '*.dia_chi.required'      => 'Địa chỉ trống',
-            '*.lop.required'          => 'Lớp trống'
+            '*.lop.required'          => 'Lớp trống',
         ];
     }
 }

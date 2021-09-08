@@ -33,7 +33,11 @@ class TeachersImport implements
         $name = $row['ho_ten'];
         
         // dob
-        $dob = Carbon::parse($row['ngay_sinh'])->format('Y-m-d');
+        $dob = transformDate($row['ngay_sinh']);
+
+        if ($dob === null) {
+            return null;
+        } 
 
         // gender
         $gender = strtolower(trim($row['gioi_tinh']));
@@ -83,7 +87,7 @@ class TeachersImport implements
     {
         return [
             '*.ho_ten'     => 'required|min:3',
-            '*.ngay_sinh'  => 'required|date_format:d-m-Y',
+            '*.ngay_sinh'  => 'required',
             '*.dien_thoai' => 'required|regex:/^[0-9]{10}$/|unique:teachers,phone',
             '*.gioi_tinh'  => 'required',
             '*.dia_chi'    => 'required',
