@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentStoreFormRequest;
 use App\Http\Requests\StudentUpdateFormRequest;
 use App\Imports\Excel\StudentsImport;
+use App\Models\AttendanceDetail;
 use App\Models\Grade;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -126,9 +127,17 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy(Student $student_manager)
     {
-        //
+        try {
+            $student_manager->delete();
+            AttendanceDetail::where('id_student', $student_manager->id)
+                            ->delete();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Delete failed');
+        }
+
+        return redirect()->back()->with('success', 'Delete successfully');
     }
 
     public function search($request, $rowPerPage)

@@ -99,7 +99,10 @@ class Assign extends Model
 
     public function getHistoryAttendance()
     {
-        $students    = $this->grade->students->sortBy('name');
+        $students = $this->grade->students
+                                ->where('status', '1')
+                                ->sortBy('name');
+
         foreach ($students as $key => $student) {
             $students[$key]->fetchInfoAttendance($this);
         }

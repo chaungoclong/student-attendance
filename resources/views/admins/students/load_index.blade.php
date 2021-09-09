@@ -22,11 +22,13 @@
 				<i class="material-icons">edit</i>
 			</button>
 		</a>
-		<a href="{{ route('admin.student-manager.show', $student->id) }}">
-			<button type="button" rel="tooltip" class="btn btn-danger btn-round" data-toggle="tooltip" title="Delete" data-placement="left">
-				<i class="material-icons">close</i>
-			</button>
-		</a>
+		<form action="{{ route('admin.student-manager.destroy', $student) }}" method="POST" style="display: inline-block;">
+				@csrf
+				@method('delete')
+				<button type="submit" rel="tooltip" class="btn btn-danger btn-round" data-toggle="tooltip" title="Delete" data-placement="left" onclick="return confirm('are you sure?')">
+					<i class="material-icons">close</i>
+				</button>
+	    </form>
 	</td>
 </tr>
 @endforeach
