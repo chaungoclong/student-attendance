@@ -17,7 +17,7 @@
 	<table width="100%" style="text-align: center;">
 		<tr>
 			<td style="width: 33.33%">
-				<div style="width: 80%; height: 200px; background-color: #66FFCC;">
+				<div style="width: 80%; height: 200px; background-image: url({{ asset('assets/img/schedule_class.jpg') }});">
 					<a href="{{ route('admin.schedule.indexClass') }}">
 						<button class="btn btn-warning btn-round"
 						data-toggle="tooltip" title="Add New Schedule" data-placement="left" style="padding-left: 14px; padding-right: 14px;">
@@ -27,17 +27,17 @@
 				</div>
 			</td>
 			<td style="width: 33.33%">
-				<div style="width: 80%; height: 200px; background-color: #66FFCC;">
+				<div style="width: 80%; height: 200px; background-image: url({{ asset('assets/img/schedule_teacher_2.jpg') }});">
 					<a href="{{ route('admin.schedule.indexTeacher') }}">
 						<button class="btn btn-primary btn-round"
 						data-toggle="tooltip" title="Add New Schedule" data-placement="left" style="padding-left: 14px; padding-right: 14px;">
-							Quản lý theo giáo viên 
+							Quản lý theo giáo viên
 						</button>
 					</a>
 				</div>
 			</td>
 			<td style="width: 33.33%">
-				<div style="width: 80%; height: 200px; background-color: #66FFCC;">
+				<div style="width: 80%; height: 200px; background-image: url({{ asset('assets/img/schedule_all.jpg') }});">
 					<a href="{{ route('admin.schedule.indexAll') }}">
 						<button class="btn btn-default btn-round"
 						data-toggle="tooltip" title="Add New Schedule" data-placement="left" style="padding-left: 14px; padding-right: 14px;">

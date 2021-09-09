@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\YearSchoolRequest;
 use App\Models\YearSchool;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
+/**
+ *
+ */
 class YearSchoolController extends Controller
 {
+    /**
+     * @var
+     */
     protected $message;
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -25,7 +34,7 @@ class YearSchoolController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -35,19 +44,19 @@ class YearSchoolController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(YearSchoolRequest $request)
     {
         //
         $yearSchool = new YearSchool();
         $yearSchool->name = $request->yearschool;
-        try{
+        try {
             $yearSchool->save();
             $this->message['content'] = "Create Success";
             $this->message['status'] = 1;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->message['content'] = "Create Error";
             $this->message['status'] = 0;
         }
@@ -58,8 +67,8 @@ class YearSchoolController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -69,8 +78,8 @@ class YearSchoolController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
@@ -83,20 +92,20 @@ class YearSchoolController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param YearSchoolRequest $request
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function update(YearSchoolRequest $request, $id)
+    public function update(YearSchoolRequest $request, int $id): RedirectResponse
     {
         //
         $yearSchool = YearSchool::find($id);
         $yearSchool->name = $request->yearschool;
-        try{
+        try {
             $yearSchool->save();
             $this->message['content'] = "Update Success";
             $this->message['status'] = 1;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->message['content'] = "Update Error";
             $this->message['status'] = 0;
         }
@@ -107,19 +116,26 @@ class YearSchoolController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {
         //
-        try {
-            YearSchool::destroy($id);
-            $this->message['content'] = "Delete Success";
-            $this->message['status'] = 1;
-        } catch (Exception $e) {
-            $this->message['content'] = "Detele Error";
+        $yearSchool = YearSchool::find($id);
+
+        if (count($yearSchool->grades)) {
+            $this->message['content'] = "Can't delete this year school";
             $this->message['status'] = 0;
+        } else {
+            try {
+                $yearSchool->delete();
+                $this->message['content'] = "Delete Success";
+                $this->message['status'] = 1;
+            } catch (Exception $e) {
+                $this->message['content'] = "Detele Error";
+                $this->message['status'] = 0;
+            }
         }
 
         return redirect()->route('admin.yearschool.index')->with('message', $this->message);

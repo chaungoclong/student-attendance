@@ -111,13 +111,19 @@ class ClassroomController extends Controller
     public function destroy($id)
     {
         //
-        try {
-            ClassRoom::destroy($id);
-            $this->message['content'] = "Delete success";
-            $this->message['status'] = true;
-        } catch (Exception $e) {
-            $this->message['content'] = "Delete Error";
+        $classroom = ClassRoom::find($id);
+        if (count($classroom->schedules)) {
+            $this->message['content'] = "Can't delete this class room";
             $this->message['status'] = false;
+        } else {
+            try {
+                ClassRoom::destroy($id);
+                $this->message['content'] = "Delete success";
+                $this->message['status'] = true;
+            } catch (Exception $e) {
+                $this->message['content'] = "Delete Error";
+                $this->message['status'] = false;
+            }
         }
 
         return redirect()->route('admin.classroom.index')->with('message', $this->message);

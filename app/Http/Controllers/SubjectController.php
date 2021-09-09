@@ -115,13 +115,20 @@ class SubjectController extends Controller
     public function destroy($id)
     {
         //
-        try {
-            Subject::destroy($id);
-            $this->message['content'] = "Delete Success";
-            $this->message['status'] = true;
-        } catch (Exception $e) {
-            $this->message['content'] = "Delete Success";
+        $subject = Subject::find($id);
+        if (count($subject->assigns)) {
+            $this->message['content'] = "Can't delete this subject";
             $this->message['status'] = false;
+        } else {
+            try {
+                Subject::destroy($id);
+                $this->message['content'] = "Delete Success";
+                $this->message['status'] = true;
+            } catch (Exception $e) {
+                $this->message['content'] = "Delete Success";
+                $this->message['status'] = false;
+            }
+
         }
 
         return redirect()->route('admin.subject.index')->with('message', $this->message);

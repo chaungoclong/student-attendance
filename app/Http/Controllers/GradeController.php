@@ -124,13 +124,20 @@ class GradeController extends Controller
     public function destroy($id)
     {
         //
-        try {
-            Grade::destroy($id);
-            $this->message['content'] = "Delete Success";
-            $this->message['status'] = 1;
-        } catch (Exception $e) {
-            $this->message['content'] = "Delete Error";
+        $grade = Grade::find($id);
+
+        if (count($grade->students) || count($grade->assigns)) {
+            $this->message['content'] = "Can't delete this grade";
             $this->message['status'] = 0;
+        } else {
+            try {
+                Grade::destroy($id);
+                $this->message['content'] = "Delete Success";
+                $this->message['status'] = 1;
+            } catch (Exception $e) {
+                $this->message['content'] = "Delete Error";
+                $this->message['status'] = 0;
+            }
         }
 
         return redirect()->route('admin.grade.index')->with('message', $this->message);

@@ -57,7 +57,7 @@
 						</a>
 					</td>
 					<td>
-						<form action="{{ route('admin.yearschool.destroy', $yearSchool->id) }}" method="POST">
+						<form action="{{ route('admin.yearschool.destroy', $yearSchool) }}" method="POST">
 							@csrf
 							@method('delete')
 							<button data-toggle="tooltip" title="Delete" type="submit" class="btn btn-danger btn-round" data-placement="left">

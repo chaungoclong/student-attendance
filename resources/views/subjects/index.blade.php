@@ -27,7 +27,7 @@
 			@if(Session::get('message')['status'] == true)
 				<div class="alert alert-success">{{ Session::get('message')['content'] }}</div>
 			@endif
-			@if(Session::get('message') == false)
+			@if(Session::get('message')['status'] == false)
 				<div class="alert alert-danger">{{ Session::get('message')['content'] }}</div>
 			@endif
 		@endif
