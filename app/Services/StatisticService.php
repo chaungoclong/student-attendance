@@ -64,7 +64,7 @@ class StatisticService
 				// get input
 				$idGrade    = $request->id_grade;
 				$grade      = Grade::find($idGrade);
-				$students   = $grade->students;
+				$students   = $grade->students->where('status', '1');
 				$idSubjects = $request->id_subject;
 				$html       = '';
 

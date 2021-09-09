@@ -149,7 +149,7 @@ class AttendanceService
 	
 		$attendanceDetails = $attendance->attendanceDetails;
 		$grade             = $assign->grade;
-		$students          = $grade->students;
+		$students          = $grade->students->where('status', '1');
 		$record            = [];
 
 		$attendanceDetailsMapping = [];
@@ -196,7 +196,7 @@ class AttendanceService
 	public function getDataForCreate($assign)
 	{
 		$grade = $assign->grade;
-		$students = $grade->students;
+		$students = $grade->students->where('status', '1');
 
 		// buid data
 		$data = [];

@@ -11,7 +11,7 @@
 	<table class="table table-bordered table-striped">
 		<thead>
 			<tr>
-				<th class="text-left">ID</th>
+				<th class="text-left">MSV</th>
 				<th class="text-left">Tên</th>
 				<th class="text-left">Có mặt(buổi)</th>
 				<th class="text-left">Vắng mặt(buổi)</th>
@@ -19,7 +19,7 @@
 				<th class="text-left">Có phép(buổi)</th>
 				<th class="text-left">Tổng thời gian nghỉ(buổi)</th>
 				<th class="text-left">Đã nghỉ(%)</th>
-				<th class="text-left">Ghi chú</th>
+				<th class="text-center">Ghi chú</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -36,28 +36,28 @@
 				<td>
 					{{ $student->name ?? '' }}
 				</td>
-				<td>
+				<td class="text-success">
 					@if ($hasAttendance)
 						{{ $student->infoAttendance->presents ?? '-' }}
 					@else
 						{{ '-' }}
 					@endif
 				</td>
-				<td>
+				<td class="text-danger">
 					@if ($hasAttendance)
 						{{ $student->infoAttendance->absents ?? '-' }}
 					@else
 						{{ '-' }}
 					@endif
 				</td>
-				<td>
+				<td class="text-warning">
 					@if ($hasAttendance)
 						{{ $student->infoAttendance->lates ?? '-' }}
 					@else
 						{{ '-' }}
 					@endif
 				</td>
-				<td>
+				<td class="text-info">
 					@if ($hasAttendance)
 						{{ $student->infoAttendance->hasReasons ?? '-' }}
 					@else
@@ -78,7 +78,7 @@
 						{{ '-' }}
 					@endif
 				</td>
-				<td>
+				<td class="text-center">
 					@if ($hasAttendance)
 						@php
 							$absentPercent = $student->infoAttendance
