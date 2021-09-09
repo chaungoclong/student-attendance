@@ -35,6 +35,9 @@
 					<input type="submit" value="Submit" class="btn btn-success btn-round">
 				</div>
 			</div>
+            <div style="width: 90%; text-align: center;">
+                <p style="color: red; display: none" id="error_less_time">Time start must be less than time end</p>
+            </div>
 	</form>
 	</div>
 </div>
@@ -57,3 +60,24 @@
 	</tr>
 </table>
 @stop
+@push('script')
+    <script type="text/javascript">
+
+        $('input[type="submit"]').on('click', function (e) {
+            var start = $('input[name="start"]').val();
+            var end = $('input[name="end"]').val();
+            var error = $('#error_less_time');
+            var feedback = $('.invalid-feedback');
+
+            if (end <= start) {
+                e.preventDefault();
+                error.css('display', 'block');
+                feedback.css('display', 'none');
+                return false;
+            } else {
+                error.css('display', 'none');
+                feedback.css('display', 'block');
+            }
+        });
+    </script>
+@endpush
