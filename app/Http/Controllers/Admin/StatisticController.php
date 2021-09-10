@@ -29,4 +29,14 @@ class StatisticController extends Controller
     {
         return $this->service->exportExcel($request);
     }
+
+    public function storeExcel(Request $request)
+    {
+        return $this->service->storeExcel($request);
+    }
+
+    public function sendEmail(Request $request)
+    {
+        return $this->service->sendEmail($request);
+    }
 }

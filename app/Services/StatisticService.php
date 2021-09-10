@@ -5,10 +5,13 @@ namespace App\Services;
 
 use App\Exceptions\CustomErrorException;
 use App\Exports\Excel\StatisticAttendanceExportMultiple;
+use App\Mail\sendStatisticToStudent;
 use App\Models\Assign;
 use App\Models\Grade;
+use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 /**
  * 
  */
@@ -115,6 +118,52 @@ class StatisticService
             );
 
             return $export->download('statistic_attendance_' . time() .'.xlsx');
+        } catch (\Exception $e) {
+            throw new CustomErrorException($e->getMessage());
+        }
+	}
+
+	public function sendEmail(Request $request) 
+	{
+		$request->validate([
+            'id_grade' => 'required',
+            'id_subject' => 'required'
+        ]);
+
+        $idGrade = $request->id_grade;
+        $idSubjects = $request->id_subject;
+        
+        try {
+            $export = new StatisticAttendanceExportMultiple(
+                $idGrade, $idSubjects
+            );
+
+            $fileName = 'statistic_attendance_' . time() .'.xlsx';
+            $export->store($fileName);
+
+            $filePath = storage_path('app/' . $fileName);
+
+            $emails = Student::where('id_grade', $idGrade)
+        				->get()
+        				->map(function($student) {
+        				 	return $student->email;
+        				})->toArray();
+        	// $emails = [
+        	// 	'chaungoclong2411@gmail.com', 
+        	// 	'longcn2411@gmail.com',
+        	// 	'sepptdat@gmail.com',
+        	// 	'datseppy@gmail.com',
+        	// 	'datdv@tigren.com',
+        	// 	'chauvietnam30475@gmail.com',
+        	// ];
+
+        	Mail::to($emails)->send(new sendStatisticToStudent($filePath));
+        	// foreach ($emails as $key => $email) {
+        	// 	Mail::to($email)->send(new sendStatisticToStudent($filePath));
+        	// }
+
+            return redirect()->route('admin.statistic.attendance')
+            	   			 ->with('success', 'send successfully');
         } catch (\Exception $e) {
             throw new CustomErrorException($e->getMessage());
         }

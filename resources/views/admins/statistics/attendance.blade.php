@@ -8,8 +8,16 @@
 
 <div class="card">
 	<div class="card-content">
+		@if (session('success'))
+		<div class="alert alert-dismissable alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-right: 20px;">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<strong>Success!</strong> {{ session('success') }}
+		</div>
+		@endif
 		<div class="container-fluid">
-			<form action="{{ route('admin.statistic.export') }}" method="POST">
+			<form action="{{ route('admin.statistic.export') }}" method="POST" id="formStatistic">
 				@csrf
 				<div class="row" style="display: flex; justify-content: center; padding: 10px; align-items: center;">
 					<div class="form-group col-md-4">
@@ -37,6 +45,9 @@
 					</div>
 					<div class="form-group col-md-2">
 						<button class="btn btn-success btn-round" style="margin-top: 20px !important;" id="btnExportExcel">Export</button>
+					</div>
+					<div class="form-group col-md-2">
+						<button class="btn btn-info btn-round" style="margin-top: 20px !important;" id="btnSendEmail">send email</button>
 					</div>
 				</div>
 			</form>
@@ -115,6 +126,21 @@
 						e.preventDefault();
 						$('#statisticContent').html('');
 						this.getStatistic(grade.val(), subject.val());
+					});
+
+					$(document).on('click', '#btnExportExcel', function(e) {
+						e.preventDefault();
+						$('#formStatistic').attr('action', 
+							`{{ route('admin.statistic.export') }}`);
+						$('#formStatistic').submit();
+					});
+
+					$(document).on('click', '#btnSendEmail', function(e) {
+						e.preventDefault();
+						$(this).prop('disabled', true);
+						$('#formStatistic').attr('action', 
+							`{{ route('admin.statistic.send_email') }}`);
+						$('#formStatistic').submit();
 					});
 				}
 			}

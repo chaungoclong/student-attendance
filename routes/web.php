@@ -147,6 +147,9 @@ Route::middleware(['auth:admin', 'isActive'])->group(function() {
 
             Route::post('export', [StatisticController::class, 'exportExcel'])
                  ->name('export');
+
+            Route::post('send-email', [StatisticController::class, 'sendEmail'])
+                 ->name('send_email');
         });
     });
 });
@@ -210,7 +213,13 @@ Route::prefix('error')->name('error.')->group(function() {
 
 // test
 Route::get('/test', function() {
-  return view('admins.admins.import');
+  $grade = Grade::find(1);
+  $students = $grade->students;
+  $mails = $students->map(function($student) {
+    return $student->email;
+  })->toArray();
+
+  dd($mails);
 });
 
 
