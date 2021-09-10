@@ -88,3 +88,31 @@ if (! function_exists('transformDate')) {
     }
   }
 }
+
+// lay cac ngay tuong ung voi cac thu trong tuan trong 1 khoang thoi gian
+if (! function_exists('dateGroupByDayName')) {
+  function dateGroupByDayName($fromDate, $toDate = '') {
+    $startDates = [
+      '1' => Carbon::parse($fromDate)->next(Carbon::MONDAY),
+      '2' => Carbon::parse($fromDate)->next(Carbon::TUESDAY),
+      '3' => Carbon::parse($fromDate)->next(Carbon::WEDNESDAY),
+      '4' => Carbon::parse($fromDate)->next(Carbon::THURSDAY),
+      '5' => Carbon::parse($fromDate)->next(Carbon::FRIDAY),
+      '6' => Carbon::parse($fromDate)->next(Carbon::SATURDAY),
+      '7' => Carbon::parse($fromDate)->next(Carbon::SUNDAY),
+    ];
+
+    $endDate = ($toDate === '') ? Carbon::now()->endOfMonth() 
+                                : Carbon::parse($toDate);
+
+    $result = [];
+
+    foreach ($startDates as $key => $startDate) {
+      for ($date = $startDate; $date->lte($endDate); $date->addWeek()) { 
+        $result[$key][] = $date->format('Y-m-d');
+      }
+    }
+
+    return $result;
+  }
+}

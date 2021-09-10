@@ -169,8 +169,10 @@ Route::middleware(['auth:teacher', 'isActive'])->group(function() {
 
         // work
        Route::prefix('work')->name('work.')->group(function() {
-           Route::get('assign', [WorkController::class, 'assign'])
-                ->name('assign');
+            Route::get('assign', [WorkController::class, 'assign'])
+                 ->name('assign');
+            Route::get('schedule', [WorkController::class, 'schedule'])
+                ->name('schedule');
        });
     });
 });

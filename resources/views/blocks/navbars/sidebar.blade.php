@@ -232,8 +232,8 @@
                             </a>
                         </li>
 
-                        <li>
-                            <a href="./pages/pricing.html">
+                        <li class="{{ request()->is('teacher/work/schedule') ? 'active' : '' }}">
+                            <a href="{{ route('teacher.work.schedule') }}">
                                 <span class="sidebar-mini"> P </span>
                                 <span class="sidebar-normal"> 
                                   Lịch dạy
