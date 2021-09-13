@@ -26,8 +26,15 @@ class WorkController extends Controller
     public function schedule(Request $request)
     {
         $teacher = \Auth::user();
-        $assigns = $teacher->assigns;
-        $fromDate = $assigns->min('start_at');
+        $assigns = $teacher->assigns->filter(function ($assign) {
+            $now = date('Y');
+            $year_item = date('Y', strtotime($assign->start_at));
+            return $now == $year_item;
+        });
+        $time = function ($dates) {
+            return strtotime($dates->start_at);
+        };
+        $fromDate = $assigns->min($time);
         $listDate = dateGroupByDayName($fromDate);
         $listSchedule = null;
 
@@ -53,8 +60,8 @@ class WorkController extends Controller
             $scheduleInfo[$schedule->day][] = [
                 'start' => $lesson->start,
                 'end' => $lesson->end,
-                'title' => "\n" . $assign->grade->name 
-                            . ":" 
+                'title' => "\n" . $assign->grade->name
+                            . ":"
                             . $assign->subject->name
                             . "-"
                             . $classRoom->name,
@@ -67,14 +74,14 @@ class WorkController extends Controller
         $data = [];
         $days = array_keys($scheduleInfo);
         // dd($days);
-       
+
         foreach ($scheduleInfo as $key => $infos) {
             foreach ($infos as $info) {
                 foreach ($listDate[$key] as $date) {
                     $start     = $date . ' ' . $info['start'];
                     $end       = $date . '' . $info['end'];
                     $title     = $info['title'];
-                    $dayFinish = $info['dayFinish'] !== null 
+                    $dayFinish = $info['dayFinish'] !== null
                                 ? Carbon::parse($info['dayFinish'])
                                 ->toDateString() : null;
 

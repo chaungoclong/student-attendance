@@ -53,11 +53,11 @@
                 {{-- admin --}}
                 @can('admin-manager')
                     <li class="{{  request()->is('admin/admin-manager')
-                        || request()->is('admin/admin-manager/*') 
+                        || request()->is('admin/admin-manager/*')
                         ? 'active' : ''  }}">
                         <a href="{{ route('admin.admin-manager.index') }}">
-                            <i class="material-icons">image</i>
-                            <p> 
+                            <i class="fas fa-tasks"></i>
+                            <p>
                                 Quản lý Giáo vụ
                             </p>
                         </a>
@@ -65,14 +65,14 @@
                 @endcan
 
                 {{-- teacher --}}
-                <li class="{{ 
+                <li class="{{
                     request()->is('admin/teacher-manager')
-                    || request()->is('admin/teacher-manager/*') 
-                    ? 'active' : '' 
+                    || request()->is('admin/teacher-manager/*')
+                    ? 'active' : ''
                 }}">
                     <a href="{{ route('admin.teacher-manager.index') }}">
-                        <i class="material-icons">image</i>
-                        <p> 
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <p>
                             Quản lý Giáo viên
                         </p>
                     </a>
@@ -81,8 +81,8 @@
                 {{-- assign --}}
                 <li class="{{ request()->is('admin/assign') || request()->is('admin/assign/*') ? 'active' : '' }}">
                     <a href="{{ route('admin.assign.index') }}">
-                        <i class="material-icons">image</i>
-                        <p> 
+                        <i class="far fa-address-book"></i>
+                        <p>
                             Phân công giảng dạy
                         </p>
                     </a>
@@ -91,8 +91,8 @@
                 {{-- schedule --}}
                 <li class="{{ request()->is('admin/schedule') || request()->is('admin/schedule*') ? 'active' : '' }}">
                     <a href="{{ route('admin.schedule.index') }}">
-                        <i class="material-icons">image</i>
-                        <p> 
+                        <i class="fas fa-school"></i>
+                        <p>
                             Quản lý Lịch học
                         </p>
                     </a>
@@ -101,8 +101,8 @@
                 {{-- lesson --}}
                 <li class="{{ request()->is('admin/lesson') || request()->is('admin/lesson/*') ? 'active' : '' }}">
                     <a href="{{ route('admin.lesson.index') }}">
-                        <i class="material-icons">image</i>
-                        <p> 
+                        <i class="fas fa-clock"></i>
+                        <p>
                             Quản lý ca học
                         </p>
                     </a>
@@ -111,8 +111,8 @@
                 {{-- year schools --}}
                 <li class="{{ request()->is('admin/yearschool') || request()->is('admin/yearschool/*') ? 'active' : '' }}">
                     <a href="{{ route('admin.yearschool.index') }}">
-                        <i class="material-icons">image</i>
-                        <p> 
+                        <i class="fas fa-graduation-cap"></i>
+                        <p>
                             Quản lý Khóa học
                         </p>
                     </a>
@@ -121,8 +121,8 @@
                 {{-- grade --}}
                 <li class="{{ request()->is('admin/grade') || request()->is('admin/grade/*') ? 'active' : '' }}">
                     <a href="{{ route('admin.grade.index') }}">
-                        <i class="material-icons">image</i>
-                        <p> 
+                        <i class="fas fa-book-reader"></i>
+                        <p>
                             Quản lý Lớp học
                         </p>
                     </a>
@@ -131,8 +131,8 @@
                 {{-- subject --}}
                 <li class="{{ request()->is('admin/subject') || request()->is('admin/subject/*') ? 'active' : '' }}">
                     <a href="{{ route('admin.subject.index') }}">
-                        <i class="material-icons">image</i>
-                        <p> 
+                        <i class="fas fa-book"></i>
+                        <p>
                             Quản lý môn học
                         </p>
                     </a>
@@ -140,11 +140,11 @@
 
                 {{-- student --}}
                 <li class="{{  request()->is('admin/student-manager')
-                    || request()->is('admin/student-manager/*') 
+                    || request()->is('admin/student-manager/*')
                     ? 'active' : ''  }}">
                     <a href="{{ route('admin.student-manager.index') }}">
-                        <i class="material-icons">image</i>
-                        <p> 
+                        <i class="fas fa-user-graduate"></i>
+                        <p>
                             Quản lý Sinh viên
                         </p>
                     </a>
@@ -154,7 +154,7 @@
                 <li class="{{ request()->is('admin/classroom') || request()->is('admin/classroom/*') ? 'active' : '' }}">
                     <a href="{{ route('admin.classroom.index') }}">
                         <i class="material-icons">house</i>
-                        <p> 
+                        <p>
                             Quản lý phòng học
                         </p>
                     </a>
@@ -163,8 +163,8 @@
                 {{-- statistical --}}
                 <li class="{{ request()->is('admin/statistic/attendance') ? 'active' : '' }}">
                     <a href="{{ route('admin.statistic.attendance') }}">
-                        <i class="material-icons">image</i>
-                        <p> 
+                        <i class="fas fa-chart-line"></i>
+                        <p>
                             Thống kê
                         </p>
                     </a>
@@ -184,7 +184,7 @@
             {{-- attendance --}}
            <li>
                 <a data-toggle="collapse" href="#attendance">
-                    <i class="material-icons">image</i>
+                    <i class="fas fa-tasks"></i>
                     <p> Điểm danh
                         <b class="caret"></b>
                     </p>
@@ -193,20 +193,14 @@
                     <ul class="nav">
                         <li class="{{ request()->is('teacher/attendance/create') ? 'active' : '' }}">
                             <a href="{{ route('teacher.attendance.create') }}">
-                                <span class="sidebar-mini"> P </span>
+                                <i class="far fa-calendar-plus"></i>
                                 <span class="sidebar-normal"> Tạo điểm danh </span>
                             </a>
                         </li>
                         <li class="{{ request()->is('teacher/attendance/history') ? 'active' : '' }}">
                             <a href="{{ route('teacher.attendance.history') }}">
-                                <span class="sidebar-mini"> RS </span>
+                                <i class="far fa-list-alt"></i>
                                 <span class="sidebar-normal"> Xem điểm danh </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./pages/timeline.html">
-                                <span class="sidebar-mini"> T </span>
-                                <span class="sidebar-normal"> Tạo báo cáo </span>
                             </a>
                         </li>
                     </ul>
@@ -216,7 +210,7 @@
             {{-- Work --}}
             <li>
                 <a data-toggle="collapse" href="#assignMenu">
-                    <i class="material-icons">image</i>
+                    <i class="fas fa-briefcase"></i>
                     <p> Công việc
                         <b class="caret"></b>
                     </p>
@@ -225,17 +219,17 @@
                     <ul class="nav">
                         <li class="{{ request()->is('teacher/work/assign') ? 'active' : '' }}">
                             <a href="{{ route('teacher.work.assign') }}">
-                                <span class="sidebar-mini"> P </span>
-                                <span class="sidebar-normal"> 
-                                  Phân công
+                                <i class="far fa-chart-bar"></i>
+                                <span class="sidebar-normal">
+                                  Quản lý dạy
                                 </span>
                             </a>
                         </li>
 
                         <li class="{{ request()->is('teacher/work/schedule') ? 'active' : '' }}">
                             <a href="{{ route('teacher.work.schedule') }}">
-                                <span class="sidebar-mini"> P </span>
-                                <span class="sidebar-normal"> 
+                                <i class="far fa-calendar-alt"></i>
+                                <span class="sidebar-normal">
                                   Lịch dạy
                                 </span>
                             </a>
@@ -244,27 +238,8 @@
                 </div>
             </li>
 
-            {{-- report --}}
-            <li>
-                <a>
-                    <i class="material-icons">image</i>
-                    <p> 
-                        Báo cáo
-                    </p>
-                </a>
-            </li>
             @endauth
 
-            {{-- common function --}}
-            {{-- email --}}
-            <li>
-                <a>
-                    <i class="material-icons">image</i>
-                    <p> 
-                        Email
-                    </p>
-                </a>
-            </li>
         </ul>
     </div>
 </div>
