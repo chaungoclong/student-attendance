@@ -4,6 +4,9 @@
 @section('name_page', 'Subject Edit')
 
 @section('content')
+<div class="">
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="card">
 	<div class="card-content">
 		<div class="card-header card-header-icon" data-background-color="rose">

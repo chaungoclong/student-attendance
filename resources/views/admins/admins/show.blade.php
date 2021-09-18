@@ -2,7 +2,7 @@
 
 @section('title', __('admin'))
 
-@section('name_page', 'List admin')
+@section('name_page', 'Thông tin giáo vụ')
 
 @section('content')
 <div>
@@ -17,7 +17,7 @@
 				@method('put')
 				<input type="hidden" name="id" value="{{ $admin->id }}">
 				<div class="card-header card-header-text" data-background-color="rose">
-					<h4 class="card-title">Profile admin</h4>
+					<h4 class="card-title">Thông tin giáo vụ</h4>
 				</div>
 
 				<div class="card-content">

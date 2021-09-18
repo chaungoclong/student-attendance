@@ -2,9 +2,6 @@
 
 @section('content')
 <div class="card">
-	<div class="card-header card-header-icon" data-background-color="blue">
-		<i class="material-icons">assignment</i>
-	</div>
 
 	<div class="card-content">
 		@yield('content.schedules')

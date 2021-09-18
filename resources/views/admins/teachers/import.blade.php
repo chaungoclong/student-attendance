@@ -2,7 +2,7 @@
 
 @section('title', __('assign'))
 
-@section('name_page', 'List assign')
+@section('name_page', 'Import Excel')
 
 @push('style')
 <style>
@@ -37,6 +37,9 @@
 @endpush
 
 @section('content')
+<div>
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="row" style="display: flex; justify-content: center;">
 	<div class="col-md-10">
 		<div class="card">

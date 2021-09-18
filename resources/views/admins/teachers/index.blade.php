@@ -2,7 +2,7 @@
 
 @section('title', __('Teacher'))
 
-@section('name_page', 'List Teacher')
+@section('name_page', 'Danh sách giảng viên')
 
 @push('style')
 <style>
@@ -13,9 +13,12 @@
 @endpush
 
 @section('content')
+<div>
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="card">
 	<div class="card-header" data-background-color="blue">
-		<strong style="font-size: 20px;">DANH SÁCH GIÁO VIÊN</strong>
+		<strong style="font-size: 20px;">DANH SÁCH GIẢNG VIÊN</strong>
 	</div>
 	<div class="card-content">
 		<div class="btn-group">

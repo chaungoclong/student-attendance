@@ -2,9 +2,12 @@
 
 @section('title', __('Teacher'))
 
-@section('name_page', 'List Teacher')
+@section('name_page', 'Thông tin giảng viên')
 
 @section('content')
+<div>
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="row">
 	<div class="col-md-12">
 		<div class="card">
@@ -16,7 +19,7 @@
 				{{-- id for FormRequest unique ignore --}}
 				<input type="hidden" name="id" value="{{ $teacher->id }}">
 				<div class="card-header card-header-text" data-background-color="blue">
-					<h4 class="card-title">Profile Teacher</h4>
+					<h4 class="card-title">Thông tin giảng viên</h4>
 				</div>
 
 				<div class="card-content">

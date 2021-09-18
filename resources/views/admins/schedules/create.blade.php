@@ -2,14 +2,16 @@
 
 @section('title', __('Schedules'))
 
-@section('name_page', 'Create Schedules')
+@section('name_page', 'Thêm lịch học')
 
 @push('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/app/assigns/create.css') }}">
 @endpush
 
 @section('content')
-
+<div class="">
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="row">
 	<div class="col-md-12">
 		<div class="card">
@@ -19,7 +21,7 @@
 					{{-- title --}}
 					<input type="hidden" name="action" value="postAssign">
 					<div class="card-header" data-background-color="blue">
-						<h4 class="card-title">CHOOSE ASSIGN</h4>
+						<h4 class="card-title">CHỌN PHÂN CÔNG</h4>
 					</div>
 					<div class="card-header">
 						<div id="message_assign"></div>
@@ -68,7 +70,7 @@
 					@csrf
 					<input type="hidden" name="id_assign" value="" id="id_assign">
 					<div class="card-header" data-background-color="blue">
-						<h4 class="card-title">ADD SCHEDULES</h4>
+						<h4 class="card-title">THÊM LỊCH HỌC</h4>
 					</div>
 					{{-- alert --}}
 					<div class="card-header">

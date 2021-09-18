@@ -2,20 +2,20 @@
 
 @section('title', __('admin'))
 
-@section('name_page', 'Create admin')
+@section('name_page', 'Thêm giáo vụ')
 
 @section('content')
+<div class="">
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="row">
 	<div class="col-md-12">
-		<div class="">
-			{{ Breadcrumbs::render() }}
-		</div>
 		<div class="card">
 			<form method="post" action="
 			{{ route('admin.admin-manager.store') }}" class="form-horizontal">
 				@csrf
 				<div class="card-header card-header-text" data-background-color="rose">
-					<h4 class="card-title">Add admin</h4>
+					<h4 class="card-title">Thêm giáo vụ</h4>
 				</div>
 
 				<div class="card-content">

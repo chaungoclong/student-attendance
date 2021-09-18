@@ -5,6 +5,9 @@
 @section('name_page', 'List student')
 
 @section('content')
+<div class="">
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="card">
 	<div class="card-header" data-background-color="blue">
 		<strong style="font-size: 20px;">DANH SÁCH SINH VIÊN</strong>

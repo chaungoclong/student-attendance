@@ -2,9 +2,12 @@
 
 @section('title', __('Teacher'))
 
-@section('name_page', 'Create Teacher')
+@section('name_page', 'Thêm giảng viên')
 
 @section('content')
+<div>
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="row">
 	<div class="col-md-12">
 		<div class="card">
@@ -12,7 +15,7 @@
 			{{ route('admin.teacher-manager.store') }}" class="form-horizontal">
 				@csrf
 				<div class="card-header card-header-text" data-background-color="rose">
-					<h4 class="card-title">Add Teacher</h4>
+					<h4 class="card-title">Thêm giảng viên</h4>
 				</div>
 
 				<div class="card-content">

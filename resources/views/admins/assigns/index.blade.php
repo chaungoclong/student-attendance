@@ -1,9 +1,14 @@
 @extends('layouts.app')
 
+@section('name_page', 'Danh sách phân công')
+
 @section('content')
+<div>
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="card">
-	<div class="card-header card-header-icon" data-background-color="blue">
-		<i class="material-icons">assignment</i>
+	<div class="card-header" data-background-color="blue">
+		<strong style="font-size: 20px;">DANH SÁCH PHÂN CÔNG</strong>
 	</div>
 
 	<div class="card-content">

@@ -4,7 +4,11 @@
 
 @section('name_page', 'Schedule Management')
 
+
 @section('content.schedules')
+<div class="">
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
 	<a href="{{ route('admin.schedule.create') }}">
 		<button class="btn btn-success btn-round"

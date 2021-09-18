@@ -5,6 +5,9 @@
 @section('name_page', 'Schedule All')
 
 @section('content.schedules')
+<div class="">
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
 
 {{-- number of row to show --}}

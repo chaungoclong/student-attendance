@@ -2,7 +2,7 @@
 
 @section('title', __('admin'))
 
-@section('name_page', 'List admin')
+@section('name_page', 'Danh sách giáo vụ')
 
 @push('style')
 <style>

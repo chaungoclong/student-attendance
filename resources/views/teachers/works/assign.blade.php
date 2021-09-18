@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
-@section('title', __('admin'))
+@section('title', __('teacher'))
 
-@section('name_page', 'List admin')
+@section('name_page', 'Quản lý dạy')
 
 @section('content')
-
+<div>
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="card">
 	<div class="card-header card-header-icon" data-background-color="rose">
 		<i class="material-icons">assignment</i>

@@ -5,7 +5,9 @@
 @section('name_page', 'statistic attendance')
 
 @section('content')
-
+<div class="">
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="card">
 	<div class="card-content">
 		@if (session('success'))

@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
-@section('title', __('admin'))
+@section('title', __('teacher'))
 
-@section('name_page', 'List admin')
+@section('name_page', 'Lịch dạy')
 
 @section('content')
-
+<div>
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="container-fluid">
 	<div id="calendar"></div>
 </div>

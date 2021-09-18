@@ -9,6 +9,9 @@
 @endpush
 
 @section('content.schedules')
+<div class="">
+    {{ Breadcrumbs::render() }}
+</div>
     <form class="form-horizontal" id="form_grade" style="margin-top: 60px;">
         @csrf
         {{-- title --}}

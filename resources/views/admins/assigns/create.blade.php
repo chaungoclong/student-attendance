@@ -2,15 +2,18 @@
 
 @section('title', __('Assign'))
 
-@section('name_page', 'Create Assign')
+@section('name_page', 'Thêm phân công')
 
 @push('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/app/assigns/create.css') }}">
 @endpush
 
 @section('content')
-
+<div>
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="row">
+
 	<div class="col-md-12">
 		<div class="card">
 			<form class="form-horizontal" id="form">
@@ -18,7 +21,7 @@
 
 				{{-- title --}}
 				<div class="card-header" data-background-color="blue">
-					<h4 class="card-title">ADD ASSIGN</h4>
+					<h4 class="card-title">THÊM PHÂN CÔNG</h4>
 				</div>
 
 				{{-- alert --}}

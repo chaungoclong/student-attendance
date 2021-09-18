@@ -2,9 +2,12 @@
 
 @section('title', __('Teacher'))
 
-@section('name_page', 'Attendance')
+@section('name_page', 'Tạo điểm danh')
 
 @section('content')
+<div>
+	{{ Breadcrumbs::render() }}
+</div>
 
 @push('style')
 	<style>

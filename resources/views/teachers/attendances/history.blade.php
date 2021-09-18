@@ -2,10 +2,12 @@
 
 @section('title', __('Teacher'))
 
-@section('name_page', 'Attendance')
+@section('name_page', 'Xem điểm danh')
 
 @section('content')
-
+<div>
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="card">
 	<div class="card-header main-title text-center" data-background-color="green">
 		<h3>LỊCH SỬ ĐIỂM DANH</h3>

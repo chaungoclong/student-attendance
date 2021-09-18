@@ -5,6 +5,9 @@
 @section('name_page', 'Create student')
 
 @section('content')
+<div class="">
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="row">
 	<div class="col-md-12">
 		<div class="card">
