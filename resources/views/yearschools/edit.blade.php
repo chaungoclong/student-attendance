@@ -4,6 +4,9 @@
 @section('name_page', 'Year School Edit')
 
 @section('content')
+<div class="">
+	{{ Breadcrumbs::render() }}
+</div>
 <div class="card">
 	<div class="card-header card-header-icon" data-background-color="rose">
 		<i class="material-icons">assignment</i>

@@ -149,10 +149,17 @@ Breadcrumbs::for('admin.subject.create', function (BreadcrumbTrail $trail) {
     $trail->push('Thêm môn học', route('admin.subject.create'));
 });
 
-// Giáo vụ > Danh sách môn học > Sửa môn học 
-Breadcrumbs::for('admin.subject.edit', function (BreadcrumbTrail $trail, $subject) {
-    $trail->parent('admin.subject.index');
-    $trail->push('Sửa môn học', route('admin.subject.edit', $subject));
+// ============================== yearschool ==============================
+// Giáo vụ > Danh sách khoá học
+Breadcrumbs::for('admin.yearschool.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('admin.dashboard');
+    $trail->push('Danh sách khoá học', route('admin.yearschool.index'));
+});
+
+// Giáo vụ > Danh sách khoá học > Sửa khoá học 
+Breadcrumbs::for('admin.yearschool.edit', function (BreadcrumbTrail $trail, $yearschool) {
+    $trail->parent('admin.yearschool.index');
+    $trail->push('Sửa khoá học', route('admin.yearschool.edit', $yearschool));
 });
 
 // ============================== manager student ==============================
